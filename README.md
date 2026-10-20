@@ -1,78 +1,55 @@
-# React + TypeScript + Vite
+# CegahScam
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Platform pelaporan dan penanganan kondisi Scam serta Phising Online dengan berbagai fitur. Salah satunya yaitu pelaporan darurat
 
-Currently, two official plugins are available:
+## Teknologi
+- Bahasa: TypeScript
+- Build / Dev: Vite
+- Routing: react-router-dom
+- Front-End: React, Tailwind CSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Struktur proyek 
+```
+├─ CegahScam/
+│  ├─ public/                    # aset publik (favicon, static images)
+|  ├─ src/
+|  │  ├─ assets                  # gambar dan icon untuk UI
+│  |  ├─ components/             # berbagai komponen untuk navigasi tiap halaman
+│  |  ├─ pages/                  # halaman utama web (beranda, darurat, analisis dan edukasi)
+|  │  |  ├─ HasilLaporan/        # menampung halaman hasil laporan (darurat)
+│  |  |  └─ KasusDarurat/        # menampung 2 halaman kasus darurat (data dan finansial)
+│  |  ├─ App.css                 # style utama mengcover semua file tsx (termasuk import Tailwind CSS)
+│  |  ├─ App.tsx                 # root app (routing, layout)
+│  |  └─ main.tsx                # entry point
+|  |
+|  ├─ package.json               # skrip dan dependensi
+|  ├─ vite.config.ts
+|  ├─ vite.config.ts
+|  └─ tsconfig*.json
+├─ .gitignore
+└─ README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Cara menjalankan (lokal)
+Pastikan Node.js dan npm sudah terpasang. Jalankan perintah berikut dari root project:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# pasang dependensi
+npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# jalankan dev server
+npm run dev
 
+# build produksi
+npm run build
+
+# preview hasil build secara lokal
+npm run preview
 ```
+
+## Kontribusi
+1. Clone repo ini.
+2. Buat branch fitur: `git switch -C feat/nama-fitur`
+3. Commit perubahan dan push.
+4. Buka Pull Request pada branch main dengan deskripsi perubahan.
+
