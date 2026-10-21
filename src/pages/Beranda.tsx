@@ -123,7 +123,7 @@ export default function Beranda() {
 
                 <Link
                   to="/analisis"
-                  className="w-35 rounded-[40px] bg-[#3396D3] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
+                  className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
                   Analisis
                 </Link>
@@ -149,7 +149,7 @@ export default function Beranda() {
 
                 <Link
                   to="/edukasi"
-                  className="w-35 rounded-[40px] bg-[#3396D3] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
+                  className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
                   Edukasi
                 </Link>
