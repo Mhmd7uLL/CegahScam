@@ -28,19 +28,19 @@ export default function Beranda() {
                 to="/darurat"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                DARURAT
+                Darurat
               </Link>
               <Link
                 to="/analisis"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                ANALISA
+                Analisa
               </Link>
               <Link
                 to="/edukasi"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                EDUKASI
+                Edukasi
               </Link>
             </div>
           </div>
@@ -123,7 +123,7 @@ export default function Beranda() {
 
                 <Link
                   to="/analisis"
-                  className="w-35 rounded-[40px] bg-[#3385FF] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
+                  className="w-35 rounded-[40px] bg-[#3396D3] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
                   Analisis
                 </Link>
@@ -149,7 +149,7 @@ export default function Beranda() {
 
                 <Link
                   to="/edukasi"
-                  className="w-35 rounded-[40px] bg-[#3385FF] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
+                  className="w-35 rounded-[40px] bg-[#3396D3] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
                   Edukasi
                 </Link>
