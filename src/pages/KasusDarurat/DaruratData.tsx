@@ -32,7 +32,7 @@ export default function DaruratData() {
         className="flex flex-col justify-center w-290 h-80 mt-15"
       >
         <EmergencyHook />
-        <div className="flex flex-row justify-around items-center mx-auto shadow-xl rounded-[50px] w-200 h-80 my-5">
+        <div className="flex flex-row justify-around items-center mx-auto bg-white/20 shadow-xl rounded-[50px] w-200 h-80 my-5">
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">1</p>
             <p className="text-[#667085]">Pilih kasus</p>
@@ -136,7 +136,7 @@ export default function DaruratData() {
             <input
               type="date"
               name="tanggalKejadian"
-              className="ml-7 w-24 rounded border border-slate-300 bg-transparent px-1.5 py-1  text-slate-600"
+              className="ml-7 w-full max-w-xs h-10 rounded border border-slate-300 bg-transparent px-1.5 py-1  text-slate-600"
             />
           </fieldset>
 
