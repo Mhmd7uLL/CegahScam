@@ -28,7 +28,7 @@ export default function Home() {
                 to="/emergency"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                Darurat
+                Emergency
               </Link>
               <Link
                 to="/analysis"
@@ -40,7 +40,7 @@ export default function Home() {
                 to="/education"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                Edukasi
+                Education
               </Link>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function Home() {
                   to="/education"
                   className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
-                  Edukasi
+                  Education
                 </Link>
               </div>
             </div>
