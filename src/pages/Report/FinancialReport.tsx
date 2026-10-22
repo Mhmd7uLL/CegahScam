@@ -1,8 +1,8 @@
 import EmergencyHook from "../../components/EmergencyHook";
 import checklist from "../../assets/Icon/Checkboxes.svg";
-import robotInfo from "../../assets/Darurat/robotInfo.webp";
+import robotInfo from "../../assets/Emergency/robotInfo.webp";
 
-export default function LaporanFinansial() {
+export default function FinancialReport() {
     return (
     <div className="mx-auto py-20">
       <div

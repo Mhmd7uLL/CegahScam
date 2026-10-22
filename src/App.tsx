@@ -1,16 +1,16 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Beranda from "./pages/Beranda";
-import Darurat from "./pages/Darurat";
-import Analisis from "./pages/Analisis";
-import Edukasi from "./pages/Edukasi";
-import DaruratData from "./pages/KasusDarurat/DaruratData";
-import DaruratFinansial from "./pages/KasusDarurat/DaruratFinansial";
-import LaporanData from "./pages/HasilLaporan/LaporanData";
+import Home from "./pages/Home";
+import Emergency from "./pages/Emergency";
+import Analysis from "./pages/Analysis";
+import Education from "./pages/Education";
+import DataBreach from "./pages/EmergencyCase/DataBreach";
+import Financial from "./pages/EmergencyCase/Financial";
+import DataReport from "./pages/Report/DataReport";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import LaporanFinansial from "./pages/HasilLaporan/LaporanFinansial";
+import FinancialReport from "./pages/Report/FinancialReport";
 
 function App() {
   return (
@@ -18,14 +18,14 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Beranda />} />
-        <Route path="/analisis" element={<Analisis />} />
-        <Route path="/daruratData" element={<DaruratData />} />
-        <Route path="/daruratFinansial" element={<DaruratFinansial />} />
-        <Route path="/laporanData" element={<LaporanData />} />
-        <Route path="/laporanFinansial" element={<LaporanFinansial />} />
-        <Route path="/edukasi" element={<Edukasi />} />
-        <Route path="/darurat" element={<Darurat />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/analysis" element={<Analysis />} />
+        <Route path="/emergency" element={<Emergency />} />
+        <Route path="/emergency/data" element={<DataBreach />} />
+        <Route path="/emergency/financial" element={<Financial />} />
+        <Route path="/report/data" element={<DataReport />} />
+        <Route path="/report/financial" element={<FinancialReport />} />
+        <Route path="/education" element={<Education />} />
       </Routes>
 
       <Footer />

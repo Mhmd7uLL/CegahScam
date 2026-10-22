@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom"
 
-import robot1 from "../assets/Darurat/robot1.webp"
-import robot2 from "../assets/Darurat/robot2.webp"
+import robot1 from "../assets/Emergency/robot1.webp"
+import robot2 from "../assets/Emergency/robot2.webp"
 import EmergencyHook from "../components/EmergencyHook";
 
-export default function Darurat() {
+export default function Emergency() {
   return (
     <div className="mx-auto py-20">
       <div
@@ -44,14 +44,14 @@ export default function Darurat() {
                 <img src={robot1} className="absolute top-0 z-10 w-50 h-50 object-contain"/>
                 <div className="relative flex flex-col gap-8 justify-center items-center bg-[#47a8e4] w-70 px-10 pt-20 pb-6 rounded-[15px]">
                     <p className="text-white text-center font-bold">Apakah kamu mengirim data pribadi kamu ke orang lain?</p>
-                    <Link to="/daruratData" className="bg-white text-[#1A56DB] py-2 px-5 rounded-full hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer">Selanjutnya</Link>
+                    <Link to="/emergency/data" className="bg-white text-[#1A56DB] py-2 px-5 rounded-full hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer">Selanjutnya</Link>
                 </div>
             </div>
             <div className="relative flex flex-col items-center pt-35">
                 <img src={robot2} className="absolute top-0 z-10 w-50 h-50 object-contain"/>
                 <div className="relative flex flex-col gap-8 justify-center items-center bg-[#47a8e4] w-70 px-10 pt-20 pb-6 rounded-[15px]">
                     <p className="text-white text-center font-bold">Apakah kamu mengirim data pribadi kamu ke orang lain?</p>
-                    <Link to="/daruratFinansial" className="bg-white text-[#6a7a9e] py-2 px-5 rounded-full hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer">Selanjutnya</Link>
+                    <Link to="/emergency/financial" className="bg-white text-[#6a7a9e] py-2 px-5 rounded-full hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer">Selanjutnya</Link>
                 </div>
             </div>
         </div>

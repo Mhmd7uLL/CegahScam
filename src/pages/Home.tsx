@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 // icon/picture assets
-import body1 from "../assets/Beranda/body-1.webp";
-import body2 from "../assets/Beranda/body-2.webp";
-import heroIcon from "../assets/Beranda/heroicon.webp";
+import body1 from "../assets/Home/body-1.webp";
+import body2 from "../assets/Home/body-2.webp";
+import heroIcon from "../assets/Home/heroicon.webp";
 import cursor from "../assets/Icon/Cursor.svg";
 import files from "../assets/Icon/Files.svg";
 import handHeart from "../assets/Icon/HandHeart.svg";
 
-export default function Beranda() {
+export default function Home() {
   const [openFAQ, setOpenFAQ] = useState("FAQ1");
 
   return (
@@ -25,19 +25,19 @@ export default function Beranda() {
             </div>
             <div className="flex gap-3">
               <Link
-                to="/darurat"
+                to="/emergency"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
                 Darurat
               </Link>
               <Link
-                to="/analisis"
+                to="/analysis"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                Analisa
+                Analysis
               </Link>
               <Link
-                to="/edukasi"
+                to="/education"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
                 Edukasi
@@ -122,10 +122,10 @@ export default function Beranda() {
                 </p>
 
                 <Link
-                  to="/analisis"
+                  to="/analysis"
                   className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
-                  Analisis
+                  Analysis
                 </Link>
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function Beranda() {
                 </p>
 
                 <Link
-                  to="/edukasi"
+                  to="/education"
                   className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
                   Edukasi
