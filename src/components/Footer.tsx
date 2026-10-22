@@ -24,22 +24,22 @@ export default function Footer() {
 
           <nav className="flex flex-wrap items-center justify-end gap-x-1.5 font-semibold text-[#3F4652]">
             <Link to="/" className="hover:text-[#1E40AF]">
-              Home
+              Beranda
             </Link>
             <span>·</span>
 
             <Link to="/analysis" className="hover:text-[#1E40AF]">
-              Analysis
+              Analisis
             </Link>
             <span>·</span>
 
             <Link to="/emergency" className="hover:text-[#1E40AF]">
-              Emergency
+              Darurat
             </Link>
             <span>·</span>
 
             <Link to="/education" className="hover:text-[#1E40AF]">
-              Education
+              Edukasi
             </Link>
           </nav>
         </div>
@@ -47,7 +47,7 @@ export default function Footer() {
         <hr className="my-2 border-[#AAB5C5]" />
 
         <p className="text-[#343B48]">
-          © 2026 CegahScam. All rights reserved. • Kebijakan Privasi
+          © 2026 CegahScam. Hak cipta dilindungi. • Kebijakan Privasi
         </p>
       </div>
     </footer>
