@@ -11,6 +11,9 @@ import DataReport from "./pages/Report/DataReport";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FinancialReport from "./pages/Report/FinancialReport";
+import Chat from "./pages/Analysis/Chat";
+import Phone from "./pages/Analysis/Phone";
+import Screenshot from "./pages/Analysis/Screenshot";
 
 function App() {
   return (
@@ -20,12 +23,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/analysis" element={<Analysis />} />
+        <Route path="/analysis/chat" element={<Chat />} />
+        <Route path="/analysis/screenshot" element={<Screenshot />} />
+        <Route path="/analysis/phone" element={<Phone />} />
         <Route path="/emergency" element={<Emergency />} />
         <Route path="/emergency/data" element={<DataBreach />} />
         <Route path="/emergency/financial" element={<Financial />} />
         <Route path="/report/data" element={<DataReport />} />
         <Route path="/report/financial" element={<FinancialReport />} />
         <Route path="/education" element={<Education />} />
+    
       </Routes>
 
       <Footer />

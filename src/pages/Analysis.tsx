@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 
 import AnalysisHook from "../components/AnalysisHook";
-import Telp from "../assets/Analysis/telp.png";
+import Phone from "../assets/Analysis/phone.png";
 import Chat from "../assets/Analysis/chat.png";
-import Screenshoot from "../assets/Analysis/screenshoot.png";
+import Screenshot from "../assets/Analysis/screenshot.png";
 
 export default function Analysis() {
   return (
@@ -28,7 +28,7 @@ export default function Analysis() {
         <div className="flex w-full flex-col items-center justify-center gap-12 lg:flex-row lg:items-stretch lg:gap-8 xl:gap-12">
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
-              <img src={Telp} alt="Ikon telepon" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
+              <img src={Phone} alt="Ikon telepon" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
             </div>
 
             <div className="relative flex w-full flex-1 flex-col items-center justify-between gap-6 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-16 sm:px-8 lg:gap-8 lg:px-10 lg:pt-20">
@@ -36,7 +36,7 @@ export default function Analysis() {
                 Periksa riwayat dan indikasi penipuan dari nomor telepon tidak dikenal
               </p>
               <Link
-                to="/emergency/data"
+                to="/analysis/phone"
                className="whitespace-nowrap rounded-full bg-[#a6d7f5] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
 
               >
@@ -54,7 +54,7 @@ export default function Analysis() {
                 Periksa riwayat dan indikasi penipuan dari pesan chat yang mencurigakan
               </p>
               <Link
-                to="/emergency/data"
+                to="/analysis/chat"
                 className="whitespace-nowrap rounded-full bg-[#a6d7f5] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
 
               >
@@ -64,7 +64,7 @@ export default function Analysis() {
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
-              <img src={Screenshoot} alt="Ikon tangkapan layar" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
+              <img src={Screenshot} alt="Ikon tangkapan layar" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
             </div>
 
             <div className="relative flex w-full flex-1 flex-col items-center justify-between gap-6 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-16 sm:px-8 lg:gap-8 lg:px-10 lg:pt-20">
@@ -72,7 +72,7 @@ export default function Analysis() {
                 Periksa riwayat dan indikasi penipuan dari tangkapan layar yang kamu kirim
               </p>
               <Link
-                to="/emergency/data"
+                to="/analysis/screenshot"
                 className="whitespace-nowrap rounded-full bg-[#a6d7f5] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
