@@ -24,7 +24,7 @@ export default function Footer() {
 
           <nav className="flex flex-wrap items-center justify-end gap-x-1.5 font-semibold text-[#3F4652]">
             <Link to="/" className="hover:text-[#1E40AF]">
-              Beranda
+              Home
             </Link>
             <span>·</span>
 
@@ -34,12 +34,12 @@ export default function Footer() {
             <span>·</span>
 
             <Link to="/emergency" className="hover:text-[#1E40AF]">
-              Darurat
+              Emergency
             </Link>
             <span>·</span>
 
             <Link to="/education" className="hover:text-[#1E40AF]">
-              Edukasi
+              Education
             </Link>
           </nav>
         </div>
