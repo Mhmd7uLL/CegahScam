@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import EmergencyHook from "../../components/EmergencyHook";
+import AnalysisHook from "../../components/AnalysisHook";
 
 export default function Screenshot() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [showInputLainnya, setShowInputLainnya] = useState(false);
 
   const handlePilihFile = (file?: File) => {
     if (!file) return;
@@ -29,10 +28,10 @@ export default function Screenshot() {
     <div className="mx-auto py-20">
       <div
         id="hero-section"
-        className="flex flex-col justify-center w-290 h-80 mt-15"
+        className="flex flex-col justify-center w-290 h-70 mt-15"
       >
-        <EmergencyHook />
-        <div className="flex flex-row justify-around items-center mx-auto shadow-xl rounded-[50px] w-200 h-80 my-5">
+        <AnalysisHook />
+        <div className="flex flex-row justify-around items-center mx-auto bg-white/32 shadow-xl rounded-[50px] w-200 h-40 my-5">
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">1</p>
             <p className="text-[#667085]">Pilih Kasus</p>
@@ -56,7 +55,7 @@ export default function Screenshot() {
       >
         <div id="title" className="text-center my-10">
           <h1 className="font-bold text-black text-[25px]">
-            Kamu bisa tanya ke AI tentang yang kamu alami
+            Silahkan isi pertanyaan berikut
           </h1>
         </div>
         <form className="mx-auto flex w-full max-w-220 flex-col gap-3 text-[#26384A]">
@@ -65,292 +64,47 @@ export default function Screenshot() {
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
                 1
               </span>
-              Bank/Dompet Digital Korban
+              Pilih Platform / Aplikasi yang digunakan untuk transaksi
               <span className="ml-1 font-normal text-slate-400">
                 (pilih yang sesuai)
               </span>
             </legend>
-            <div className="ml-7 flex flex-row flex-wrap gap-x-5 gap-y-2">
+            <div className="ml-7 flex flex-col flex-wrap gap-y-2">
               <label className="flex items-center gap-1 text-slate-600">
                 <input
-                  type="radio"
-                  name="jenisTabungan"
-                  value="bisaAkses"
+                    type="radio"
+                    name="kanalMedia"
+                    value="whatsapp"
                   className="accent-[#52789A]"
-                />
-                BCA
-              </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                  type="radio"
-                  value="tidakBisaAkses"
-                  className="accent-[#52789A]"
-                />
-                BRI
-              </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                  type="radio"
-                  value="diketahuiLain"
-                  className="accent-[#52789A]"
-                />
-                BNI
-              </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                  type="radio"
-                  value="tidakTahu"
-                  className="accent-[#52789A]"
-                />
-                Mandiri
-              </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                  type="radio"
-                  value="tidakBisaAkses"
-                  className="accent-[#52789A]"
-                />
-                DANA
-              </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                  type="radio"
-                  value="diketahuiLain"
-                  className="accent-[#52789A]"
-                />
-                OVO
-              </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                  type="radio"
-                  value="tidakTahu"
-                  className="accent-[#52789A]"
-                />
-                GOPAY
-              </label>
-            </div>
-          </fieldset>
-
-          <fieldset id="kanal-media" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                2
-              </span>
-              <span>
-                Kanal media kejadian
-                <span className="ml-1 font-normal text-slate-400">
-                  (pilih yang sesuai)
-                </span>
-              </span>
-            </legend>
-
-            <div className="ml-7 flex flex-col gap-1">
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
-                <input
-                  type="radio"
-                  name="kanalMedia"
-                  value="whatsapp"
-                  className="h-3 w-3 accent-[#52789A]"
                 />
                 WhatsApp
               </label>
-
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+              <label className="flex items-center gap-1 text-slate-600">
                 <input
-                  type="radio"
-                  name="kanalMedia"
-                  value="instagram"
-                  className="h-3 w-3 accent-[#52789A]"
+                   type="radio"
+                    name="kanalMedia"
+                    value="instagram"
+                    className="accent-[#52789A]"
                 />
                 Instagram
               </label>
+              
             </div>
-          </fieldset>
-
-          <fieldset id="tanggal" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                3
-              </span>
-              Tanggal Kejadian
-            </legend>
-
-            <input
-              type="date"
-              name="tanggalKejadian"
-              className="ml-7 w-24 rounded border border-slate-300 bg-transparent px-1.5 py-1  text-slate-600"
-            />
-          </fieldset>
-
-          <fieldset id="tujuan-transaksi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                4
-              </span>
-              <span>
-                Tujuan Transaksi
-                <span className="ml-1 font-normal text-slate-400">
-                  (pilih yang sesuai)
-                </span>
-              </span>
-            </legend>
-
-            <div className="ml-7 flex flex-col gap-1">
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
-                <input
-                  type="checkbox"
-                  name="tujuanTransaksi"
-                  value="link"
-                  className="h-3 w-3 accent-[#52789A]"
-                />
-                Pembelian barang/jasa
-              </label>
-
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
-                <input
-                  type="checkbox"
-                  name="tujuanTransaksi"
-                  value="data-pribadi"
-                  className="h-3 w-3 accent-[#52789A]"
-                />
-                Biaya administrasi
-              </label>
-
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
-                <input
-                  type="checkbox"
-                  name="tujuanTransaksi"
-                  value="otp"
-                  className="h-3 w-3 accent-[#52789A]"
-                />
-                Hadiah/promo
-              </label>
-
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
-                <input
-                  type="checkbox"
-                  name="tujuanTransaksi"
-                  value="menyamar"
-                  className="h-3 w-3 accent-[#52789A]"
-                />
-                Pinjaman
-              </label>
-
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
-                <input
-                  type="checkbox"
-                  name="tujuanTransaksi"
-                  value="lainnya"
-                  checked={showInputLainnya}
-                  onChange={(e) => setShowInputLainnya(e.target.checked)}
-                  className="h-3 w-3 accent-[#52789A]"
-                />
-                Lainnya
-              </label>
-              {showInputLainnya && (
-                <input
-                  type="text"
-                  name="transaksiLainnya"
-                  placeholder="Tulis yang dilakukan pelaku"
-                  className="ml-4 w-[calc(100%-1.75rem)] rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#52789A]"
-                />
-              )}
-            </div>
-          </fieldset>
-
-          <fieldset id="informasi-scammer" className="flex w-full flex-col gap-5">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-sm text-white">
-                5
-              </span>
-              Informasi Penipu
-            </legend>
-            {/* a. Nama Institusi */}
-            <label className="ml-13 flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
-              <span>a. Nama institusi</span>
-
-              <input
-                type="text"
-                name="namaInstitusi"
-                placeholder="Contoh: PT.xxx, Bank xxx"
-                className="h-9 w-full rounded-md border border-[#666] bg-transparent px-2 text-sm font-normal outline-none focus:border-[#52789A] focus:ring-1 focus:ring-[#52789A]"
-              />
-            </label>
-
-            {/* b. Nomor Rekening */}
-            <label className="ml-13 flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
-              <span>b. Nomor rekening tujuan</span>
-
-              <input
-                type="text"
-                name="nomorRekening"
-                placeholder="Contoh: 123 456 789 0123"
-                className="h-9 w-full rounded-md border border-[#666] bg-transparent px-2 text-sm font-normal outline-none focus:border-[#52789A] focus:ring-1 focus:ring-[#52789A]"
-              />
-            </label>
-
-            {/* c. Nama Pemilik Rekening */}
-            <label className="ml-13 flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
-              <span>
-                c. Nama pemilik rekening penipu
-                <span className="ml-1 font-normal text-slate-400">
-                  (opsional jika ada bukti transfer)
-                </span>
-              </span>
-
-              <input
-                type="text"
-                name="namaPemilikRekening"
-                placeholder="Contoh: Fachri Nanda"
-                className="h-9 w-full rounded-md border border-[#666] bg-transparent px-2 text-sm font-normal outline-none focus:border-[#52789A] focus:ring-1 focus:ring-[#52789A]"
-              />
-            </label>
-          </fieldset>
-
-          <fieldset id="nominal-rugi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                6
-              </span>
-              Nominal Kerugian
-            </legend>
-            <input
-              type="number"
-              placeholder="Contoh : Rp 50.000.000"
-              className="ml-7 border-[0.5px] py-2 rounded-lg px-2"
-            ></input>
-          </fieldset>
-
-          <fieldset id="kronologi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                7
-              </span>
-              Detail Kronologi
-              <span className="ml-1 font-normal text-slate-400">
-                (Opsional)
-              </span>
-            </legend>
-            <input
-              type="text"
-              placeholder="Contoh : waktu itu ketika saya ...."
-              className="ml-7 border-[0.5px] py-2 rounded-lg px-2"
-            ></input>
           </fieldset>
 
           <fieldset id="bukti-upload" className="flex w-full flex-col gap-2">
             <legend className="mb-3 flex items-start gap-2">
               <span className="flex font-bold h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-white">
-                8
+                2
               </span>
 
               <span className="flex flex-col gap-1">
                 <span className="font-semibold text-[#26384A]">
-                  Bukti percakapan
+                  Bukti Pesan
                 </span>
 
                 <span className="text-xs font-normal text-slate-400">
-                  Unggah file bukti transfer (format JPG, PNG, PDF maks 50 MB)
+                  Unggah file bukti pesan (format JPG, PNG, PDF maks 50 MB)
                 </span>
               </span>
             </legend>
@@ -420,7 +174,7 @@ export default function Screenshot() {
           </button> */}
 
           <Link
-            to="/report/financial"
+            to="/analysis/result"
             className="text-center my-10 mx-auto w-4/5 bg-white py-2 rounded-full shadow-xl font-bold text-[#5E83A5] hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer"
           >
             Kirim Laporan
