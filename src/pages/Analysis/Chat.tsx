@@ -161,7 +161,7 @@ export default function Chat() {
           </button> */}
 
           <Link
-            to="/report/financial"
+            to="/analysis/result"
             className="text-center my-10 mx-auto w-4/5 bg-white py-2 rounded-full shadow-xl font-bold text-[#5E83A5] hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer"
           >
             Kirim Laporan

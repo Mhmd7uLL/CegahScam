@@ -14,6 +14,7 @@ import FinancialReport from "./pages/Report/FinancialReport";
 import Chat from "./pages/Analysis/Chat";
 import Phone from "./pages/Analysis/Phone";
 import Screenshot from "./pages/Analysis/Screenshot";
+import Result from "./pages/ResultAnalysis/Result";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/analysis/chat" element={<Chat />} />
         <Route path="/analysis/screenshot" element={<Screenshot />} />
+        <Route path="/analysis/result" element={<Result />} />
         <Route path="/analysis/phone" element={<Phone />} />
         <Route path="/emergency" element={<Emergency />} />
         <Route path="/emergency/data" element={<DataBreach />} />
