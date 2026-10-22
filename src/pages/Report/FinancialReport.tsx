@@ -10,7 +10,7 @@ export default function FinancialReport() {
         className="flex flex-col justify-center w-290 h-80 mt-15"
       >
         <EmergencyHook />
-        <div className="flex flex-row justify-around items-center mx-auto shadow-xl rounded-[50px] w-200 h-80 my-5">
+        <div className="flex flex-row justify-around items-center mx-auto bg-white/32 shadow-xl rounded-[50px] w-200 h-80 my-5">
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">1</p>
             <p className="text-[#667085]">Pilih Kasus</p>
