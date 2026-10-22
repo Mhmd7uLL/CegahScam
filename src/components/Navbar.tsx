@@ -14,16 +14,16 @@ export default function Navbar() {
          </Link>
         <div className="flex items-center justify-center gap-12 rounded-4xl bg-white/80 px-10 py-3 shadow-lg backdrop-blur-md">
           <Link to="/" className="hover:font-bold hover:text-[#1E40AF]">
-            Beranda
+            Home
           </Link>
           <Link to="/emergency" className="hover:font-bold hover:text-[#1E40AF]">
-            Darurat
+            Emergency
           </Link>
           <Link to="/analysis" className="hover:font-bold hover:text-[#1E40AF]">
             Analysis
           </Link>
           <Link to="/education" className="hover:font-bold hover:text-[#1E40AF]">
-            Edukasi
+            Education
           </Link>
         </div>
       </div>
