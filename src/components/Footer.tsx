@@ -28,17 +28,17 @@ export default function Footer() {
             </Link>
             <span>·</span>
 
-            <Link to="/analisis" className="hover:text-[#1E40AF]">
-              Analisis
+            <Link to="/analysis" className="hover:text-[#1E40AF]">
+              Analysis
             </Link>
             <span>·</span>
 
-            <Link to="/darurat" className="hover:text-[#1E40AF]">
+            <Link to="/emergency" className="hover:text-[#1E40AF]">
               Darurat
             </Link>
             <span>·</span>
 
-            <Link to="/edukasi" className="hover:text-[#1E40AF]">
+            <Link to="/education" className="hover:text-[#1E40AF]">
               Edukasi
             </Link>
           </nav>

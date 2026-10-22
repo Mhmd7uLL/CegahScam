@@ -16,13 +16,13 @@ export default function Navbar() {
           <Link to="/" className="hover:font-bold hover:text-[#1E40AF]">
             Beranda
           </Link>
-          <Link to="/darurat" className="hover:font-bold hover:text-[#1E40AF]">
+          <Link to="/emergency" className="hover:font-bold hover:text-[#1E40AF]">
             Darurat
           </Link>
-          <Link to="/analisis" className="hover:font-bold hover:text-[#1E40AF]">
-            Analisis
+          <Link to="/analysis" className="hover:font-bold hover:text-[#1E40AF]">
+            Analysis
           </Link>
-          <Link to="/edukasi" className="hover:font-bold hover:text-[#1E40AF]">
+          <Link to="/education" className="hover:font-bold hover:text-[#1E40AF]">
             Edukasi
           </Link>
         </div>
