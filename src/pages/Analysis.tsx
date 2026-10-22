@@ -33,7 +33,7 @@ export default function Analysis() {
 
             <div className="relative flex w-full flex-1 flex-col items-center justify-between gap-6 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-16 sm:px-8 lg:gap-8 lg:px-10 lg:pt-20">
               <p className="text-center text-sm font-bold text-white sm:text-base">
-                Periksa Riwayat & Indikasi Penipuan dari nomor tidak dikenal
+                Periksa riwayat dan indikasi penipuan dari nomor telepon tidak dikenal
               </p>
               <Link
                 to="/emergency/data"
@@ -46,12 +46,12 @@ export default function Analysis() {
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
-              <img src={Chat} alt="Ikon telepon" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
+              <img src={Chat} alt="Ikon chat" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
             </div>
 
             <div className="relative flex w-full flex-1 flex-col items-center justify-between gap-6 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-16 sm:px-8 lg:gap-8 lg:px-10 lg:pt-20">
               <p className="text-center text-sm font-bold text-white sm:text-base">
-                Periksa Riwayat & Indikasi Penipuan dari nomor tidak dikenal
+                Periksa riwayat dan indikasi penipuan dari pesan chat yang mencurigakan
               </p>
               <Link
                 to="/emergency/data"
@@ -64,12 +64,12 @@ export default function Analysis() {
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
-              <img src={Screenshoot} alt="Ikon telepon" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
+              <img src={Screenshoot} alt="Ikon tangkapan layar" className="h-8 w-8 object-contain lg:h-10 lg:w-10" />
             </div>
 
             <div className="relative flex w-full flex-1 flex-col items-center justify-between gap-6 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-16 sm:px-8 lg:gap-8 lg:px-10 lg:pt-20">
               <p className="text-center text-sm font-bold text-white sm:text-base">
-                Periksa Riwayat & Indikasi Penipuan dari nomor tidak dikenal
+                Periksa riwayat dan indikasi penipuan dari tangkapan layar yang kamu kirim
               </p>
               <Link
                 to="/emergency/data"

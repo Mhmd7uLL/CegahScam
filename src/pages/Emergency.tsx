@@ -15,12 +15,12 @@ export default function Emergency() {
         <div className="flex flex-row justify-around items-center mx-auto shadow-xl rounded-[50px] w-200 h-80 my-5">
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#5E83A5] w-6 h-6 text-white rounded-full">1</p>
-            <p className="text-[#5E83A5] font-bold">Pilih kasus</p>
+            <p className="text-[#5E83A5] font-bold">Pilih Kasus</p>
           </div>
           ----
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">2</p>
-            <p className="text-[#667085]">Input Data</p>
+            <p className="text-[#667085]">Isi Data</p>
           </div>
           ----
           <div className="flex flex-col gap-2 items-center text-center">
@@ -43,14 +43,14 @@ export default function Emergency() {
             <div className="relative flex flex-col items-center pt-35">
                 <img src={robot1} className="absolute top-0 z-10 w-50 h-50 object-contain"/>
                 <div className="relative flex flex-col gap-8 justify-center items-center bg-[#47a8e4] w-70 px-10 pt-20 pb-6 rounded-[15px]">
-                    <p className="text-white text-center font-bold">Apakah kamu mengirim data pribadi kamu ke orang lain?</p>
+                    <p className="text-white text-center font-bold">Apakah data pribadi atau akun kamu bocor ke orang lain?</p>
                     <Link to="/emergency/data" className="bg-white text-[#1A56DB] py-2 px-5 rounded-full hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer">Selanjutnya</Link>
                 </div>
             </div>
             <div className="relative flex flex-col items-center pt-35">
                 <img src={robot2} className="absolute top-0 z-10 w-50 h-50 object-contain"/>
                 <div className="relative flex flex-col gap-8 justify-center items-center bg-[#47a8e4] w-70 px-10 pt-20 pb-6 rounded-[15px]">
-                    <p className="text-white text-center font-bold">Apakah kamu mengirim data pribadi kamu ke orang lain?</p>
+                    <p className="text-white text-center font-bold">Apakah kamu kehilangan uang karena penipuan?</p>
                     <Link to="/emergency/financial" className="bg-white text-[#6a7a9e] py-2 px-5 rounded-full hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer">Selanjutnya</Link>
                 </div>
             </div>

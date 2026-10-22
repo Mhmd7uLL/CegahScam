@@ -35,12 +35,12 @@ export default function DataBreach() {
         <div className="flex flex-row justify-around items-center mx-auto bg-white/20 shadow-xl rounded-[50px] w-200 h-80 my-5">
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">1</p>
-            <p className="text-[#667085]">Pilih kasus</p>
+            <p className="text-[#667085]">Pilih Kasus</p>
           </div>
           ----
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#5E83A5] w-6 h-6 text-white rounded-full">2</p>
-            <p className="text-[#5E83A5] font-bold">Input Data</p>
+            <p className="text-[#5E83A5] font-bold">Isi Data</p>
           </div>
           ----
           <div className="flex flex-col gap-2 items-center text-center">
@@ -56,7 +56,7 @@ export default function DataBreach() {
       >
         <div id="title" className="text-center my-10">
           <h1 className="font-bold text-black text-[25px]">
-            Kamu bisa tanya ke AI yang kamu alami
+            Kamu bisa tanya ke AI tentang yang kamu alami
           </h1>
         </div>
         <form className="mx-auto flex w-full max-w-220 flex-col gap-3 text-[#26384A]">
@@ -264,7 +264,7 @@ export default function DataBreach() {
                 </span>
 
                 <span className="text-xs font-normal text-slate-400">
-                  Unggah file bukti transfer (format JPG, PNG, PDF max 50 MB)
+                  Unggah file bukti percakapan (format JPG, PNG, PDF maks 50 MB)
                 </span>
               </span>
             </legend>
@@ -309,11 +309,11 @@ export default function DataBreach() {
               </svg>
 
               <span className="text-sm font-semibold text-[#9AAEBD]">
-                Drag and drop your files here
+                Tarik dan lepas file di sini
               </span>
 
               <span className="rounded-full bg-[#A5C6FF] px-7 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-[#8DB5F7]">
-                Browse file
+                Pilih File
               </span>
 
               {fileBukti && (

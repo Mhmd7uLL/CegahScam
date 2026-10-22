@@ -28,19 +28,19 @@ export default function Home() {
                 to="/emergency"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                Emergency
+                Darurat
               </Link>
               <Link
                 to="/analysis"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                Analysis
+                Analisis
               </Link>
               <Link
                 to="/education"
                 className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
               >
-                Education
+                Edukasi
               </Link>
             </div>
           </div>
@@ -54,7 +54,7 @@ export default function Home() {
           <div className="flex flex-col justify-center items-start gap-10">
             <div>
               <h1 className="font-bold text-[40px] text-[#446685]">
-                Apakah anda<br></br>terkena scam?
+                Apakah kamu<br></br>terkena penipuan?
               </h1>
               <p className="text-[15px]">
                 Kamu bisa langsung laporkan<br></br>ke pihak berwajib
@@ -125,7 +125,7 @@ export default function Home() {
                   to="/analysis"
                   className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
-                  Analysis
+                  Analisis
                 </Link>
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function Home() {
                   to="/education"
                   className="w-35 rounded-[40px] bg-[#47a8e4] py-2 text-center font-bold text-white transition duration-200 hover:bg-[#85B6FF]"
                 >
-                  Education
+                  Edukasi
                 </Link>
               </div>
             </div>
@@ -179,7 +179,7 @@ export default function Home() {
               </button>
               {openFAQ === "FAQ1" && (
                 <div className="bg-white w-75 py-3 px-5 rounded-b-[15px]">
-                  CegahScam adalah platform yang membantu pengguna mengenali,
+                  CegahScam adalah platform yang membantu kamu mengenali,
                   menganalisis, dan menangani risiko penipuan digital.
                 </div>
               )}
@@ -199,8 +199,9 @@ export default function Home() {
               </button>
               {openFAQ === "FAQ2" && (
                 <div className="bg-white w-75 py-3 px-5 rounded-b-[15px]">
-                  CegahScam adalah platform yang membantu pengguna mengenali,
-                  menganalisis, dan menangani risiko penipuan digital.
+                  Tidak. CegahScam membantumu menyusun kronologi dan langkah
+                  penanganan, lalu kamu sendiri yang melapor ke instansi resmi
+                  yang disarankan.
                 </div>
               )}
             </div>
@@ -221,8 +222,9 @@ export default function Home() {
               </button>
               {openFAQ === "FAQ3" && (
                 <div className="bg-white w-75 py-3 px-5 rounded-b-[15px]">
-                  CegahScam adalah platform yang membantu pengguna mengenali,
-                  menganalisis, dan menangani risiko penipuan digital.
+                  Penipuan jual beli online, investasi bodong, pinjaman ilegal,
+                  pembocoran data pribadi, pembajakan akun, sampai penipuan
+                  lewat telepon dan chat.
                 </div>
               )}
               <button
@@ -240,8 +242,8 @@ export default function Home() {
               </button>
               {openFAQ === "FAQ4" && (
                 <div className="bg-white w-75 py-3 px-5 rounded-b-[15px]">
-                  CegahScam adalah platform yang membantu pengguna mengenali,
-                  menganalisis, dan menangani risiko penipuan digital.
+                  Nomor telepon, pesan chat, tautan mencurigakan, serta tangkapan
+                  layar percakapan atau bukti transfer.
                 </div>
               )}
               <button
@@ -254,13 +256,14 @@ export default function Home() {
               >
                 <p className="text-[#1A56DB] font-bold pe-5">{openFAQ === "FAQ5" ? "-" : "+"}</p>
                 <h1 className="text-[#1A56DB]">
-                  Kapan saya harus menggunakan Emergency?
+                  Kapan saya harus menggunakan Darurat?
                 </h1>
               </button>
               {openFAQ === "FAQ5" && (
                 <div className="bg-white w-75 py-3 px-5 rounded-b-[15px]">
-                  CegahScam adalah platform yang membantu pengguna mengenali,
-                  menganalisis, dan menangani risiko penipuan digital.
+                  Gunakan menu Darurat jika kamu sudah mengalami kerugian atau
+                  data pribadimu bocor, supaya langkah penanganan bisa segera
+                  dilakukan.
                 </div>
               )}
             </div>

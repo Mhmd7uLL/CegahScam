@@ -1,5 +1,5 @@
 import EmergencyHook from "../../components/EmergencyHook";
-import checklist from "../../assets/icon/Checkboxes.svg";
+import checklist from "../../assets/Icon/Checkboxes.svg";
 import robotInfo from "../../assets/Emergency/robotInfo.webp";
 
 export default function DataReport() {
@@ -13,12 +13,12 @@ export default function DataReport() {
         <div className="flex flex-row justify-around items-center mx-auto shadow-xl rounded-[50px] w-200 h-80 my-5">
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">1</p>
-            <p className="text-[#667085]">Pilih kasus</p>
+            <p className="text-[#667085]">Pilih Kasus</p>
           </div>
           ----
           <div className="flex flex-col gap-2 items-center text-center">
             <p className="bg-[#667085] w-6 h-6 text-white rounded-full">2</p>
-            <p className="text-[#667085]">Input Data</p>
+            <p className="text-[#667085]">Isi Data</p>
           </div>
           ----
           <div className="flex flex-col gap-2 items-center text-center">
@@ -39,12 +39,12 @@ export default function DataReport() {
           <div className="flex flex-row gap-3 items-center">
             <img src={checklist} className="w-7 h-7" />
             <h1 className="font-bold text-black text-[25px]">
-              Laporan Berhasil dibuat
+              Laporan berhasil dibuat
             </h1>
           </div>
           <p className="ml-10">
-            Berdasarkan bukti, kronologi sudah berhasil disusun dengan Ai tanpa
-            merubah kronologi asli, hubungi intansi terkait yang disarankan
+            Berdasarkan bukti, kronologi sudah berhasil disusun dengan AI tanpa
+            mengubah kronologi asli. Hubungi instansi terkait yang disarankan
             untuk melapor.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function DataReport() {
                 <div>
                     <div className="flex font-bold gap-3">
                         <p className="flex items-center justify-center text-white text-sm w-6 h-6 bg-[#52789A] rounded-full">1</p>
-                        <p>Putuskan Akses Semua Perangkat (Log Out All)</p>
+                        <p>Putuskan Akses Semua Perangkat (Keluar dari Semua Perangkat)</p>
                     </div>
                     <p className="ml-9">Buka pengaturan keamanan di aplikasi terancam (WhatsApp/IG/Email)<br></br>lalu pilih opsi "Keluarkan dari Semua Perangkat".</p>
                 </div>
