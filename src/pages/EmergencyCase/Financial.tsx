@@ -74,8 +74,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  name="jenisTabungan"
-                  value="bisaAkses"
+                  name="bankKorban"
+                  value="bca"
                   className="accent-[#52789A]"
                 />
                 BCA
@@ -83,7 +83,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  value="tidakBisaAkses"
+                  name="bankKorban"
+                  value="bri"
                   className="accent-[#52789A]"
                 />
                 BRI
@@ -91,7 +92,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  value="diketahuiLain"
+                  name="bankKorban"
+                  value="bni"
                   className="accent-[#52789A]"
                 />
                 BNI
@@ -99,7 +101,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  value="tidakTahu"
+                  name="bankKorban"
+                  value="mandiri"
                   className="accent-[#52789A]"
                 />
                 Mandiri
@@ -107,7 +110,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  value="tidakBisaAkses"
+                  name="bankKorban"
+                  value="dana"
                   className="accent-[#52789A]"
                 />
                 DANA
@@ -115,7 +119,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  value="diketahuiLain"
+                  name="bankKorban"
+                  value="ovo"
                   className="accent-[#52789A]"
                 />
                 OVO
@@ -123,7 +128,8 @@ export default function Financial() {
               <label className="flex items-center gap-1 text-slate-600">
                 <input
                   type="radio"
-                  value="tidakTahu"
+                  name="bankKorban"
+                  value="gopay"
                   className="accent-[#52789A]"
                 />
                 GOPAY
