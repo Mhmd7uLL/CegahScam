@@ -1,11 +1,11 @@
 export default function EmergencyHook() {
   return (
     <div className="mx-auto text-center">
-      <h1 className="text-[40px] font-bold text-[#667085]">
+      <h1 className="text-[30px] lg:text-[40px] font-bold text-[#667085]">
         Kenali, Cegah<br></br>
         <span className="text-black">Lindungi Diri dari Penipuan</span>
       </h1>
-      <p>
+      <p className="max-[600px]:text-[12px]">
         Jika kamu sudah merasa ditipu, baik dari segi data pribadi<br></br>
         atau sejumlah uang, silakan pilih kondisi di bawah
       </p>
