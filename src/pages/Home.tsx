@@ -14,65 +14,72 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center gap-20 py-20">
-      <div id="Hero-section" className="relative w-290 h-120 mt-15">
-        <div className="flex flex-row items-center justify-between ps-30 h-full bg-white/50 shadow-md rounded-[50px]">
-          <div className="flex flex-col gap-15">
+      <div id="Hero-section" className="relative w-80 lg:w-290 h-120 mt-15">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:px-5 pt-5 lg:py-3 justify-between lg:ps-30 h-full bg-white/50 shadow-md rounded-[50px] max-[600px]:pb-8">
+          <div className="flex flex-col gap-5 lg:gap-15">
             <div className="flex flex-col">
-              <h1 className="text-[40px] font-bold text-[#446685]">
-                Mau Mencegah?<br></br>Lagi Curiga?<br></br>Atau Sudah Kena?
-              </h1>
-              <p className="text-[15px]">Dari rasa ragu sampai tahu harus berbuat apa</p>
+              <div className="text-[20px] font-bold text-[#446685] max-[600px]:w-50 lg:text-[40px] max-[600px]:text-center">
+                <p>Mau Mencegah?</p>
+                <p>Lagi Curiga?</p>
+                <p>Atau Sudah Kena?</p>
+              </div>
+              <p className="text-[9px] lg:text-[15px] max-[600px]:text-center">
+                Dari rasa ragu sampai tahu harus berbuat apa
+              </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col lg:flex-row gap-3">
               <Link
                 to="/emergency"
-                className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
+                className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg text-center"
               >
                 Darurat
               </Link>
               <Link
                 to="/analysis"
-                className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
+                className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg text-center"
               >
                 Analisis
               </Link>
               <Link
                 to="/education"
-                className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
+                className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg text-center"
               >
                 Edukasi
               </Link>
             </div>
           </div>
-          <img src={heroIcon} />
+          <img src={heroIcon} className="max-[600px]:w-40" />
         </div>
       </div>
 
-      <div id="body1-section" className="w-290 min-h-120">
-        <div className="flex flex-row justify-around">
-          <img src={body1} />
-          <div className="flex flex-col justify-center items-start gap-10">
+      <div id="body1-section" className="w-full max-w-6xl px-4 min-h-120">
+        <div className="flex flex-col lg:flex-row justify-around lg:justify-center">
+          <img src={body1} className="max-[600px]:w-70 max-[600px]:mx-auto" />
+          <div className="flex flex-col justify-center items-center lg:items-start gap-10">
             <div>
-              <h1 className="font-bold text-[40px] text-[#446685]">
+              <h1 className="font-bold text-[20px] text-[#446685] lg:text-[40px] max-[600px]:text-center">
                 Apakah kamu<br></br>terkena penipuan?
               </h1>
-              <p className="text-[15px]">
+              <p className="text-[15px] max-[600px]:text-center">
                 Kamu bisa langsung laporkan<br></br>ke pihak berwajib
               </p>
             </div>
-            <button className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg">
+            <Link
+              to="/emergency"
+              className="bg-[#ADCEFF] text-white hover:bg-[#85B6FF] py-2 px-5 rounded-2xl hover:cursor-pointer shadow-lg"
+            >
               Laporkan
-            </button>
+            </Link>
           </div>
         </div>
       </div>
 
-      <div id="body2-section" className="w-290 min-h-105">
+      <div id="body2-section" className="w-full max-w-6xl px-4 min-h-120">
         <div className="flex flex-col gap-12 justify-center items-center">
-          <h1 className="font-bold text-[40px] text-[#446685]">
+          <h1 className="font-bold text-[30px] lg:text-[40px] text-[#446685]">
             Langkah Pelaporan
           </h1>
-          <div className="grid grid-cols-3 gap-40">
+          <div className="grid gap-3 lg:gap-40 lg:grid-cols-3">
             <div className="flex flex-col gap-3 items-center py-4 bg-[#446685] w-60 rounded-[25px]">
               <p className="flex justify-center items-center mx-auto rounded-lg bg-white w-7 h-7">
                 1
@@ -98,9 +105,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="body3-section" className="w-290 max-w-290 px-6">
+      <div id="body3-section" className="w-full max-w-6xl px-4 min-h-120">
         <div className="flex flex-col gap-10">
-          <h1 className="mb-12 text-center text-4xl font-bold text-[#446685]">
+          <h1 className="lg:mb-12 text-center text-[30px] lg:text-[40px] font-bold text-[#446685] max-[600px]:mx-auto max-[600px]:w-full max-[600px]:max-w-[360px]">
             Ingin periksa atau Belajar dulu?
           </h1>
           <div className="relative mx-auto flex min-h-[500px] w-full max-w-[900px] flex-col items-center gap-6 md:block">
@@ -159,12 +166,12 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="body4-section" className="w-290 min-h-120">
+      <div id="body4-section" className="w-full max-w-6xl px-4 min-h-120">
         <div className="flex flex-col gap-10 justify-center items-center">
-          <h1 className="font-bold text-[40px] text-[#446685]">
+          <h1 className="font-bold text-[30px] lg:text-[40px] text-[#446685] max-[600px]:w-full max-[600px]:max-w-[360px] max-[600px]:mx-auto max-[600px]:text-center">
             Pertanyaan yang sering diajukan
           </h1>
-          <div className="flex flex-row justify-center gap-5">
+          <div className="flex flex-col lg:flex-row justify-center gap-5">
             <div className="flex flex-col">
               <button
                 onClick={() => setOpenFAQ("FAQ1")}
@@ -174,7 +181,9 @@ export default function Home() {
                     : "font-normal rounded-[15px]"
                 }`}
               >
-                <p className="text-[#1A56DB] font-bold pe-5">{openFAQ === "FAQ1" ? "-" : "+"}</p>
+                <p className="text-[#1A56DB] font-bold pe-5">
+                  {openFAQ === "FAQ1" ? "-" : "+"}
+                </p>
                 <h1 className="text-[#1A56DB]">Apa itu CegahScam?</h1>
               </button>
               {openFAQ === "FAQ1" && (
@@ -192,7 +201,9 @@ export default function Home() {
                     : "font-normal rounded-[15px]"
                 }`}
               >
-                <p className="text-[#1A56DB] font-bold pe-5">{openFAQ === "FAQ2" ? "-" : "+"}</p>
+                <p className="text-[#1A56DB] font-bold pe-5">
+                  {openFAQ === "FAQ2" ? "-" : "+"}
+                </p>
                 <h1 className="text-[#1A56DB]">
                   Apakah CegahScam langsung melaporkan kasus saya?
                 </h1>
@@ -215,7 +226,9 @@ export default function Home() {
                     : "font-normal rounded-[15px]"
                 }`}
               >
-                <p className="text-[#1A56DB] font-bold pe-5">{openFAQ === "FAQ3" ? "-" : "+"}</p>
+                <p className="text-[#1A56DB] font-bold pe-5">
+                  {openFAQ === "FAQ3" ? "-" : "+"}
+                </p>
                 <h1 className="text-[#1A56DB]">
                   CegahScam bisa digunakan untuk kasus apa saja?
                 </h1>
@@ -235,15 +248,17 @@ export default function Home() {
                     : "font-normal rounded-[15px]"
                 }`}
               >
-                <p className="text-[#1A56DB] font-bold pe-5">{openFAQ === "FAQ4" ? "-" : "+"}</p>
+                <p className="text-[#1A56DB] font-bold pe-5">
+                  {openFAQ === "FAQ4" ? "-" : "+"}
+                </p>
                 <h1 className="text-[#1A56DB]">
                   Apa saja yang bisa dianalisis?
                 </h1>
               </button>
               {openFAQ === "FAQ4" && (
                 <div className="bg-white w-75 py-3 px-5 rounded-b-[15px]">
-                  Nomor telepon, pesan chat, tautan mencurigakan, serta tangkapan
-                  layar percakapan atau bukti transfer.
+                  Nomor telepon, pesan chat, tautan mencurigakan, serta
+                  tangkapan layar percakapan atau bukti transfer.
                 </div>
               )}
               <button
@@ -254,7 +269,9 @@ export default function Home() {
                     : "font-normal rounded-[15px]"
                 }`}
               >
-                <p className="text-[#1A56DB] font-bold pe-5">{openFAQ === "FAQ5" ? "-" : "+"}</p>
+                <p className="text-[#1A56DB] font-bold pe-5">
+                  {openFAQ === "FAQ5" ? "-" : "+"}
+                </p>
                 <h1 className="text-[#1A56DB]">
                   Kapan saya harus menggunakan Darurat?
                 </h1>
