@@ -96,7 +96,6 @@ export default function Chat() {
               </span>
             </legend>
 
-            {/* Input file tersembunyi */}
             <input
               id="bukti-file"
               type="file"
@@ -105,7 +104,6 @@ export default function Chat() {
               onChange={(e) => handlePilihFile(e.target.files?.[0])}
             />
 
-            {/* Area upload */}
             <label
               htmlFor="bukti-file"
               onDragOver={(e) => {
@@ -124,7 +122,6 @@ export default function Chat() {
                   : "border-transparent bg-[#C9D7E3]"
               }`}
             >
-              {/* Ikon upload */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -151,17 +148,9 @@ export default function Chat() {
             </label>
           </fieldset>
 
-          {/* 
-          Hilangkan komen ini nanti kalau sudah BE dibuat
-          <button
-            type="submit"
-            className="my-10 mx-auto w-4/5 bg-white py-2 rounded-full shadow-xl font-bold text-[#5E83A5] hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer"
-          >
-            Kirim Laporan
-          </button> */}
-
+        
           <Link
-            to="/analysis/result"
+            to="/analysis/resultchat"
             className="text-center my-10 mx-auto w-4/5 bg-white py-2 rounded-full shadow-xl font-bold text-[#5E83A5] hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer"
           >
             Kirim Laporan

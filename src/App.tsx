@@ -14,7 +14,9 @@ import FinancialReport from "./pages/Report/FinancialReport";
 import Chat from "./pages/Analysis/Chat";
 import Phone from "./pages/Analysis/Phone";
 import Screenshot from "./pages/Analysis/Screenshot";
-import Result from "./pages/ResultAnalysis/Result";
+import ResultAnalysisChat from "./pages/ResultAnalysis/ResultChat";
+import ResultAnalysiPhone from "./pages/ResultAnalysis/ResultPhone";
+import ResultAnalysisScreenshot from "./pages/ResultAnalysis/ResultScreenshot";
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
         <Route path="/analysis" element={<Analysis />} />
         <Route path="/analysis/chat" element={<Chat />} />
         <Route path="/analysis/screenshot" element={<Screenshot />} />
-        <Route path="/analysis/result" element={<Result />} />
+        <Route path="/analysis/resultchat" element={<ResultAnalysisChat />} />
+        <Route path="/analysis/resultphone" element={<ResultAnalysiPhone />} />
+        <Route path="/analysis/resultscreenshot" element={<ResultAnalysisScreenshot />} />
         <Route path="/analysis/phone" element={<Phone />} />
         <Route path="/emergency" element={<Emergency />} />
         <Route path="/emergency/data" element={<DataBreach />} />
