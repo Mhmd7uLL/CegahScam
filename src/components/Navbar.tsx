@@ -1,49 +1,75 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
+const links = [
+  { to: "/", label: "Beranda" },
+  { to: "/emergency", label: "Darurat" },
+  { to: "/analysis", label: "Analisis" },
+  { to: "/education", label: "Edukasi" },
+];
+
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 12);
+    }
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div className="absolute top-7 lg:top-10 z-50 flex w-full px-6">
-      <div className="mx-auto grid w-full max-w-150 lg:max-w-290 lg:grid-cols-[1fr_auto_1fr] items-center">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300 sm:px-6 ${
+        scrolled
+          ? "bg-white/75 py-2 shadow-[0_8px_30px_-18px_rgba(17,24,39,0.45)] backdrop-blur-xl"
+          : "bg-transparent py-4 sm:py-5 lg:py-6"
+      }`}
+    >
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-2.5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
         <NavLink
           to="/"
-          className="flex items-center gap-2 justify-self-start whitespace-nowrap font-bold text-[#0F172A] lg:text-[26px] leading-none max-[600px]:justify-self-center"
+          className="flex items-center gap-2 justify-self-start whitespace-nowrap font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80 lg:ms-2 lg:text-[26px]"
         >
           <img
             src="/logo2.png"
             alt="Logo CegahScam"
-            className="h-5 lg:h-8 w-auto shrink-0"
+            className={`w-auto shrink-0 transition-all duration-300 ${
+              scrolled ? "h-6 lg:h-7" : "h-6 lg:h-8"
+            }`}
           />
           <span>
             Cegah<span className="text-[#1E40AF]">Scam</span>
           </span>
         </NavLink>
-        <div className="flex items-center justify-center gap-8 lg:gap-12 rounded-4xl bg-white/80 lg:px-10 py-3 shadow-lg backdrop-blur-md max-[600px]:mt-3">
-          <NavLink
-            to="/"
-            className={({ isActive }) => `hover:font-bold hover:text-[#1E40AF] max-[600px]:text-[15px] ${ isActive ? "font-bold text-[#1E40AF]" : "font-normal" }`}
-          >
-            Beranda
-          </NavLink>
-          <NavLink
-            to="/emergency"
-            className={({ isActive }) => `hover:font-bold hover:text-[#1E40AF] max-[600px]:text-[15px] ${ isActive ? "font-bold text-[#1E40AF]" : "font-normal" }`}
-          >
-            Darurat
-          </NavLink>
-          <NavLink
-            to="/analysis"
-            className={({ isActive }) => `hover:font-bold hover:text-[#1E40AF] max-[600px]:text-[15px] ${ isActive ? "font-bold text-[#1E40AF]" : "font-normal" }`}
-          >
-            Analisis
-          </NavLink>
-          <NavLink
-            to="/education"
-            className={({ isActive }) => `hover:font-bold hover:text-[#1E40AF] max-[600px]:text-[15px] ${ isActive ? "font-bold text-[#1E40AF]" : "font-normal" }`}
-          >
-            Edukasi
-          </NavLink>
-        </div>
+
+        <nav
+          className={`flex items-center justify-center gap-4 rounded-full bg-white/80 px-5 py-2 shadow-lg shadow-[#446685]/10 backdrop-blur-md transition-all duration-300 sm:gap-8 sm:px-8 lg:gap-12 lg:px-10 lg:py-3 ${
+            scrolled ? "lg:shadow-md" : ""
+          }`}
+        >
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                `relative text-[13px] transition-colors duration-200 sm:text-sm ${
+                  isActive
+                    ? "font-bold text-[#1E40AF]"
+                    : "font-normal text-[#0F172A] hover:text-[#1E40AF]"
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <span className="hidden lg:block" aria-hidden="true" />
       </div>
-    </div>
+    </header>
   );
 }
