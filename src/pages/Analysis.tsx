@@ -7,14 +7,14 @@ import Screenshot from "../assets/Analysis/screenshot.png";
 
 export default function Analysis() {
   return (
-    <div className="mx-auto w-full max-w-1160 px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-      <div id="hero-section" className="mt-10 sm:mt-15">
+    <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-32 sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
+      <div id="hero-section" className="reveal">
         <AnalysisHook />
       </div>
 
       <div
         id="body-section"
-        className="mt-8 flex w-full flex-col items-center rounded-[28px] bg-white/50 px-4 py-8 shadow-xl sm:mt-10 sm:rounded-[40px] sm:px-6 sm:py-10 lg:rounded-[50px] lg:px-10"
+        className="reveal mt-8 flex w-full flex-col items-center rounded-[28px] bg-white/50 px-4 py-8 shadow-xl sm:mt-10 sm:rounded-[40px] sm:px-6 sm:py-10 lg:rounded-[50px] lg:px-10"
       >
         <div id="title" className="my-4 text-center sm:my-6">
           <h1 className="text-xl font-bold text-black sm:text-2xl lg:text-[25px]">
@@ -27,7 +27,7 @@ export default function Analysis() {
         </div>
 
         <div className="flex w-full flex-col items-center justify-center gap-12 lg:flex-row lg:items-stretch lg:gap-8 xl:gap-12">
-          <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
+          <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Phone}
@@ -49,7 +49,7 @@ export default function Analysis() {
               </Link>
             </div>
           </div>
-          <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
+          <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Chat}
@@ -71,7 +71,7 @@ export default function Analysis() {
               </Link>
             </div>
           </div>
-          <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center">
+          <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
             <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Screenshot}
