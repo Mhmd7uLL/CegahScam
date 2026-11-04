@@ -113,8 +113,8 @@ export default function ResultChat({ hasil }: ResultChatProps) {
   const levelName = risk.label.replace("Risiko ", "");
 
   return (
-    <div className="mx-auto w-full max-w-300 px-6 pt-36 pb-20">
-      <div className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
+    <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-32 sm:px-6 lg:pt-36">
+      <div className="reveal grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
         {/* Kolom kiri: grafik + kontak + rekomendasi bank */}
         <div className="flex min-w-0 flex-col gap-5">
           <div className="flex items-center justify-center py-3">
@@ -135,7 +135,7 @@ export default function ResultChat({ hasil }: ResultChatProps) {
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FDECEC] text-[#E5484D]">
                   <PhoneIcon className="h-3.5 w-3.5" />
                 </span>
-                <span className="whitespace-nowrap">{KONTAK.nomor}</span>
+                <span className="break-words">{KONTAK.nomor}</span>
               </a>
 
               <p className="text-[10px] leading-tight text-[#98A2B3]">
@@ -174,7 +174,7 @@ export default function ResultChat({ hasil }: ResultChatProps) {
 
         {/* Kolom kanan: ringkasan risiko + alasan */}
         <div className="flex min-w-0 flex-col gap-5">
-          <section className="rounded-4xl bg-white p-7 shadow-xl shadow-[#8FA9C4]/20">
+          <section className="rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
             <div className="flex items-start gap-4">
               <span
                 className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${risk.iconBg} ${risk.iconColor}`}
@@ -193,7 +193,7 @@ export default function ResultChat({ hasil }: ResultChatProps) {
             </div>
           </section>
 
-          <section className="flex-1 rounded-4xl bg-white p-7 shadow-xl shadow-[#8FA9C4]/20">
+          <section className="flex-1 rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
             <h2 className="text-[22px] font-bold leading-tight text-[#26384A]">
               Kenapa Risikonya {levelName}?
             </h2>
@@ -220,7 +220,7 @@ export default function ResultChat({ hasil }: ResultChatProps) {
           <img
             src={robot}
             alt="Maskot CegahScam"
-            className="order-2 w-44 object-contain drop-shadow-xl sm:order-1 sm:w-52"
+            className="order-2 w-36 animate-float object-contain drop-shadow-xl sm:order-1 sm:w-52"
           />
 
           <div className="relative order-1 mb-1 rounded-[26px] bg-linear-to-br from-[#5BA7F2] to-[#3D8FE0] px-5 py-2.5 text-center shadow-lg shadow-[#5BA7F2]/30 sm:order-2 sm:mb-0 sm:mt-6 sm:text-left">

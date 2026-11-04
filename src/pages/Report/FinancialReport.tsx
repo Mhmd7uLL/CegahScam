@@ -3,87 +3,130 @@ import checklist from "../../assets/Icon/Checkboxes.svg";
 import robotInfo from "../../assets/Emergency/robotInfo.webp";
 
 export default function FinancialReport() {
-    return (
-    <div className="mx-auto py-20">
+  return (
+    <div className="mx-auto w-full pb-20 pt-32 lg:pt-36">
       <div
         id="hero-section"
-        className="flex flex-col justify-center w-290 h-80 mt-15"
+        className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
         <EmergencyHook />
-        <div className="flex flex-row justify-around items-center mx-auto bg-white/32 shadow-xl rounded-[50px] w-200 h-80 my-5">
-          <div className="flex flex-col gap-2 items-center text-center">
-            <p className="bg-[#667085] w-6 h-6 text-white rounded-full">1</p>
-            <p className="text-[#667085]">Pilih Kasus</p>
+        <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/30 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
+          <div className="flex flex-col items-center gap-1.5 text-center">
+            <p className="flex h-6 w-6 items-center justify-center rounded-full bg-[#667085] text-[12px] text-white">
+              1
+            </p>
+            <p className="text-[11px] text-[#667085] sm:text-sm">Pilih Kasus</p>
           </div>
-          ----
-          <div className="flex flex-col gap-2 items-center text-center">
-            <p className="bg-[#667085] w-6 h-6 text-white rounded-full">2</p>
-            <p className="text-[#667085]">Isi Data</p>
+          <div className="h-px flex-1 bg-[#667085]/50" />
+          <div className="flex flex-col items-center gap-1.5 text-center">
+            <p className="flex h-6 w-6 items-center justify-center rounded-full bg-[#667085] text-[12px] text-white">
+              2
+            </p>
+            <p className="text-[11px] text-[#667085] sm:text-sm">Isi Data</p>
           </div>
-          ----
-          <div className="flex flex-col gap-2 items-center text-center">
-            <p className="bg-[#5E83A5] w-6 h-6 text-white rounded-full">3</p>
-            <p className="text-[#5E83A5] font-bold">Hasil Laporan</p>
+          <div className="h-px flex-1 bg-[#667085]/50" />
+          <div className="flex flex-col items-center gap-1.5 text-center">
+            <p className="flex h-6 w-6 items-center justify-center rounded-full bg-[#5E83A5] text-[12px] text-white">
+              3
+            </p>
+            <p className="text-[11px] font-bold text-[#5E83A5] sm:text-sm">
+              Hasil Laporan
+            </p>
           </div>
         </div>
       </div>
 
       <div
         id="body-input"
-        className="flex flex-col bg-white/50 shadow-xl w-290 h-290 mt-10 rounded-[50px]"
+        className="reveal mx-auto mt-8 flex w-full max-w-[1160px] flex-col rounded-[30px] bg-white/50 px-4 py-8 shadow-xl sm:rounded-[40px] sm:px-8 lg:mt-10 lg:rounded-[50px] lg:px-12"
       >
         <div
           id="title"
-          className="w-240 mx-auto mt-10"
+          className="mx-auto flex w-full max-w-[900px] items-start gap-4"
         >
-          <div className="flex flex-row gap-3 items-center">
-            <img src={checklist} className="w-7 h-7" />
-            <h1 className="font-bold text-black text-[25px]">
-              Laporan berhasil dibuat
-            </h1>
-          </div>
-          <p className="ml-10">
-            Berdasarkan bukti, kronologi sudah berhasil disusun dengan AI tanpa
-            mengubah kronologi asli. Hubungi instansi terkait yang disarankan
-            untuk melapor.
-          </p>
-        </div>
-
-        <div id="kronologi-section" className="flex flex-col gap-3 mx-auto my-10 w-220">
-            <h1 className="font-bold text-black text-[25px]">Kronologi</h1>
-            <div className="w-220 h-100 bg-[#9FB6CA] rounded-[25px]"></div>
-            <button className="bg-[#ADCEFF] w-40 py-2 rounded-[40px] text-white font-bold shadow-md hover:cursor-pointer hover:bg-[#85B6FF]">Unduh PDF</button>
-        </div>
-
-        <div id="solusi-section" className="flex flex-col gap-3 mx-auto w-220">
-            <h1 className="font-bold text-black text-[25px]">Langkah penanganan darurat</h1>
-            <div className="flex flex-col gap-5">
-                <div>
-                    <div className="flex font-bold gap-3">
-                        <p className="flex items-center justify-center text-white text-sm w-6 h-6 bg-[#52789A] rounded-full">1</p>
-                        <p>Hubungi Call Center Bank Pengirim</p>
-                    </div>
-                    <p className="ml-9 mb-3">Telepon CS resmi bank kamu sekarang untuk meminta penguncian sementara rekening penipu dan mengamankan akun pribadi kamu.</p>
-                    <button className="ml-9 bg-[#ADCEFF] w-40 py-2 rounded-[40px] text-white font-bold shadow-md hover:cursor-pointer hover:bg-[#85B6FF]">Hubungi CS Bank</button>
-                </div>
-                <div>
-                    <div className="flex font-bold gap-3">
-                        <p className="flex items-center justify-center text-white text-sm w-6 h-6 bg-[#52789A] rounded-full">2</p>
-                        <p>Amankan Akses M-Banking & PIN</p>
-                    </div>
-                    <p className="ml-9">Ganti PIN M-Banking, password Internet Banking, dan PIN ATM pribadi kamu dari perangkat yang aman.</p>
-                </div>
-                <div>
-                    <div className="flex font-bold gap-3">
-                        <p className="flex items-center justify-center text-white text-sm w-6 h-6 bg-[#52789A] rounded-full">3</p>
-                        <p>Bawa Draf Laporan ke Kepolisian & Portal Resmi</p>
-                    </div>
-                    <p className="ml-9 mb-3">Unduh draf kronologi resmi (PDF) dari halaman ini untuk dilampirkan saat membuat Laporan Polisi (STPL) di Polsek/Polres atau melapor ke CekRekening.id.</p>
-                    <button className="ml-9 bg-[#ADCEFF] w-50 py-2 rounded-[40px] text-white font-bold shadow-md hover:cursor-pointer hover:bg-[#85B6FF]">Lapor CekRekening.id</button>
-                </div>
+          <div className="flex-1">
+            <div className="flex flex-row items-center gap-3">
+              <img src={checklist} alt="" className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+              <h1 className="text-[21px] font-bold leading-snug text-black sm:text-[25px]">
+                Laporan berhasil dibuat
+              </h1>
             </div>
+            <p className="mt-2 text-[14px] leading-relaxed text-[#3F4E5E] sm:ml-10 sm:text-base">
+              Berdasarkan bukti, kronologi sudah berhasil disusun dengan AI tanpa
+              mengubah kronologi asli. Hubungi instansi terkait yang disarankan
+              untuk melapor.
+            </p>
+          </div>
+
+          <img
+            src={robotInfo}
+            alt="Maskot CegahScam"
+            className="hidden h-24 w-auto shrink-0 animate-float-slow object-contain sm:block lg:h-30"
+          />
         </div>
-        <img src={robotInfo} className="absolute w-90 h-70 right-25 bottom-45"/>
+
+        <div
+          id="kronologi-section"
+          className="mx-auto my-8 flex w-full max-w-[900px] flex-col gap-3 lg:my-10"
+        >
+          <h1 className="text-[21px] font-bold text-black sm:text-[25px]">
+            Kronologi
+          </h1>
+          <div className="h-[220px] w-full rounded-[25px] bg-[#9FB6CA] sm:h-[320px] lg:h-100"></div>
+          <button className="w-40 max-w-full rounded-[40px] bg-[#ADCEFF] py-2 font-bold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF]">
+            Unduh PDF
+          </button>
+        </div>
+
+        <div
+          id="solusi-section"
+          className="mx-auto flex w-full max-w-[900px] flex-col gap-3"
+        >
+          <h1 className="text-[21px] font-bold text-black sm:text-[25px]">
+            Langkah penanganan darurat
+          </h1>
+          <div className="flex flex-col gap-5">
+            <div>
+              <div className="flex gap-3 font-bold">
+                <p className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-sm text-white">
+                  1
+                </p>
+                <p>Hubungi Call Center Bank Pengirim</p>
+              </div>
+              <p className="mt-1 text-[14px] leading-relaxed text-[#3F4E5E] sm:ml-9 sm:text-base">
+                Telepon CS resmi bank kamu sekarang untuk meminta penguncian sementara rekening penipu dan mengamankan akun pribadi kamu.
+              </p>
+              <button className="mt-3 w-40 max-w-full rounded-[40px] bg-[#ADCEFF] py-2 font-bold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] sm:ml-9">
+                Hubungi CS Bank
+              </button>
+            </div>
+            <div>
+              <div className="flex gap-3 font-bold">
+                <p className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-sm text-white">
+                  2
+                </p>
+                <p>Amankan Akses M-Banking &amp; PIN</p>
+              </div>
+              <p className="mt-1 text-[14px] leading-relaxed text-[#3F4E5E] sm:ml-9 sm:text-base">
+                Ganti PIN M-Banking, password Internet Banking, dan PIN ATM pribadi kamu dari perangkat yang aman.
+              </p>
+            </div>
+            <div>
+              <div className="flex gap-3 font-bold">
+                <p className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-sm text-white">
+                  3
+                </p>
+                <p>Bawa Draf Laporan ke Kepolisian &amp; Portal Resmi</p>
+              </div>
+              <p className="mt-1 text-[14px] leading-relaxed text-[#3F4E5E] sm:ml-9 sm:text-base">
+                Unduh draf kronologi resmi (PDF) dari halaman ini untuk dilampirkan saat membuat Laporan Polisi (STPL) di Polsek/Polres atau melapor ke CekRekening.id.
+              </p>
+              <button className="mt-3 w-50 max-w-full rounded-[40px] bg-[#ADCEFF] py-2 font-bold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] sm:ml-9">
+                Lapor CekRekening.id
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
