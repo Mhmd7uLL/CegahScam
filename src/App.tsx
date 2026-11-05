@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import Emergency from "./pages/Emergency";
@@ -18,9 +19,20 @@ import ResultAnalysisChat from "./pages/ResultAnalysis/ResultChat";
 import ResultAnalysiPhone from "./pages/ResultAnalysis/ResultPhone";
 import ResultAnalysisScreenshot from "./pages/ResultAnalysis/ResultScreenshot";
 
+function ScrollToTop() {
+  const { key } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [key]);
+
+  return null;
+}
+
 function App() {
   return (
     <div className="relative flex min-h-screen flex-col bg-linear-to-br from-[#F5F7FA] to-[#C3CFE2]">
+      <ScrollToTop />
       <Navbar />
 
       <Routes>
