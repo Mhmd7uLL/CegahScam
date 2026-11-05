@@ -10,6 +10,7 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     function onScroll() {
@@ -30,40 +31,82 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto w-full max-w-[1200px]">
-        <div className="mx-auto flex w-fit items-center gap-1.5 rounded-full bg-white/80 px-3 py-2 shadow-lg shadow-[#446685]/10 backdrop-blur-md sm:hidden">
-          <NavLink
-            to="/"
-            className="flex shrink-0 items-center gap-1.5 text-[12px] font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80"
-          >
-            <img
-              src="/logo2.png"
-              alt="Logo CegahScam"
-              className="h-6 w-auto shrink-0"
-            />
-            <span className="max-[359px]:hidden">
-              Cegah<span className="text-[#1E40AF]">Scam</span>
-            </span>
-          </NavLink>
+        <div className="sm:hidden">
+          <div className="flex items-center justify-between gap-3 rounded-full bg-white/80 px-4 py-2 shadow-lg shadow-[#446685]/10 backdrop-blur-md">
+            <NavLink
+              to="/"
+              onClick={() => setOpen(false)}
+              className="flex shrink-0 items-center gap-2 text-[15px] font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80"
+            >
+              <img
+                src="/logo2.png"
+                alt="Logo CegahScam"
+                className="h-7 w-auto shrink-0"
+              />
+              <span>
+                Cegah<span className="text-[#1E40AF]">Scam</span>
+              </span>
+            </NavLink>
 
-          <span className="h-4 w-px shrink-0 bg-[#0F172A]/15 max-[359px]:hidden" />
+            <button
+              type="button"
+              aria-label={open ? "Tutup menu" : "Buka menu"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen((value) => !value)}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[#0F172A] transition-colors hover:bg-[#446685]/10"
+            >
+              {open ? (
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              ) : (
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+              )}
+            </button>
+          </div>
 
-          <nav className="flex items-center gap-1.5">
-            {links.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `relative text-[12px] transition-colors duration-200 ${
-                    isActive
-                      ? "font-bold text-[#1E40AF]"
-                      : "font-normal text-[#0F172A] hover:text-[#1E40AF]"
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </nav>
+          {open ? (
+            <div
+              id="mobile-menu"
+              className="mt-2 rounded-2xl bg-white/95 p-2 shadow-[0_18px_40px_-20px_rgba(17,24,39,0.45)] ring-1 ring-black/5 backdrop-blur-md"
+            >
+              {links.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `block rounded-xl px-4 py-3 text-[14px] transition-colors duration-200 ${
+                      isActive
+                        ? "bg-[#EAF2FF] font-bold text-[#1E40AF]"
+                        : "font-medium text-[#0F172A] hover:bg-[#446685]/5"
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </div>
+          ) : null}
         </div>
 
         <div className="hidden items-center justify-between gap-2 sm:flex lg:grid lg:grid-cols-[1fr_auto_1fr] lg:justify-normal lg:gap-0">
