@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import RiskGauge from "../../components/RiskGauge";
+import Robot from "../../components/Robot";
 import robot from "../../assets/Emergency/robot1.webp";
 
 type RiskLevel = "low" | "medium" | "high";
@@ -217,10 +218,12 @@ export default function ResultPhone({ hasil }: ResultChatProps) {
       {/* Bagian maskot + checklist */}
       <div className="mt-7 grid items-center gap-8 rounded-[36px] px-2 py-6 lg:grid-cols-[340px_minmax(0,1fr)]">
         <div className="relative flex flex-col items-center sm:flex-row sm:items-start sm:justify-center">
-          <img
+          <Robot
             src={robot}
             alt="Maskot CegahScam"
-            className="order-2 w-36 animate-float object-contain drop-shadow-xl sm:order-1 sm:w-52"
+            motion="sway"
+            interactive
+            className="order-2 w-36 object-contain drop-shadow-xl sm:order-1 sm:w-52"
           />
 
           <div className="relative order-1 mb-1 rounded-[26px] bg-linear-to-br from-[#5BA7F2] to-[#3D8FE0] px-5 py-2.5 text-center shadow-lg shadow-[#5BA7F2]/30 sm:order-2 sm:mb-0 sm:mt-6 sm:text-left">
