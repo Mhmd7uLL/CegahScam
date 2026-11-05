@@ -18,7 +18,7 @@ export default function Home() {
         id="Hero-section"
         className="reveal relative flex min-h-[calc(100dvh_-_11rem)] w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh_-_12rem)]"
       >
-        <div className="flex w-full flex-col-reverse items-center justify-between gap-8 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:flex-row lg:gap-0 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
+        <div className="flex w-full flex-col items-center justify-between gap-8 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:flex-row lg:gap-0 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
           <div className="flex flex-col items-center gap-6 text-center sm:gap-8 lg:items-start lg:gap-14 lg:text-left">
             <div className="flex flex-col">
               <div className="text-[26px] font-bold leading-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
@@ -30,7 +30,7 @@ export default function Home() {
                 Dari rasa ragu sampai tahu harus berbuat apa
               </p>
             </div>
-            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:justify-center lg:justify-start">
+            <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:justify-center lg:justify-start">
               <Link
                 to="/emergency"
                 className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
@@ -56,7 +56,7 @@ export default function Home() {
             alt="Ilustrasi CegahScam"
             motion="float"
             interactive
-            className="w-36 object-contain sm:w-52 lg:w-auto"
+            className="w-45 object-contain sm:w-52 lg:w-auto"
           />
         </div>
       </div>
@@ -65,13 +65,13 @@ export default function Home() {
         id="body1-section"
         className="reveal w-full max-w-6xl lg:min-h-120"
       >
-        <div className="flex flex-col items-center gap-8 lg:flex-row lg:justify-center lg:gap-16">
+        <div className="flex flex-col-reverse items-center gap-8 lg:flex-row lg:justify-center lg:gap-16">
           <Robot
             src={body1}
             alt="Ilustrasi penipuan"
             motion="sway"
             interactive
-            className="w-full max-w-[280px] object-contain sm:max-w-[340px]"
+            className="w-45 object-contain sm:w-[340px]"
           />
           <div className="flex flex-col items-center justify-center gap-8 lg:items-start lg:gap-10">
             <div className="text-center lg:text-left">
@@ -84,7 +84,7 @@ export default function Home() {
             </div>
             <Link
               to="/emergency"
-              className="w-full max-w-[220px] rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl lg:max-w-none lg:w-auto"
+              className="w-45 rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl lg:w-auto"
             >
               Laporkan
             </Link>
@@ -167,7 +167,7 @@ export default function Home() {
                 alt="Maskot CegahScam"
                 motion="bob"
                 interactive
-                className="h-56 w-56 object-contain sm:h-72 sm:w-72 md:h-[320px] md:w-[320px]"
+                className="h-45 w-45 object-contain sm:h-72 sm:w-72 md:h-[320px] md:w-[320px]"
               />
             </div>
 

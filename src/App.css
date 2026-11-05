@@ -2,7 +2,7 @@
 
 @layer components {
   .form-card {
-    @apply mx-auto mt-6 flex w-full max-w-[1160px] flex-col rounded-[26px] bg-white/55 px-4 py-6 shadow-xl sm:mt-8 sm:rounded-[40px] sm:px-8 sm:py-8 lg:rounded-[50px] lg:px-12;
+    @apply mx-auto mt-6 flex w-[calc(100%_-_2rem)] max-w-[1160px] flex-col rounded-[26px] bg-white/55 px-5 py-6 shadow-xl sm:mt-8 sm:w-full sm:rounded-[40px] sm:px-8 sm:py-8 lg:rounded-[50px] lg:px-12;
   }
 
   .form-title {

@@ -185,8 +185,7 @@ export default function Education() {
           id="hero-section"
           className="grid min-h-[calc(100dvh_-_8rem)] items-center gap-10 lg:min-h-[calc(100dvh_-_9rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-14"
         >
-          <div>
-
+          <div className="order-2 lg:order-1">
             <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.1] tracking-tight text-[#111827] sm:text-[36px] lg:text-[40px]">
               Yuk kenali scam,
               <span className="block text-[#446685]">sebelum terjadi.</span>
@@ -213,7 +212,7 @@ export default function Education() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[460px]">
+          <div className="relative order-1 mx-auto w-full max-w-[460px] lg:order-2">
             <div className="absolute -inset-5 -z-10 rounded-[2.5rem] bg-[#A5C6FF]/25 blur-2xl" />
 
             <div className="grid grid-cols-5 grid-rows-2 gap-3">
@@ -433,7 +432,7 @@ export default function Education() {
               alt="Maskot CegahScam"
               motion="float"
               interactive
-              className="relative z-10 mx-auto mt-8 w-40 object-contain lg:absolute lg:bottom-0 lg:right-12 lg:mt-0 lg:w-56"
+              className="relative z-10 mx-auto mt-8 w-45 object-contain lg:absolute lg:bottom-0 lg:right-12 lg:mt-0 lg:w-56"
             />
           </div>
         </section>

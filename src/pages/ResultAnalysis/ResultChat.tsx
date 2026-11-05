@@ -212,7 +212,7 @@ export default function ResultChat({ hasil }: ResultChatProps) {
             alt="Maskot CegahScam"
             motion="sway"
             interactive
-            className="order-2 w-36 object-contain drop-shadow-xl sm:order-1 sm:w-52"
+            className="order-2 w-45 object-contain drop-shadow-xl sm:order-1 sm:w-52"
           />
 
           <div className="relative order-1 mb-1 rounded-[26px] bg-linear-to-br from-[#5BA7F2] to-[#3D8FE0] px-5 py-2.5 text-center shadow-lg shadow-[#5BA7F2]/30 sm:order-2 sm:mb-0 sm:mt-6 sm:text-left">

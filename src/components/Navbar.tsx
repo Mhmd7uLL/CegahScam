@@ -32,7 +32,7 @@ export default function Navbar() {
       <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-2.5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
         <NavLink
           to="/"
-          className="flex items-center gap-2 justify-self-start whitespace-nowrap font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80 lg:ms-2 lg:text-[26px]"
+          className="hidden items-center gap-2 justify-self-start whitespace-nowrap font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80 lg:ms-2 lg:flex lg:text-[26px]"
         >
           <img
             src="/logo2.png"
