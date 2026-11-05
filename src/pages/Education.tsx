@@ -157,7 +157,7 @@ type SectionHeadingProps = {
 function SectionHeading({ title, description }: SectionHeadingProps) {
   return (
     <div className="mb-8 lg:mb-10">
-      <h2 className="max-w-2xl text-balance text-[26px] font-bold leading-tight tracking-tight text-[#111827] sm:text-[32px] lg:text-[40px]">
+      <h2 className="max-w-2xl text-balance text-[26px] font-bold leading-tight tracking-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
         {title}
       </h2>
       <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[#52789A] lg:text-[15px]">
@@ -187,12 +187,12 @@ export default function Education() {
         >
           <div>
 
-            <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.1] tracking-tight text-[#111827] sm:text-[36px] lg:text-[40px]">
+            <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.1] tracking-tight text-[#446685] sm:text-[36px] lg:text-[40px]">
               Yuk kenali scam,
               <span className="block text-[#446685]">sebelum terjadi.</span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#3F4E5E]">
+            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-[#52789A]">
               Pelajari cara penipuan bekerja, tanda-tanda yang perlu
               diperhatikan, dan langkah sederhana untuk melindungi diri.
             </p>
@@ -265,10 +265,10 @@ export default function Education() {
                 key={item.title}
                 className="rounded-2xl border border-white/70 bg-white/65 p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[#A5C6FF] hover:bg-white hover:shadow-lg sm:p-6"
               >
-                <h3 className="text-[17px] font-bold leading-snug text-[#111827]">
+                <h3 className="text-[17px] font-bold leading-snug text-[#446685]">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-[13.5px] leading-relaxed text-[#3F4E5E]">
+                <p className="mt-2 text-[13.5px] leading-relaxed text-[#52789A]">
                   {item.body}
                 </p>
               </article>
@@ -295,7 +295,7 @@ export default function Education() {
                     aria-pressed={isActive}
                     className={`relative -mb-px pb-3 text-sm font-semibold transition ${
                       isActive
-                        ? "text-[#111827]"
+                        ? "text-[#446685]"
                         : "text-[#52789A] hover:text-[#446685]"
                     }`}
                   >
@@ -318,22 +318,22 @@ export default function Education() {
               </div>
 
               <div className="flex flex-col rounded-2xl bg-white p-5 shadow-sm sm:p-6">
-                <h3 className="text-xl font-bold text-[#111827]">
+                <h3 className="text-xl font-bold text-[#446685]">
                   {chatExamples[activeChat].title}
                 </h3>
-                <p className="mt-2 max-w-xl text-[14px] leading-relaxed text-[#3F4E5E]">
+                <p className="mt-2 max-w-xl text-[14px] leading-relaxed text-[#52789A]">
                   {chatExamples[activeChat].description}
                 </p>
 
                 <div className="mt-5">
-                  <p className="text-[13px] font-bold text-[#111827]">
+                  <p className="text-[13px] font-bold text-[#446685]">
                     Tanda bahaya
                   </p>
                   <ul className="mt-2 space-y-1.5">
                     {chatExamples[activeChat].flags.map((flag) => (
                       <li
                         key={flag}
-                        className="flex gap-2.5 text-[13px] leading-relaxed text-[#3F4E5E]"
+                        className="flex gap-2.5 text-[13px] leading-relaxed text-[#52789A]"
                       >
                         <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-[#E11D48]" />
                         {flag}
@@ -343,10 +343,10 @@ export default function Education() {
                 </div>
 
                 <div className="mt-auto pt-5">
-                  <p className="text-[13px] font-bold text-[#111827]">
+                  <p className="text-[13px] font-bold text-[#446685]">
                     Yang perlu dilakukan
                   </p>
-                  <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-[#3F4E5E]">
+                  <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-[#52789A]">
                     {chatExamples[activeChat].action}
                   </p>
                 </div>
@@ -381,13 +381,13 @@ export default function Education() {
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Cari istilah, misalnya OTP"
                   aria-label="Cari istilah keamanan digital"
-                  className="w-full rounded-full border border-[#446685]/20 bg-white/80 py-2.5 pl-10 pr-4 text-sm text-[#111827] outline-none transition placeholder:text-[#52789A]/70 focus:border-[#3385FF] focus:ring-2 focus:ring-[#3385FF]/20"
+                  className="w-full rounded-full border border-[#446685]/20 bg-white/80 py-2.5 pl-10 pr-4 text-sm text-[#446685] outline-none transition placeholder:text-[#52789A]/70 focus:border-[#3385FF] focus:ring-2 focus:ring-[#3385FF]/20"
                 />
               </div>
 
               <p className="text-[12px] text-[#52789A]">
                 Menampilkan{" "}
-                <span className="font-semibold text-[#111827]">
+                <span className="font-semibold text-[#446685]">
                   {filteredGlossary.length}
                 </span>{" "}
                 dari {glossary.length} istilah
@@ -401,10 +401,10 @@ export default function Education() {
                     key={item.term}
                     className="border-t border-[#446685]/12 py-4"
                   >
-                    <h3 className="text-[15px] font-bold text-[#111827]">
+                    <h3 className="text-[15px] font-bold text-[#446685]">
                       {item.term}
                     </h3>
-                    <p className="mt-1 text-[13px] leading-relaxed text-[#3F4E5E]">
+                    <p className="mt-1 text-[13px] leading-relaxed text-[#52789A]">
                       {item.definition}
                     </p>
                   </div>
