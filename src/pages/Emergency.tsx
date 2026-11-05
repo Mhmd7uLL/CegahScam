@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import robot1 from "../assets/Emergency/robot1.webp";
 import robot2 from "../assets/Emergency/robot2.webp";
+import Robot from "../components/Robot";
 import EmergencyHook from "../components/EmergencyHook";
 
 export default function Emergency() {
@@ -42,7 +43,7 @@ export default function Emergency() {
 
       <div
         id="body-section"
-        className="reveal mx-auto mt-8 flex w-full max-w-6xl flex-col items-center rounded-[30px] bg-white/50 px-4 py-8 shadow-xl sm:px-6 lg:mt-10 lg:min-h-150 lg:rounded-[50px]"
+        className="reveal mx-auto mt-8 flex w-full max-w-6xl flex-col items-center rounded-[30px] bg-white/50 px-4 py-8 shadow-xl sm:px-6 lg:mt-10 lg:rounded-[50px]"
       >
         <div id="title" className="my-6 text-center sm:my-10">
           <h1 className="text-[23px] font-bold text-black sm:text-[25px]">
@@ -55,10 +56,12 @@ export default function Emergency() {
 
         <div className="flex w-full flex-col items-center gap-12 md:flex-row md:items-start md:justify-center md:gap-5 lg:gap-10">
           <div className="relative flex w-full max-w-[280px] flex-col items-center pt-30 sm:pt-35">
-            <img
+            <Robot
               src={robot1}
               alt="Maskot data bocor"
-              className="absolute top-0 z-10 h-45 w-45 animate-float object-contain sm:h-50 sm:w-50"
+              motion="float"
+              interactive
+              className="absolute top-0 z-10 h-45 w-45 object-contain sm:h-50 sm:w-50"
             />
             <div className="relative flex h-auto min-h-60 w-full flex-col items-center justify-between gap-5 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-20 shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-xl">
               <p className="text-center font-bold text-white">
@@ -73,10 +76,12 @@ export default function Emergency() {
             </div>
           </div>
           <div className="relative flex w-full max-w-[280px] flex-col items-center pt-30 sm:pt-35">
-            <img
+            <Robot
               src={robot2}
               alt="Maskot kehilangan uang"
-              className="absolute top-0 z-10 h-45 w-45 animate-float-slow object-contain sm:h-50 sm:w-50"
+              motion="sway"
+              interactive
+              className="absolute top-0 z-10 h-45 w-45 object-contain sm:h-50 sm:w-50"
             />
             <div className="relative flex h-auto min-h-60 w-full flex-col items-center justify-between gap-5 rounded-[15px] bg-[#47a8e4] px-6 pb-6 pt-20 shadow-lg transition duration-200 hover:-translate-y-1 hover:shadow-xl">
               <p className="text-center font-bold text-white">

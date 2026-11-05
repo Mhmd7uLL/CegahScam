@@ -60,19 +60,14 @@ export default function Financial() {
         </div>
       </div>
 
-      <div
-        id="body-input"
-        className="reveal mx-auto mt-8 flex w-full max-w-[1160px] flex-col rounded-[30px] bg-white/50 px-4 py-2 shadow-xl sm:rounded-[40px] sm:px-6 lg:mt-10 lg:rounded-[50px]"
-      >
-        <div id="title" className="my-6 text-center sm:my-10">
-          <h1 className="text-[23px] font-bold leading-snug text-black sm:text-[25px]">
-            Kamu bisa tanya ke AI tentang yang kamu alami
-          </h1>
+      <div id="body-input" className="reveal form-card">
+        <div id="title" className="form-title">
+          <h1>Kamu bisa tanya ke AI tentang yang kamu alami</h1>
         </div>
-        <form className="mx-auto flex w-full max-w-[720px] flex-col gap-3 pb-6 text-[#26384A]">
-          <fieldset id="bank-ewallet" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
+        <form className="form-body">
+          <fieldset id="bank-ewallet" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 1
               </span>
               Bank/Dompet Digital Korban
@@ -80,8 +75,8 @@ export default function Financial() {
                 (pilih yang sesuai)
               </span>
             </legend>
-            <div className="ml-7 flex flex-row flex-wrap gap-x-5 gap-y-2">
-              <label className="flex items-center gap-1 text-slate-600">
+            <div className="form-choices">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -90,7 +85,7 @@ export default function Financial() {
                 />
                 BCA
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -99,7 +94,7 @@ export default function Financial() {
                 />
                 BRI
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -108,7 +103,7 @@ export default function Financial() {
                 />
                 BNI
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -117,7 +112,7 @@ export default function Financial() {
                 />
                 Mandiri
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -126,7 +121,7 @@ export default function Financial() {
                 />
                 DANA
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -135,7 +130,7 @@ export default function Financial() {
                 />
                 OVO
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="bankKorban"
@@ -147,9 +142,9 @@ export default function Financial() {
             </div>
           </fieldset>
 
-          <fieldset id="kanal-media" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
+          <fieldset id="kanal-media" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 2
               </span>
               <span>
@@ -160,32 +155,32 @@ export default function Financial() {
               </span>
             </legend>
 
-            <div className="ml-7 flex flex-col gap-1">
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+            <div className="flex flex-col gap-1">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="kanalMedia"
                   value="whatsapp"
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 WhatsApp
               </label>
 
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="radio"
                   name="kanalMedia"
                   value="instagram"
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 Instagram
               </label>
             </div>
           </fieldset>
 
-          <fieldset id="tanggal" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
+          <fieldset id="tanggal" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 3
               </span>
               Tanggal Kejadian
@@ -194,13 +189,13 @@ export default function Financial() {
             <input
               type="date"
               name="tanggalKejadian"
-              className="ml-7 w-full max-w-[220px] rounded border border-slate-300 bg-transparent px-2 py-1 text-slate-600"
+              className="form-input max-w-[220px]"
             />
           </fieldset>
 
-          <fieldset id="tujuan-transaksi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
+          <fieldset id="tujuan-transaksi" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 4
               </span>
               <span>
@@ -211,55 +206,55 @@ export default function Financial() {
               </span>
             </legend>
 
-            <div className="ml-7 flex flex-col gap-1">
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+            <div className="flex flex-col gap-1">
+              <label className="form-choice">
                 <input
                   type="checkbox"
                   name="tujuanTransaksi"
                   value="link"
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 Pembelian barang/jasa
               </label>
 
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="checkbox"
                   name="tujuanTransaksi"
                   value="data-pribadi"
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 Biaya administrasi
               </label>
 
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="checkbox"
                   name="tujuanTransaksi"
                   value="otp"
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 Hadiah/promo
               </label>
 
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="checkbox"
                   name="tujuanTransaksi"
                   value="menyamar"
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 Pinjaman
               </label>
 
-              <label className="flex items-center gap-1 leading-4 text-slate-600">
+              <label className="form-choice">
                 <input
                   type="checkbox"
                   name="tujuanTransaksi"
                   value="lainnya"
                   checked={showInputLainnya}
                   onChange={(e) => setShowInputLainnya(e.target.checked)}
-                  className="h-3 w-3 accent-[#52789A]"
+                  className="accent-[#52789A]"
                 />
                 Lainnya
               </label>
@@ -268,45 +263,45 @@ export default function Financial() {
                   type="text"
                   name="transaksiLainnya"
                   placeholder="Tulis yang dilakukan pelaku"
-                  className="ml-4 w-[calc(100%-1.75rem)] rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#52789A]"
+                  className="form-input"
                 />
               )}
             </div>
           </fieldset>
 
-          <fieldset id="informasi-scammer" className="flex w-full flex-col gap-5">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-sm text-white">
+          <fieldset id="informasi-scammer" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 5
               </span>
               Informasi Penipu
             </legend>
             {/* a. Nama Institusi */}
-            <label className="ml-9 flex flex-col gap-2 text-sm font-semibold text-[#26384A] sm:ml-13">
+            <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
               <span>a. Nama institusi</span>
 
               <input
                 type="text"
                 name="namaInstitusi"
                 placeholder="Contoh: PT.xxx, Bank xxx"
-                className="h-9 w-full rounded-md border border-[#666] bg-transparent px-2 text-sm font-normal outline-none focus:border-[#52789A] focus:ring-1 focus:ring-[#52789A]"
+                className="form-input font-normal"
               />
             </label>
 
             {/* b. Nomor Rekening */}
-            <label className="ml-9 flex flex-col gap-2 text-sm font-semibold text-[#26384A] sm:ml-13">
+            <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
               <span>b. Nomor rekening tujuan</span>
 
               <input
                 type="text"
                 name="nomorRekening"
                 placeholder="Contoh: 123 456 789 0123"
-                className="h-9 w-full rounded-md border border-[#666] bg-transparent px-2 text-sm font-normal outline-none focus:border-[#52789A] focus:ring-1 focus:ring-[#52789A]"
+                className="form-input font-normal"
               />
             </label>
 
             {/* c. Nama Pemilik Rekening */}
-            <label className="ml-9 flex flex-col gap-2 text-sm font-semibold text-[#26384A] sm:ml-13">
+            <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
               <span>
                 c. Nama pemilik rekening penipu
                 <span className="ml-1 font-normal text-slate-400">
@@ -318,14 +313,14 @@ export default function Financial() {
                 type="text"
                 name="namaPemilikRekening"
                 placeholder="Contoh: Fachri Nanda"
-                className="h-9 w-full rounded-md border border-[#666] bg-transparent px-2 text-sm font-normal outline-none focus:border-[#52789A] focus:ring-1 focus:ring-[#52789A]"
+                className="form-input font-normal"
               />
             </label>
           </fieldset>
 
-          <fieldset id="nominal-rugi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
+          <fieldset id="nominal-rugi" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 6
               </span>
               Nominal Kerugian
@@ -333,13 +328,13 @@ export default function Financial() {
             <input
               type="number"
               placeholder="Contoh : Rp 50.000.000"
-              className="ml-7 w-[calc(100%-1.75rem)] rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-[#52789A]"
-            ></input>
+              className="form-input"
+            />
           </fieldset>
 
-          <fieldset id="kronologi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
+          <fieldset id="kronologi" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">
                 7
               </span>
               Detail Kronologi
@@ -350,15 +345,13 @@ export default function Financial() {
             <input
               type="text"
               placeholder="Contoh : waktu itu ketika saya ...."
-              className="ml-7 w-[calc(100%-1.75rem)] rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-[#52789A]"
-            ></input>
+              className="form-input"
+            />
           </fieldset>
 
-          <fieldset id="bukti-upload" className="flex w-full flex-col gap-2">
-            <legend className="mb-3 flex items-start gap-2">
-              <span className="flex font-bold h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-white">
-                8
-              </span>
+          <fieldset id="bukti-upload" className="form-fieldset">
+            <legend className="form-legend items-start">
+              <span className="form-badge mt-0.5">8</span>
 
               <span className="flex flex-col gap-1">
                 <span className="font-semibold text-[#26384A]">
@@ -393,7 +386,7 @@ export default function Financial() {
                 setIsDragging(false);
                 handlePilihFile(e.dataTransfer.files[0]);
               }}
-              className={`flex min-h-50 ml-7 w-[calc(100%-1.75rem)] cursor-pointer flex-col items-center justify-center gap-3 rounded-[30px] border-2 border-dashed p-4 transition-colors duration-200 ${
+              className={`form-upload ${
                 isDragging
                   ? "border-[#52789A] bg-[#D9E7F2]"
                   : "border-transparent bg-[#C9D7E3]"
@@ -404,7 +397,7 @@ export default function Financial() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="h-5 w-5 text-[#52789A]"
+                className="h-6 w-6 text-[#52789A]"
                 aria-hidden="true"
               >
                 <path d="M5 20h14v-2H5v2zm7-18-5.5 5.5 1.42 1.42L11 6.83V16h2V6.83l3.08 3.09 1.42-1.42L12 2z" />
@@ -435,10 +428,7 @@ export default function Financial() {
             Kirim Laporan
           </button> */}
 
-          <Link
-            to="/report/financial"
-            className="mx-auto my-8 w-4/5 rounded-full bg-white py-2 text-center font-bold text-[#5E83A5] shadow-xl transition duration-200 hover:bg-[#5E83A5] hover:text-white sm:my-10"
-          >
+          <Link to="/report/financial" className="form-submit">
             Kirim Laporan
           </Link>
         </form>
