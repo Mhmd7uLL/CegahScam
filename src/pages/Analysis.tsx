@@ -14,7 +14,7 @@ export default function Analysis() {
 
       <div
         id="body-section"
-        className="reveal mt-8 flex w-full flex-col items-center rounded-[28px] bg-white/50 px-4 py-8 shadow-xl sm:mt-10 sm:rounded-[40px] sm:px-6 sm:py-10 lg:rounded-[50px] lg:px-10"
+        className="reveal mt-4 flex w-full flex-col items-center rounded-[28px] bg-white/50 px-4 py-8 shadow-xl sm:mt-6 sm:rounded-[40px] sm:px-6 sm:py-10 lg:rounded-[50px] lg:px-10"
       >
         <div id="title" className="my-4 text-center sm:my-6">
           <h1 className="text-xl font-bold text-black sm:text-2xl lg:text-[25px]">

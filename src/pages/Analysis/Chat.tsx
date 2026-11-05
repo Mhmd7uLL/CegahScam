@@ -59,46 +59,34 @@ export default function Chat() {
         </div>
       </div>
 
-      <div
-        id="body-input"
-        className="reveal mx-auto mt-8 flex w-full max-w-[1160px] flex-col rounded-[30px] bg-white/50 px-4 py-2 shadow-xl sm:rounded-[40px] sm:px-6 lg:mt-10 lg:rounded-[50px]"
-      >
-        <div id="title" className="my-6 text-center sm:my-10">
-          <h1 className="text-[23px] font-bold text-black sm:text-[25px]">
-            Silahkan isi pertanyaan berikut
-          </h1>
+      <div id="body-input" className="reveal form-card">
+        <div id="title" className="form-title">
+          <h1>Silahkan isi pertanyaan berikut</h1>
         </div>
-        <form className="mx-auto flex w-full max-w-[720px] flex-col gap-3 pb-6 text-[#26384A]">
-
-          <fieldset id="kronologi" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                1
-              </span>
+        <form className="form-body">
+          <fieldset id="kronologi" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">1</span>
               Masukan Pesan
             </legend>
             <textarea
               name="chat-message"
               rows={4}
               placeholder="Masukan Pesan"
-              className="ml-7 w-[calc(100%-1.75rem)] rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-[#52789A]"
+              className="form-input resize-y"
               onInput={(e) => {
                 e.currentTarget.style.height = "auto";
                 e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
-}}
+              }}
             ></textarea>
           </fieldset>
 
-          <fieldset id="bukti-upload" className="flex w-full flex-col gap-2">
-            <legend className="mb-3 flex items-start gap-2">
-              <span className="flex font-bold h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-white">
-                8
-              </span>
+          <fieldset id="bukti-upload" className="form-fieldset">
+            <legend className="form-legend items-start">
+              <span className="form-badge mt-0.5">2</span>
 
               <span className="flex flex-col gap-1">
-                <span className="font-semibold text-[#26384A]">
-                  Bukti Pesan
-                </span>
+                <span>Bukti Pesan</span>
 
                 <span className="text-xs font-normal text-slate-400">
                   Unggah file bukti pesan (format JPG, PNG, PDF maks 50 MB)
@@ -126,23 +114,23 @@ export default function Chat() {
                 setIsDragging(false);
                 handlePilihFile(e.dataTransfer.files[0]);
               }}
-              className={`flex min-h-50 ml-7 w-[calc(100%-1.75rem)] cursor-pointer flex-col items-center justify-center gap-3 rounded-[30px] border-2 border-dashed p-4 transition-colors duration-200 ${
+              className={`form-upload ${
                 isDragging
                   ? "border-[#52789A] bg-[#D9E7F2]"
-                  : "border-transparent bg-[#C9D7E3]"
+                  : "border-[#B9C8DA] bg-[#C9D7E3]/60 hover:border-[#52789A]"
               }`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="h-5 w-5 text-[#52789A]"
+                className="h-6 w-6 text-[#52789A]"
                 aria-hidden="true"
               >
                 <path d="M5 20h14v-2H5v2zm7-18-5.5 5.5 1.42 1.42L11 6.83V16h2V6.83l3.08 3.09 1.42-1.42L12 2z" />
               </svg>
 
-              <span className="text-sm font-semibold text-[#9AAEBD]">
+              <span className="text-sm font-semibold text-[#52789A]">
                 Tarik dan lepas file di sini
               </span>
 
@@ -158,16 +146,11 @@ export default function Chat() {
             </label>
           </fieldset>
 
-        
-          <Link
-            to="/analysis/resultchat"
-            className="text-center my-10 mx-auto w-4/5 bg-white py-2 rounded-full shadow-xl font-bold text-[#5E83A5] hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer"
-          >
+          <Link to="/analysis/resultchat" className="form-submit">
             Kirim Laporan
           </Link>
         </form>
       </div>
     </div>
-    
   );
 }

@@ -59,59 +59,39 @@ export default function Screenshot() {
         </div>
       </div>
 
-      <div
-        id="body-input"
-        className="reveal mx-auto mt-8 flex w-full max-w-[1160px] flex-col rounded-[30px] bg-white/50 px-4 py-2 shadow-xl sm:rounded-[40px] sm:px-6 lg:mt-10 lg:rounded-[50px]"
-      >
-        <div id="title" className="my-6 text-center sm:my-10">
-          <h1 className="text-[23px] font-bold text-black sm:text-[25px]">
-            Silahkan isi pertanyaan berikut
-          </h1>
+      <div id="body-input" className="reveal form-card">
+        <div id="title" className="form-title">
+          <h1>Silahkan isi pertanyaan berikut</h1>
         </div>
-        <form className="mx-auto flex w-full max-w-[720px] flex-col gap-3 pb-6 text-[#26384A]">
-          <fieldset id="bank-ewallet" className="flex flex-col gap-1">
-            <legend className="flex items-center gap-2 font-semibold mb-2">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A]  text-white">
-                1
-              </span>
-              Pilih Platform / Aplikasi yang digunakan untuk transaksi
-              <span className="ml-1 font-normal text-slate-400">
-                (pilih yang sesuai)
+        <form className="form-body">
+          <fieldset id="bank-ewallet" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">1</span>
+              <span>
+                Pilih Platform / Aplikasi yang digunakan untuk transaksi
+                <span className="ml-1 font-normal text-slate-400">
+                  (pilih yang sesuai)
+                </span>
               </span>
             </legend>
-            <div className="ml-7 flex flex-col flex-wrap gap-y-2">
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                    type="radio"
-                    name="kanalMedia"
-                    value="whatsapp"
-                  className="accent-[#52789A]"
-                />
+            <div className="form-choices">
+              <label className="form-choice">
+                <input type="radio" name="kanalMedia" value="whatsapp" />
                 WhatsApp
               </label>
-              <label className="flex items-center gap-1 text-slate-600">
-                <input
-                   type="radio"
-                    name="kanalMedia"
-                    value="instagram"
-                    className="accent-[#52789A]"
-                />
+              <label className="form-choice">
+                <input type="radio" name="kanalMedia" value="instagram" />
                 Instagram
               </label>
-              
             </div>
           </fieldset>
 
-          <fieldset id="bukti-upload" className="flex w-full flex-col gap-2">
-            <legend className="mb-3 flex items-start gap-2">
-              <span className="flex font-bold h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-white">
-                2
-              </span>
+          <fieldset id="bukti-upload" className="form-fieldset">
+            <legend className="form-legend items-start">
+              <span className="form-badge mt-0.5">2</span>
 
               <span className="flex flex-col gap-1">
-                <span className="font-semibold text-[#26384A]">
-                  Bukti Pesan
-                </span>
+                <span>Bukti Pesan</span>
 
                 <span className="text-xs font-normal text-slate-400">
                   Unggah file bukti pesan (format JPG, PNG, PDF maks 50 MB)
@@ -141,10 +121,10 @@ export default function Screenshot() {
                 setIsDragging(false);
                 handlePilihFile(e.dataTransfer.files[0]);
               }}
-              className={`flex min-h-50 ml-7 w-[calc(100%-1.75rem)] cursor-pointer flex-col items-center justify-center gap-3 rounded-[30px] border-2 border-dashed p-4 transition-colors duration-200 ${
+              className={`form-upload ${
                 isDragging
                   ? "border-[#52789A] bg-[#D9E7F2]"
-                  : "border-transparent bg-[#C9D7E3]"
+                  : "border-[#B9C8DA] bg-[#C9D7E3]/60 hover:border-[#52789A]"
               }`}
             >
               {/* Ikon upload */}
@@ -152,13 +132,13 @@ export default function Screenshot() {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="currentColor"
-                className="h-5 w-5 text-[#52789A]"
+                className="h-6 w-6 text-[#52789A]"
                 aria-hidden="true"
               >
                 <path d="M5 20h14v-2H5v2zm7-18-5.5 5.5 1.42 1.42L11 6.83V16h2V6.83l3.08 3.09 1.42-1.42L12 2z" />
               </svg>
 
-              <span className="text-sm font-semibold text-[#9AAEBD]">
+              <span className="text-sm font-semibold text-[#52789A]">
                 Tarik dan lepas file di sini
               </span>
 
@@ -174,22 +154,11 @@ export default function Screenshot() {
             </label>
           </fieldset>
 
-          <button
-            type="submit"
-            className="mx-auto my-8 w-4/5 rounded-full bg-white py-2 font-bold text-[#5E83A5] shadow-xl transition duration-200 hover:bg-[#5E83A5] hover:text-white sm:my-10"
-          >
-            Kirim Laporan
-          </button>
-
-          <Link
-            to="/analysis/resultscreenshot"
-            className="mx-auto my-8 w-4/5 rounded-full bg-white py-2 text-center font-bold text-[#5E83A5] shadow-xl transition duration-200 hover:bg-[#5E83A5] hover:text-white sm:my-10"
-          >
+          <Link to="/analysis/resultscreenshot" className="form-submit">
             Kirim Laporan
           </Link>
         </form>
       </div>
     </div>
-    
   );
 }

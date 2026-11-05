@@ -37,35 +37,26 @@ export default function Phone() {
         </div>
       </div>
 
-      <div
-        id="body-input"
-        className="reveal mx-auto mt-8 flex w-full max-w-[1160px] flex-col rounded-[30px] bg-white/50 px-4 py-2 shadow-xl sm:rounded-[40px] sm:px-6 lg:mt-10 lg:rounded-[50px]"
-      >
-        <div id="title" className="my-6 text-center sm:my-10">
-          <h1 className="text-[23px] font-bold text-black sm:text-[25px]">
-            Masukkan nomor telepon yang ingin diperiksa
-          </h1>
+      <div id="body-input" className="reveal form-card">
+        <div id="title" className="form-title">
+          <h1>Masukkan nomor telepon yang ingin diperiksa</h1>
         </div>
-        <form className="mx-auto flex w-full max-w-[720px] flex-col gap-3 pb-6 text-[#26384A]">
-          <fieldset id="nomor-telepon" className="flex flex-col gap-1">
-            <legend className="mb-2 flex items-center gap-2 font-semibold">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#52789A] text-white">
-                1
-              </span>
+        <form className="form-body">
+          <fieldset id="nomor-telepon" className="form-fieldset">
+            <legend className="form-legend">
+              <span className="form-badge">1</span>
               Nomor Telepon
             </legend>
             <input
               type="tel"
+              inputMode="tel"
               name="nomorTelepon"
               placeholder="Contoh: 0812 3456 7890"
-              className="ml-7 w-[calc(100%-1.75rem)] rounded-lg border border-slate-300 px-3 py-2 outline-none transition focus:border-[#52789A]"
+              className="form-input"
             />
           </fieldset>
 
-          <Link
-            to="/analysis/resultphone"
-            className="mx-auto my-8 w-4/5 rounded-full bg-white py-2 text-center font-bold text-[#5E83A5] shadow-xl transition duration-200 hover:bg-[#5E83A5] hover:text-white sm:my-10"
-          >
+          <Link to="/analysis/resultphone" className="form-submit">
             Kirim Laporan
           </Link>
         </form>
