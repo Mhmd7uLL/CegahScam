@@ -28,11 +28,11 @@ export default function Analysis() {
 
         <div className="flex w-full flex-col items-center justify-center gap-12 lg:flex-row lg:items-stretch lg:gap-8 xl:gap-12">
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
-            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
+            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#446685] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Phone}
                 alt="Ikon telepon"
-                className="h-8 w-8 object-contain lg:h-10 lg:w-10"
+                className="h-8 w-8 object-contain brightness-0 invert lg:h-10 lg:w-10"
               />
             </div>
 
@@ -43,18 +43,18 @@ export default function Analysis() {
               </p>
               <Link
                 to="/analysis/phone"
-                className="whitespace-nowrap rounded-full bg-[#a6d7f5] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
+                className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
               </Link>
             </div>
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
-            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
+            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#446685] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Chat}
                 alt="Ikon chat"
-                className="h-8 w-8 object-contain lg:h-10 lg:w-10"
+                className="h-8 w-8 object-contain brightness-0 invert lg:h-10 lg:w-10"
               />
             </div>
 
@@ -65,18 +65,18 @@ export default function Analysis() {
               </p>
               <Link
                 to="/analysis/chat"
-                className="whitespace-nowrap rounded-full bg-[#a6d7f5] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
+               className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
               </Link>
             </div>
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
-            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
+            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#446685] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Screenshot}
                 alt="Ikon tangkapan layar"
-                className="h-8 w-8 object-contain lg:h-10 lg:w-10"
+                className="h-8 w-8 object-contain brightness-0 invert lg:h-10 lg:w-10"
               />
             </div>
 
@@ -87,7 +87,7 @@ export default function Analysis() {
               </p>
               <Link
                 to="/analysis/screenshot"
-                className="whitespace-nowrap rounded-full bg-[#a6d7f5] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
+                className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
               </Link>
