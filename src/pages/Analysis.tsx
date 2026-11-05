@@ -28,7 +28,7 @@ export default function Analysis() {
 
         <div className="flex w-full flex-col items-center justify-center gap-12 lg:flex-row lg:items-stretch lg:gap-8 xl:gap-12">
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
-            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#446685] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
+            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Phone}
                 alt="Ikon telepon"
@@ -50,7 +50,7 @@ export default function Analysis() {
             </div>
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
-            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#446685] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
+            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Chat}
                 alt="Ikon chat"
@@ -72,7 +72,7 @@ export default function Analysis() {
             </div>
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
-            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#446685] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
+            <div className="relative z-10 -mb-8 flex h-16 w-16 items-center justify-center rounded-xl bg-[#a6d7f5] shadow-lg lg:-mb-10 lg:h-20 lg:w-20 lg:rounded-2xl">
               <img
                 src={Screenshot}
                 alt="Ikon tangkapan layar"
