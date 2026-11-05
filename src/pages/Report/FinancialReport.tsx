@@ -1,4 +1,5 @@
 import EmergencyHook from "../../components/EmergencyHook";
+import Robot from "../../components/Robot";
 import checklist from "../../assets/Icon/Checkboxes.svg";
 import robotInfo from "../../assets/Emergency/robotInfo.webp";
 
@@ -58,10 +59,12 @@ export default function FinancialReport() {
             </p>
           </div>
 
-          <img
+          <Robot
             src={robotInfo}
             alt="Maskot CegahScam"
-            className="hidden h-24 w-auto shrink-0 animate-float-slow object-contain sm:block lg:h-30"
+            motion="bob"
+            interactive
+            className="hidden h-24 w-auto shrink-0 object-contain sm:block lg:h-30"
           />
         </div>
 
