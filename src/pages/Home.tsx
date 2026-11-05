@@ -8,6 +8,7 @@ import heroIcon from "../assets/Home/heroicon.webp";
 import cursor from "../assets/Icon/Cursor.svg";
 import files from "../assets/Icon/Files.svg";
 import handHeart from "../assets/Icon/HandHeart.svg";
+import Robot from "../components/Robot";
 
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState("FAQ1");
@@ -16,9 +17,9 @@ export default function Home() {
     <div className="flex w-full flex-col items-center gap-14 px-4 pb-20 pt-32 sm:gap-20 lg:pt-36">
       <div
         id="Hero-section"
-        className="reveal relative w-full max-w-[1160px] lg:h-120"
+        className="reveal relative flex min-h-[calc(100dvh_-_11rem)] w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh_-_12rem)]"
       >
-        <div className="flex h-full flex-col-reverse items-center justify-between gap-8 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:rounded-[44px] sm:px-8 lg:flex-row lg:gap-0 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
+        <div className="flex w-full flex-col-reverse items-center justify-between gap-8 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:flex-row lg:gap-0 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
           <div className="flex flex-col items-center gap-6 text-center sm:gap-8 lg:items-start lg:gap-14 lg:text-left">
             <div className="flex flex-col">
               <div className="text-[26px] font-bold leading-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
@@ -51,10 +52,12 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <img
+          <Robot
             src={heroIcon}
             alt="Ilustrasi CegahScam"
-            className="w-36 animate-float object-contain sm:w-52 lg:w-auto"
+            motion="float"
+            interactive
+            className="w-36 object-contain sm:w-52 lg:w-auto"
           />
         </div>
       </div>
@@ -64,9 +67,11 @@ export default function Home() {
         className="reveal w-full max-w-6xl lg:min-h-120"
       >
         <div className="flex flex-col items-center gap-8 lg:flex-row lg:justify-center lg:gap-16">
-          <img
+          <Robot
             src={body1}
             alt="Ilustrasi penipuan"
+            motion="sway"
+            interactive
             className="w-full max-w-[280px] object-contain sm:max-w-[340px]"
           />
           <div className="flex flex-col items-center justify-center gap-8 lg:items-start lg:gap-10">
@@ -157,11 +162,15 @@ export default function Home() {
               </div>
             </div>
 
-            <img
-              src={body2}
-              alt="Maskot-CegahScam"
-              className="relative z-10 h-56 w-56 animate-float object-contain sm:h-72 sm:w-72 md:absolute md:left-1/2 md:top-[40px] md:h-[320px] md:w-[320px] md:-translate-x-1/2"
-            />
+            <div className="relative z-10 md:absolute md:left-1/2 md:top-[40px] md:-translate-x-1/2">
+              <Robot
+                src={body2}
+                alt="Maskot CegahScam"
+                motion="bob"
+                interactive
+                className="h-56 w-56 object-contain sm:h-72 sm:w-72 md:h-[320px] md:w-[320px]"
+              />
+            </div>
 
             <div className="relative z-20 flex w-full max-w-[280px] flex-col gap-3 md:absolute md:right-0 md:top-[210px] md:w-60">
               <div className="flex h-16 items-center justify-center rounded-[25px] bg-white text-[22px] font-bold text-[#5E83A5] shadow-sm sm:h-20 sm:text-[25px]">
