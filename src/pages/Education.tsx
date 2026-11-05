@@ -200,13 +200,13 @@ export default function Education() {
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
                 href="#modus"
-                className="rounded-full bg-[#3385FF] px-6 py-3 text-center text-sm font-semibold text-white shadow-lg transition hover:bg-[#1A56DB]"
+                className="rounded-full bg-[#47a8e4] px-6 py-3 text-center text-sm font-semibold text-white shadow-lg transition hover:bg-[#3b93cc]"
               >
                 Mulai dari modus terkini
               </a>
               <Link
                 to="/analysis"
-                className="rounded-full border border-[#3385FF]/45 bg-white px-6 py-3 text-center text-sm font-semibold text-[#1A56DB] transition hover:border-[#3385FF] hover:bg-[#EAF2FF]"
+                className="rounded-full border border-[#47a8e4]/60 bg-white px-6 py-3 text-center text-sm font-semibold text-[#2E86B7] transition hover:border-[#47a8e4] hover:bg-[#EAF6FD]"
               >
                 Periksa pesan mencurigakan
               </Link>
@@ -419,7 +419,7 @@ export default function Education() {
         </section>
 
         <section id="penutup" className="mt-20 lg:mt-24">
-          <div className="relative overflow-hidden rounded-[28px] bg-linear-to-br from-[#446685] to-[#52789A] px-6 py-10 text-white shadow-xl sm:px-10 lg:px-14 lg:py-14">
+          <div className="relative overflow-hidden rounded-[28px] bg-[#47a8e4] px-6 py-10 text-white shadow-xl sm:px-10 lg:px-14 lg:py-14">
             <div className="relative z-10 max-w-2xl">
               <blockquote className="text-[24px] font-bold leading-snug sm:text-[30px] lg:text-[34px]">
                 “Satu ons pencegahan lebih berharga daripada satu pon
