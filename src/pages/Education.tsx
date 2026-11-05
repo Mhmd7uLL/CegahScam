@@ -183,9 +183,9 @@ export default function Education() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <section
           id="hero-section"
-          className="grid min-h-[calc(100dvh_-_8rem)] items-center gap-10 lg:min-h-[calc(100dvh_-_9rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-14"
+          className="grid min-h-[calc(100dvh_-_8rem)] items-center gap-10 lg:min-h-[calc(100dvh_-_9rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-14 lg:gap-y-7"
         >
-          <div className="order-2 lg:order-1">
+          <div className="order-1 lg:col-start-1 lg:row-start-1">
             <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.1] tracking-tight text-[#111827] sm:text-[36px] lg:text-[40px]">
               Yuk kenali scam,
               <span className="block text-[#446685]">sebelum terjadi.</span>
@@ -195,24 +195,9 @@ export default function Education() {
               Pelajari cara penipuan bekerja, tanda-tanda yang perlu
               diperhatikan, dan langkah sederhana untuk melindungi diri.
             </p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="#modus"
-                className="rounded-full bg-[#47a8e4] px-6 py-3 text-center text-sm font-semibold text-white shadow-lg transition hover:bg-[#3b93cc]"
-              >
-                Mulai dari modus terkini
-              </a>
-              <Link
-                to="/analysis"
-                className="rounded-full border border-[#47a8e4]/60 bg-white px-6 py-3 text-center text-sm font-semibold text-[#2E86B7] transition hover:border-[#47a8e4] hover:bg-[#EAF6FD]"
-              >
-                Periksa pesan mencurigakan
-              </Link>
-            </div>
           </div>
 
-          <div className="relative order-1 mx-auto w-full max-w-[460px] lg:order-2">
+          <div className="relative order-2 mx-auto w-full max-w-[460px] lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <div className="absolute -inset-5 -z-10 rounded-[2.5rem] bg-[#A5C6FF]/25 blur-2xl" />
 
             <div className="grid grid-cols-5 grid-rows-2 gap-3">
@@ -249,6 +234,21 @@ export default function Education() {
                 </figcaption>
               </figure>
             </div>
+          </div>
+
+          <div className="order-3 flex flex-col gap-3 sm:flex-row lg:col-start-1 lg:row-start-2">
+            <a
+              href="#modus"
+              className="rounded-full bg-[#47a8e4] px-6 py-3 text-center text-sm font-semibold text-white shadow-lg transition hover:bg-[#3b93cc]"
+            >
+              Mulai dari modus terkini
+            </a>
+            <Link
+              to="/analysis"
+              className="rounded-full border border-[#47a8e4]/60 bg-white px-6 py-3 text-center text-sm font-semibold text-[#2E86B7] transition hover:border-[#47a8e4] hover:bg-[#EAF6FD]"
+            >
+              Periksa pesan mencurigakan
+            </Link>
           </div>
         </section>
 
@@ -419,6 +419,14 @@ export default function Education() {
 
         <section id="penutup" className="mt-20 lg:mt-24">
           <div className="relative overflow-hidden rounded-[28px] bg-[#47a8e4] px-6 py-10 text-white shadow-xl sm:px-10 lg:px-14 lg:py-14">
+            <Robot
+              src={eduRobot}
+              alt="Maskot CegahScam"
+              motion="float"
+              interactive
+              className="relative z-10 mx-auto mb-6 w-45 object-contain lg:absolute lg:bottom-0 lg:right-12 lg:mb-0 lg:w-56"
+            />
+
             <div className="relative z-10 max-w-2xl">
               <blockquote className="text-[24px] font-bold leading-snug sm:text-[30px] lg:text-[34px]">
                 “Satu ons pencegahan lebih berharga daripada satu pon
@@ -426,14 +434,6 @@ export default function Education() {
               </blockquote>
               <p className="mt-4 text-sm text-white/75">— Benjamin Franklin</p>
             </div>
-
-            <Robot
-              src={eduRobot}
-              alt="Maskot CegahScam"
-              motion="float"
-              interactive
-              className="relative z-10 mx-auto mt-8 w-45 object-contain lg:absolute lg:bottom-0 lg:right-12 lg:mt-0 lg:w-56"
-            />
           </div>
         </section>
       </div>

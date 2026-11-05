@@ -25,29 +25,29 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 px-4 transition-all duration-300 sm:px-6 ${
         scrolled
-          ? "bg-white/75 py-2 shadow-[0_8px_30px_-18px_rgba(17,24,39,0.45)] backdrop-blur-xl"
-          : "bg-transparent py-4 sm:py-5 lg:py-6"
+          ? "bg-white/75 py-3 shadow-[0_8px_30px_-18px_rgba(17,24,39,0.45)] backdrop-blur-xl"
+          : "bg-transparent py-5 sm:py-5 lg:py-6"
       }`}
     >
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-2.5 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-0">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-2 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:justify-normal lg:gap-0">
         <NavLink
           to="/"
-          className="hidden items-center gap-2 justify-self-start whitespace-nowrap font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80 lg:ms-2 lg:flex lg:text-[26px]"
+          className="flex shrink-0 items-center gap-2 justify-self-start whitespace-nowrap font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80 lg:ms-2 lg:text-[26px]"
         >
           <img
             src="/logo2.png"
             alt="Logo CegahScam"
             className={`w-auto shrink-0 transition-all duration-300 ${
-              scrolled ? "h-6 lg:h-7" : "h-6 lg:h-8"
+              scrolled ? "h-7" : "h-8"
             }`}
           />
-          <span>
+          <span className="hidden sm:inline">
             Cegah<span className="text-[#1E40AF]">Scam</span>
           </span>
         </NavLink>
 
         <nav
-          className={`flex items-center justify-center gap-4 rounded-full bg-white/80 px-5 py-2 shadow-lg shadow-[#446685]/10 backdrop-blur-md transition-all duration-300 sm:gap-8 sm:px-8 lg:gap-12 lg:px-10 lg:py-3 ${
+          className={`flex shrink-0 items-center justify-center gap-2.5 rounded-full bg-white/80 px-3.5 py-2 shadow-lg shadow-[#446685]/10 backdrop-blur-md transition-all duration-300 sm:gap-8 sm:px-8 lg:gap-12 lg:px-10 lg:py-3 ${
             scrolled ? "lg:shadow-md" : ""
           }`}
         >
@@ -56,7 +56,7 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `relative text-[13px] transition-colors duration-200 sm:text-sm ${
+                `relative text-[11.5px] transition-colors duration-200 sm:text-sm ${
                   isActive
                     ? "font-bold text-[#1E40AF]"
                     : "font-normal text-[#0F172A] hover:text-[#1E40AF]"

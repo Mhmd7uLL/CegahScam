@@ -18,46 +18,46 @@ export default function Home() {
         id="Hero-section"
         className="reveal relative flex min-h-[calc(100dvh_-_11rem)] w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh_-_12rem)]"
       >
-        <div className="flex w-full flex-col items-center justify-between gap-8 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:flex-row lg:gap-0 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
-          <div className="flex flex-col items-center gap-6 text-center sm:gap-8 lg:items-start lg:gap-14 lg:text-left">
-            <div className="flex flex-col">
-              <div className="text-[26px] font-bold leading-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
-                <p>Mau Mencegah?</p>
-                <p>Lagi Curiga?</p>
-                <p>Atau Sudah Kena?</p>
-              </div>
-              <p className="mt-2 text-[12px] text-[#3F4E5E] sm:text-[14px] lg:text-[15px]">
-                Dari rasa ragu sampai tahu harus berbuat apa
-              </p>
+        <div className="grid w-full gap-6 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:gap-8 sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:grid-cols-[1fr_auto] lg:content-center lg:items-center lg:gap-x-0 lg:gap-y-14 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
+          <div className="order-1 text-center lg:col-start-1 lg:row-start-1 lg:text-left">
+            <div className="text-[26px] font-bold leading-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
+              <p>Mau Mencegah?</p>
+              <p>Lagi Curiga?</p>
+              <p>Atau Sudah Kena?</p>
             </div>
-            <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:justify-center lg:justify-start">
-              <Link
-                to="/emergency"
-                className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
-              >
-                Darurat
-              </Link>
-              <Link
-                to="/analysis"
-                className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
-              >
-                Analisis
-              </Link>
-              <Link
-                to="/education"
-                className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
-              >
-                Edukasi
-              </Link>
-            </div>
+            <p className="mt-2 text-[12px] text-[#3F4E5E] sm:text-[14px] lg:text-[15px]">
+              Dari rasa ragu sampai tahu harus berbuat apa
+            </p>
           </div>
+
           <Robot
             src={heroIcon}
             alt="Ilustrasi CegahScam"
             motion="float"
             interactive
-            className="w-45 object-contain sm:w-52 lg:w-auto"
+            className="order-2 mx-auto w-45 object-contain sm:w-52 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:w-auto lg:justify-self-end"
           />
+
+          <div className="order-3 grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:flex-row sm:justify-center lg:col-start-1 lg:row-start-2 lg:justify-start">
+            <Link
+              to="/analysis"
+              className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
+            >
+              Analisis
+            </Link>
+            <Link
+              to="/education"
+              className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
+            >
+              Edukasi
+            </Link>
+            <Link
+              to="/emergency"
+              className="col-span-2 rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:order-first sm:text-base"
+            >
+              Darurat
+            </Link>
+          </div>
         </div>
       </div>
 
