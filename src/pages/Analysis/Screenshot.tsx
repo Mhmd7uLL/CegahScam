@@ -99,7 +99,6 @@ export default function Screenshot() {
               </span>
             </legend>
 
-            {/* Input file tersembunyi */}
             <input
               id="bukti-file"
               type="file"
@@ -108,7 +107,6 @@ export default function Screenshot() {
               onChange={(e) => handlePilihFile(e.target.files?.[0])}
             />
 
-            {/* Area upload */}
             <label
               htmlFor="bukti-file"
               onDragOver={(e) => {
@@ -127,7 +125,6 @@ export default function Screenshot() {
                   : "border-[#B9C8DA] bg-[#C9D7E3]/60 hover:border-[#52789A]"
               }`}
             >
-              {/* Ikon upload */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

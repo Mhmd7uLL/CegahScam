@@ -1,22 +1,16 @@
 import { useEffect, useId, useRef, useState } from "react";
 
 export type RiskGaugeProps = {
-  /** Skor risiko 0 - 100 (persen). Nanti tinggal diisi dari response API. */
   value: number;
-  /** Ukuran diameter grafik dalam pixel. */
   size?: number;
-  /** Ketebalan garis grafik dalam pixel. */
   thickness?: number;
-  /** Lama animasi dalam milidetik. */
   duration?: number;
-  /** Warna gradient garis grafik [awal, akhir]. */
   colors?: [string, string];
 };
 
 const clamp = (value: number) =>
   Math.min(100, Math.max(0, Number.isFinite(value) ? value : 0));
 
-/** Ubah warna hex (#RRGGBB) menjadi hex dengan transparansi tertentu. */
 const withAlpha = (hex: string, alpha: number) => {
   if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return hex;
 
@@ -27,10 +21,6 @@ const withAlpha = (hex: string, alpha: number) => {
   return `${hex}${value}`;
 };
 
-/**
- * Grafik lingkaran (donut) animasi untuk menampilkan skor risiko.
- * Angka dan garis akan berjalan dari 0 menuju `value` saat halaman dibuka.
- */
 export default function RiskGauge({
   value,
   size = 260,
@@ -68,7 +58,6 @@ export default function RiskGauge({
       if (startTime === null) startTime = now;
 
       const elapsed = Math.min((now - startTime) / duration, 1);
-      // ease-out cubic supaya gerakannya melambat di akhir
       const eased = 1 - Math.pow(1 - elapsed, 3);
       const current = from + (target - from) * eased;
 
@@ -89,16 +78,13 @@ export default function RiskGauge({
       role="img"
       aria-label={`Skor risiko ${Math.round(target)} persen`}
     >
-      {/* bayangan/glow di belakang, warnanya mengikuti warna skor */}
       <div
         className="absolute -inset-5 rounded-full opacity-40 blur-2xl"
         style={{ backgroundColor: colorTo }}
       />
 
-      {/* lingkaran putih sebagai alas grafik */}
       <div className="absolute inset-0 rounded-full bg-white shadow-[0_18px_45px_rgba(143,169,196,0.35)]" />
 
-      {/* lingkaran tipis berwarna di dalam lingkaran putih */}
       <div
         className="absolute inset-[6%] rounded-full"
         style={{
@@ -121,7 +107,6 @@ export default function RiskGauge({
           </linearGradient>
         </defs>
 
-        {/* ring dekoratif paling luar */}
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -132,7 +117,6 @@ export default function RiskGauge({
           strokeWidth={2}
         />
 
-        {/* jalur abu-abu di belakang garis progres */}
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -142,7 +126,6 @@ export default function RiskGauge({
           strokeWidth={thickness}
         />
 
-        {/* garis progres animasi */}
         <circle
           cx={size / 2}
           cy={size / 2}

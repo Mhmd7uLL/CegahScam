@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-// icon/picture assets
 import body1 from "../assets/Home/body-1.webp";
 import body2 from "../assets/Home/body-2.webp";
 import heroIcon from "../assets/Home/heroicon.webp";

@@ -276,7 +276,6 @@ export default function Financial() {
               </span>
               Informasi Penipu
             </legend>
-            {/* a. Nama Institusi */}
             <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
               <span>a. Nama institusi</span>
 
@@ -288,7 +287,6 @@ export default function Financial() {
               />
             </label>
 
-            {/* b. Nomor Rekening */}
             <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
               <span>b. Nomor rekening tujuan</span>
 
@@ -300,7 +298,6 @@ export default function Financial() {
               />
             </label>
 
-            {/* c. Nama Pemilik Rekening */}
             <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
               <span>
                 c. Nama pemilik rekening penipu
@@ -364,7 +361,6 @@ export default function Financial() {
               </span>
             </legend>
 
-            {/* Input file tersembunyi */}
             <input
               id="bukti-file"
               type="file"
@@ -373,7 +369,6 @@ export default function Financial() {
               onChange={(e) => handlePilihFile(e.target.files?.[0])}
             />
 
-            {/* Area upload */}
             <label
               htmlFor="bukti-file"
               onDragOver={(e) => {
@@ -392,7 +387,6 @@ export default function Financial() {
                   : "border-transparent bg-[#C9D7E3]"
               }`}
             >
-              {/* Ikon upload */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -419,14 +413,6 @@ export default function Financial() {
             </label>
           </fieldset>
 
-          {/* 
-          Hilangkan komen ini nanti kalau sudah BE dibuat
-          <button
-            type="submit"
-            className="my-10 mx-auto w-4/5 bg-white py-2 rounded-full shadow-xl font-bold text-[#5E83A5] hover:bg-[#5E83A5] hover:text-white hover:cursor-pointer"
-          >
-            Kirim Laporan
-          </button> */}
 
           <Link to="/report/financial" className="form-submit">
             Kirim Laporan

@@ -6,18 +6,10 @@ type RobotProps = {
   src: string;
   alt: string;
   className?: string;
-  /** Gerakan diam yang berbeda tiap maskot. */
   motion?: RobotMotion;
-  /** Kalau true, maskot bereaksi saat diklik/ditekan. */
   interactive?: boolean;
 };
 
-/**
- * Maskot CegahScam.
- * - Selalu bergerak halus (gerakan bisa dibedakan lewat prop `motion`).
- * - Kalau `interactive`, maskot melompat kecil saat diklik/ditekan.
- * - Otomatis berhenti kalau pengguna memilih "reduce motion".
- */
 export default function Robot({
   src,
   alt,

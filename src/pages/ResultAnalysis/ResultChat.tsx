@@ -62,11 +62,6 @@ function getRiskLevel(skor: number): RiskLevel {
   return "high";
 }
 
-// ==========================================================================
-// DATA SEMENTARA
-// Nanti tinggal ganti dengan response API, contoh:
-// { skor: 30, ringkasan: "...", alasan: ["...", "..."] }
-// ==========================================================================
 const HASIL_ANALISIS = {
   skor: 30,
 };
@@ -98,7 +93,6 @@ const CHECKLIST = [
 ] as const;
 
 type ResultChatProps = {
-  /** Data hasil analisis dari API. Kalau kosong, memakai data sementara. */
   hasil?: {
     skor?: number;
     ringkasan?: string;
@@ -116,14 +110,12 @@ export default function ResultChat({ hasil }: ResultChatProps) {
   return (
     <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-32 sm:px-6 lg:pt-36">
       <div className="reveal grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
-        {/* Kolom kiri: grafik + kontak + rekomendasi bank */}
         <div className="flex min-w-0 flex-col gap-5">
           <div className="flex items-center justify-center py-3">
             <RiskGauge value={skor} size={290} colors={risk.gaugeColors} />
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {/* Kartu hubungi kami */}
             <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-lg shadow-[#8FA9C4]/20">
               <p className="text-[13px] font-semibold text-[#446685]">
                 Hubungi Kami
@@ -144,7 +136,6 @@ export default function ResultChat({ hasil }: ResultChatProps) {
               </p>
             </div>
 
-            {/* Kartu rekomendasi bank */}
             <div className="flex flex-col gap-3 rounded-3xl bg-[#5A87B8] p-5 text-white shadow-lg shadow-[#5A87B8]/30">
               <p className="text-[13px] font-semibold">Rekomendasi Bank</p>
 
@@ -173,7 +164,6 @@ export default function ResultChat({ hasil }: ResultChatProps) {
           </div>
         </div>
 
-        {/* Kolom kanan: ringkasan risiko + alasan */}
         <div className="flex min-w-0 flex-col gap-5">
           <section className="rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
             <div className="flex items-start gap-4">
@@ -215,7 +205,6 @@ export default function ResultChat({ hasil }: ResultChatProps) {
         </div>
       </div>
 
-      {/* Bagian maskot + checklist */}
       <div className="mt-7 grid items-center gap-8 rounded-[36px] px-2 py-6 lg:grid-cols-[340px_minmax(0,1fr)]">
         <div className="relative flex flex-col items-center sm:flex-row sm:items-start sm:justify-center">
           <Robot
@@ -262,8 +251,6 @@ export default function ResultChat({ hasil }: ResultChatProps) {
     </div>
   );
 }
-
-/* ------------------------------- Ikon ------------------------------- */
 
 function WarningIcon({ className = "" }: { className?: string }) {
   return (
