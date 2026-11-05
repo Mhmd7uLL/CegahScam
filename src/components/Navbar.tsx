@@ -29,7 +29,7 @@ export default function Navbar() {
           : "bg-transparent py-5 sm:py-5 lg:py-6"
       }`}
     >
-      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-2 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:justify-normal lg:gap-0">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-center gap-2.5 sm:justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:justify-normal lg:gap-0">
         <NavLink
           to="/"
           className="flex shrink-0 items-center gap-2 justify-self-start whitespace-nowrap font-bold leading-none text-[#0F172A] transition-opacity hover:opacity-80 lg:ms-2 lg:text-[26px]"
@@ -38,7 +38,7 @@ export default function Navbar() {
             src="/logo2.png"
             alt="Logo CegahScam"
             className={`w-auto shrink-0 transition-all duration-300 ${
-              scrolled ? "h-7" : "h-8"
+              scrolled ? "h-7" : "h-7 lg:h-8"
             }`}
           />
           <span className="hidden sm:inline">
@@ -56,7 +56,7 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
-                `relative text-[11.5px] transition-colors duration-200 sm:text-sm ${
+                `relative text-[13px] transition-colors duration-200 sm:text-sm ${
                   isActive
                     ? "font-bold text-[#1E40AF]"
                     : "font-normal text-[#0F172A] hover:text-[#1E40AF]"
