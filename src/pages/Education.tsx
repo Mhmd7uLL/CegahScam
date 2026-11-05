@@ -9,6 +9,7 @@ import foto2 from "../assets/Education/carousel/carousel2.webp";
 import foto3 from "../assets/Education/carousel/carousel3.webp";
 import foto4 from "../assets/Education/carousel/carousel4.webp";
 import eduRobot from "../assets/Education/edu-robot.webp";
+import Robot from "../components/Robot";
 
 const modus = [
   {
@@ -427,10 +428,12 @@ export default function Education() {
               <p className="mt-4 text-sm text-white/60">— Benjamin Franklin</p>
             </div>
 
-            <img
+            <Robot
               src={eduRobot}
               alt="Maskot CegahScam"
-              className="relative z-10 mx-auto mt-8 w-40 lg:absolute lg:bottom-0 lg:right-12 lg:mt-0 lg:w-56"
+              motion="float"
+              interactive
+              className="relative z-10 mx-auto mt-8 w-40 object-contain lg:absolute lg:bottom-0 lg:right-12 lg:mt-0 lg:w-56"
             />
           </div>
         </section>
