@@ -206,7 +206,7 @@ export default function Education() {
               </a>
               <Link
                 to="/analysis"
-                className="rounded-full border border-[#446685]/25 bg-white/60 px-6 py-3 text-center text-sm font-semibold text-[#446685] transition hover:border-[#446685]/50 hover:bg-white"
+                className="rounded-full border border-[#3385FF]/45 bg-white px-6 py-3 text-center text-sm font-semibold text-[#1A56DB] transition hover:border-[#3385FF] hover:bg-[#EAF2FF]"
               >
                 Periksa pesan mencurigakan
               </Link>
@@ -419,13 +419,13 @@ export default function Education() {
         </section>
 
         <section id="penutup" className="mt-20 lg:mt-24">
-          <div className="relative overflow-hidden rounded-[28px] bg-[#111827] px-6 py-10 text-white shadow-xl sm:px-10 lg:px-14 lg:py-14">
+          <div className="relative overflow-hidden rounded-[28px] bg-linear-to-br from-[#446685] to-[#52789A] px-6 py-10 text-white shadow-xl sm:px-10 lg:px-14 lg:py-14">
             <div className="relative z-10 max-w-2xl">
               <blockquote className="text-[24px] font-bold leading-snug sm:text-[30px] lg:text-[34px]">
                 “Satu ons pencegahan lebih berharga daripada satu pon
                 pengobatan.”
               </blockquote>
-              <p className="mt-4 text-sm text-white/60">— Benjamin Franklin</p>
+              <p className="mt-4 text-sm text-white/75">— Benjamin Franklin</p>
             </div>
 
             <Robot
