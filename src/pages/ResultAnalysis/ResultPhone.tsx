@@ -108,7 +108,7 @@ export default function ResultPhone({ hasil }: ResultChatProps) {
   const levelName = risk.label.replace("Risiko ", "");
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-32 sm:px-6 lg:pt-36">
+    <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-24 sm:px-6 lg:pt-36">
       <div className="reveal grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col gap-5">
           <div className="flex items-center justify-center py-3">

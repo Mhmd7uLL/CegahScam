@@ -5,7 +5,7 @@ import robotInfo from "../../assets/Emergency/robotInfo.webp";
 
 export default function FinancialReport() {
   return (
-    <div className="mx-auto w-full pb-20 pt-32 lg:pt-36">
+    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
         id="hero-section"
         className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"

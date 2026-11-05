@@ -7,7 +7,7 @@ import Screenshot from "../assets/Analysis/screenshot.png";
 
 export default function Analysis() {
   return (
-    <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-32 sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
+    <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
       <div id="hero-section" className="reveal">
         <AnalysisHook />
       </div>

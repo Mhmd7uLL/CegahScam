@@ -7,7 +7,7 @@ import EmergencyHook from "../components/EmergencyHook";
 
 export default function Emergency() {
   return (
-    <div className="mx-auto w-full pb-20 pt-32 lg:pt-36">
+    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
         id="hero-section"
         className="mx-auto flex w-full max-w-6xl flex-col justify-center px-4"

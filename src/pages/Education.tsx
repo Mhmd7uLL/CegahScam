@@ -179,14 +179,14 @@ export default function Education() {
     : glossary;
 
   return (
-    <div className="w-full pb-20 pt-32 lg:pt-36">
+    <div className="w-full pb-20 pt-24 lg:pt-36">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <section
           id="hero-section"
-          className="grid min-h-[calc(100dvh_-_8rem)] items-center gap-10 lg:min-h-[calc(100dvh_-_9rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-14 lg:gap-y-7"
+          className="grid items-center gap-10 lg:min-h-[calc(100dvh_-_9rem)] lg:grid-cols-[1.05fr_0.95fr] lg:gap-x-14 lg:gap-y-7"
         >
           <div className="order-1 lg:col-start-1 lg:row-start-1">
-            <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.1] tracking-tight text-[#111827] sm:text-[36px] lg:text-[40px]">
+            <h1 className="text-balance text-[30px] font-bold leading-[1.1] tracking-tight text-[#111827] sm:mt-5 sm:text-[36px] lg:text-[40px]">
               Yuk kenali scam,
               <span className="block text-[#446685]">sebelum terjadi.</span>
             </h1>
