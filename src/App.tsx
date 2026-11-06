@@ -18,6 +18,7 @@ import Screenshot from "./pages/Analysis/Screenshot";
 import ResultAnalysisChat from "./pages/ResultAnalysis/ResultChat";
 import ResultAnalysiPhone from "./pages/ResultAnalysis/ResultPhone";
 import ResultAnalysisScreenshot from "./pages/ResultAnalysis/ResultScreenshot";
+import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
   const { key } = useLocation();
@@ -50,7 +51,7 @@ function App() {
         <Route path="/report/data" element={<DataReport />} />
         <Route path="/report/financial" element={<FinancialReport />} />
         <Route path="/education" element={<Education />} />
-    
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />
