@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import RiskGauge from "../../components/RiskGauge";
 import Robot from "../../components/Robot";
 import robot from "../../assets/Emergency/robot1.webp";
@@ -56,15 +56,14 @@ const RISK_LEVELS: Record<RiskLevel, RiskInfo> = {
   },
 };
 
-function getRiskLevel(skor: number): RiskLevel {
-  if (skor < 34) return "low";
-  if (skor < 67) return "medium";
-  return "high";
-}
-
-const HASIL_ANALISIS = {
-  skor: 30,
+const levelByCategory: Record<string, RiskLevel> = {
+  "Tidak Ada Indikasi": "low",
+  "Rendah": "low",
+  "Sedang": "medium",
+  "Tinggi": "high",
+  "Sangat Tinggi": "high",
 };
+
 
 const KONTAK = {
   nomor: "0851 2345 6789",
@@ -92,20 +91,20 @@ const CHECKLIST = [
   },
 ] as const;
 
-type ResultChatProps = {
-  hasil?: {
-    skor?: number;
-    ringkasan?: string;
-    alasan?: string[];
-  };
-};
 
-export default function ResultPhone({ hasil }: ResultChatProps) {
-  const skor = Math.min(100, Math.max(0, hasil?.skor ?? HASIL_ANALISIS.skor));
-  const risk = RISK_LEVELS[getRiskLevel(skor)];
-  const ringkasan = hasil?.ringkasan ?? risk.summary;
-  const alasan = hasil?.alasan?.length ? hasil.alasan : risk.reasons;
+
+export default function ResultPhone() {
+    const location = useLocation();
+  const data = location.state?.result;
+  const navigate = useNavigate();
+
+  const skor = data?.risk_score ?? 0;
+  const risk = RISK_LEVELS[levelByCategory[data?.risk_category ?? "Tidak Ada Indikasi"] || RISK_LEVELS.low] ?? 'low';
+  const ringkasan = data?.reasons?.length ? data.reasons : risk.reasons;
+  const alasan = data?.reasons?.length ? data.reasons : risk.reasons;
   const levelName = risk.label.replace("Risiko ", "");
+  const rekomendasi = data?.recommendations ?? [];
+
 
   return (
     <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-24 sm:px-6 lg:pt-36">
@@ -170,7 +169,7 @@ export default function ResultPhone({ hasil }: ResultChatProps) {
               <span
                 className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${risk.iconBg} ${risk.iconColor}`}
               >
-                <WarningIcon className="h-6 w-6" />
+                <InfoIcon className="h-6 w-6" />
               </span>
 
               <div className="flex flex-col gap-2">
@@ -190,10 +189,29 @@ export default function ResultPhone({ hasil }: ResultChatProps) {
             </h2>
 
             <ul className="mt-6 flex flex-col gap-5">
-              {alasan.map((item) => (
+              {alasan.map((item: string, index: number) => (
                 <li key={item} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#FFF7E8] text-[#F0A63A]">
-                    <SparkIcon className="h-3.5 w-3.5" />
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#FFF7E8] text-[11px] font-bold text-[#F0A63A]">
+                    {index + 1}
+                  </span>
+                  <p className="text-[14px] leading-relaxed text-[#5B6B7C]">
+                    {item}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="flex-1 rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
+            <h2 className="text-[22px] font-bold leading-tight text-[#26384A]">
+              Rekomendasi
+            </h2>
+
+            <ul className="mt-6 flex flex-col gap-5">
+              {rekomendasi.map((item: string, index: number) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#FFF7E8] text-[11px] font-bold text-[#F0A63A]">
+                    {index + 1}
                   </span>
                   <p className="text-[14px] leading-relaxed text-[#5B6B7C]">
                     {item}
@@ -204,6 +222,36 @@ export default function ResultPhone({ hasil }: ResultChatProps) {
           </section>
         </div>
       </div>
+
+      <section className="mt-7 rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h2 className="text-[20px] font-bold leading-tight text-[#26384A] sm:text-[22px]">
+              Apakah kamu sudah menjadi korban?
+            </h2>
+            <p className="mt-1 text-[14px] leading-relaxed text-[#5B6B7C]">
+              Jangan panik. Laporkan sekarang agar bisa segera ditangani.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              onClick={() => navigate("/emergency/data")}
+              className="rounded-full bg-[#5E83A5] px-5 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
+            >
+              Data saya bocor
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/emergency/financial")}
+              className="rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#5E83A5] shadow-lg transition hover:-translate-y-0.5 hover:bg-[#5E83A5] hover:text-white"
+            >
+              Saya kehilangan uang
+            </button>
+          </div>
+        </div>
+      </section>
 
       <div className="mt-7 grid items-center gap-8 rounded-[36px] px-2 py-6 lg:grid-cols-[340px_minmax(0,1fr)]">
         <div className="relative flex flex-col items-center sm:flex-row sm:items-start sm:justify-center">
@@ -253,7 +301,7 @@ export default function ResultPhone({ hasil }: ResultChatProps) {
 }
 
 
-function WarningIcon({ className = "" }: { className?: string }) {
+function InfoIcon({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -265,17 +313,9 @@ function WarningIcon({ className = "" }: { className?: string }) {
       className={className}
       aria-hidden="true"
     >
-      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-      <path d="M12 9v4" />
-      <path d="M12 17h.01" />
-    </svg>
-  );
-}
-
-function SparkIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 2.5 14 9.4a1 1 0 0 0 .6.6l6.9 2-6.9 2a1 1 0 0 0-.6.6L12 21.5l-2-6.9a1 1 0 0 0-.6-.6l-6.9-2 6.9-2a1 1 0 0 0 .6-.6L12 2.5Z" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 11v5" />
+      <path d="M12 8h.01" />
     </svg>
   );
 }
