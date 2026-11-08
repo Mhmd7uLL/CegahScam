@@ -62,7 +62,7 @@ export default function Financial() {
 
       <div id="body-input" className="reveal form-card">
         <div id="title" className="form-title">
-          <h1>Kamu bisa tanya ke AI tentang yang kamu alami</h1>
+          <h1>Laporkan kerugian finansial kamu</h1>
         </div>
         <form className="form-body">
           <fieldset id="bank-ewallet" className="form-fieldset">
@@ -276,7 +276,7 @@ export default function Financial() {
               </span>
               Informasi Penipu
             </legend>
-            <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
+            <label className="flex flex-col gap-3 text-sm font-semibold text-[#26384A]">
               <span>a. Nama institusi</span>
 
               <input
@@ -287,7 +287,7 @@ export default function Financial() {
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
+            <label className="flex flex-col gap-3 text-sm font-semibold text-[#26384A]">
               <span>b. Nomor rekening tujuan</span>
 
               <input
@@ -298,7 +298,7 @@ export default function Financial() {
               />
             </label>
 
-            <label className="flex flex-col gap-2 text-sm font-semibold text-[#26384A]">
+            <label className="flex flex-col gap-3 text-sm font-semibold text-[#26384A]">
               <span>
                 c. Nama pemilik rekening penipu
                 <span className="ml-1 font-normal text-slate-400">

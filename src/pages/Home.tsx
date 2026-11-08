@@ -16,7 +16,7 @@ export default function Home() {
     <div className="flex w-full flex-col items-center gap-14 px-4 pb-20 pt-24 sm:gap-20 lg:pt-36">
       <div
         id="Hero-section"
-        className="reveal relative flex w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh_-_12rem)]"
+        className="reveal relative flex w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh-12rem)]"
       >
         <div className="grid w-full gap-6 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:gap-8 sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:grid-cols-[1fr_auto] lg:content-center lg:items-center lg:gap-x-0 lg:gap-y-14 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
           <div className="order-1 text-center lg:col-start-1 lg:row-start-1 lg:text-left">

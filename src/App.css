@@ -6,15 +6,15 @@
   }
 
   .form-title {
-    @apply my-4 text-center text-[21px] font-bold leading-snug text-black sm:my-6 sm:text-[25px];
+    @apply mb-8 mt-2 text-center text-[21px] font-bold leading-snug text-black sm:mb-10 sm:mt-4 sm:text-[25px];
   }
 
   .form-body {
-    @apply mx-auto flex w-full max-w-[720px] flex-col gap-6 pb-2 text-[#26384A];
+    @apply mx-auto flex w-full max-w-[720px] flex-col gap-8 pb-2 text-[#26384A];
   }
 
   .form-fieldset {
-    @apply flex flex-col gap-2.5;
+    @apply flex flex-col gap-4;
   }
 
   .form-legend {

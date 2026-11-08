@@ -62,7 +62,7 @@ export default function DataBreach() {
 
       <div id="body-input" className="reveal form-card">
         <div id="title" className="form-title">
-          <h1>Kamu bisa tanya ke AI tentang yang kamu alami</h1>
+          <h1>Laporkan kebocoran data kamu</h1>
         </div>
         <form className="form-body">
           <fieldset className="form-fieldset">
