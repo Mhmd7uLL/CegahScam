@@ -1,28 +1,73 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AnalysisHook from "../../components/AnalysisHook";
 
 export default function Screenshot() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [platform, setPlatform] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handlePilihFile = (file?: File) => {
     if (!file) return;
 
-    const formatValid = ["image/jpeg", "image/png", "application/pdf"];
+    const formatValid = ["image/jpeg", "image/png", "webp"];
 
     if (!formatValid.includes(file.type)) {
-      alert("Format file harus JPG, PNG, atau PDF.");
+      alert("Format file harus JPG, PNG, atau WEBP.");
       return;
     }
 
-    if (file.size > 50 * 1024 * 1024) {
-      alert("Ukuran file maksimal 50 MB.");
+
+    if (file.size > 15 * 1024 * 1024) {
+      alert("Ukuran file maksimal 15 MB.");
       return;
     }
 
     setFileBukti(file);
   };
+
+  async function submitForm(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (!fileBukti) {
+      setError("File bukti pesan harus diunggah.");
+      setLoading(false);
+      return;
+    }
+
+    const fd = new FormData();
+    fd.append("platform", platform);
+    fd.append(
+      "fileBukti",
+      fileBukti
+    );
+
+    try{
+        const res = await fetch("http://localhost:3000/api/analysis/screenshot", {
+          method: "POST",
+          body: fd,
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
+        }
+        navigate("/analysis/resultscreenshot", { state: { result: data } });
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+      setError(error instanceof Error ? error.message : "Terjadi kesalahan saat mengirim laporan.");   
+
+    } finally {
+      setLoading(false);
+    }
+  }
+    
+
 
   return (
     <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
@@ -63,7 +108,7 @@ export default function Screenshot() {
         <div id="title" className="form-title">
           <h1>Silahkan isi pertanyaan berikut</h1>
         </div>
-        <form className="form-body">
+        <form className="form-body" onSubmit={submitForm}>
           <fieldset id="bank-ewallet" className="form-fieldset">
             <legend className="form-legend">
               <span className="form-badge">1</span>
@@ -75,11 +120,17 @@ export default function Screenshot() {
               </span>
             </legend>
             <div className="form-choices">
-              <label className="form-choice">
+              <label 
+              className="form-choice"
+              onClick={() => setPlatform("whatsapp")}
+              >
                 <input type="radio" name="kanalMedia" value="whatsapp" />
                 WhatsApp
               </label>
-              <label className="form-choice">
+              <label 
+              className="form-choice"
+              onClick={() => setPlatform("instagram")}
+              >
                 <input type="radio" name="kanalMedia" value="instagram" />
                 Instagram
               </label>
@@ -94,7 +145,7 @@ export default function Screenshot() {
                 <span>Bukti Pesan</span>
 
                 <span className="text-xs font-normal text-slate-400">
-                  Unggah file bukti pesan (format JPG, PNG, PDF maks 50 MB)
+                  Unggah file bukti pesan (format JPG, PNG, WEBP maks 15 MB)
                 </span>
               </span>
             </legend>
@@ -102,7 +153,7 @@ export default function Screenshot() {
             <input
               id="bukti-file"
               type="file"
-              accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+              accept=".jpg,.jpeg,.png,.webp, image/jpeg,image/png,image/webp"
               className="hidden"
               onChange={(e) => handlePilihFile(e.target.files?.[0])}
             />
@@ -151,9 +202,18 @@ export default function Screenshot() {
             </label>
           </fieldset>
 
-          <Link to="/analysis/resultscreenshot" className="form-submit">
-            Kirim Laporan
-          </Link>
+          {error && (
+            <div className="form-error ">
+              {error}
+            </div>
+          )}
+
+          <button
+          type="submit"
+          disabled={loading}
+          className="form-submit disabled:cursor-not-allowed disabled:bg-[#A5C6FF]/50 disabled:text-white/50">
+            {loading ? "Mengirim..." : "Kirim Laporan"}
+          </button>
         </form>
       </div>
     </div>
