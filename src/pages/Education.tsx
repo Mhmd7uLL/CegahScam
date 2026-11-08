@@ -9,6 +9,8 @@ import foto2 from "../assets/Education/carousel/carousel2.webp";
 import foto3 from "../assets/Education/carousel/carousel3.webp";
 import foto4 from "../assets/Education/carousel/carousel4.webp";
 import eduRobot from "../assets/Education/edu-robot.webp";
+import robotModus from "../assets/Emergency/robot2.webp";
+import robotChat from "../assets/Emergency/robot1.webp";
 import Robot from "../components/Robot";
 
 const modus = [
@@ -253,10 +255,25 @@ export default function Education() {
         </section>
 
         <section id="modus" className="mt-20 scroll-mt-32 lg:mt-24">
-          <SectionHeading
-            title="Modus Scam Terkini"
-            description="Pelajari bagaimana pelaku menggunakan pesan, akun palsu, link mencurigakan, dan berbagai cara lain untuk memperdaya korban."
-          />
+          <div className="mb-8 flex flex-col items-center gap-6 rounded-[30px] border border-white/70 bg-linear-to-br from-[#EAF6FD] to-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-7 lg:mb-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:items-center lg:gap-10">
+            <Robot
+              src={robotModus}
+              alt="Maskot CegahScam memeriksa modus scam dengan kaca pembesar"
+              motion="bob"
+              interactive
+              className="w-40 shrink-0 object-contain drop-shadow-xl sm:w-48 lg:mx-auto lg:w-full lg:max-w-[240px]"
+            />
+
+            <div className="text-center lg:text-left">
+              <h2 className="text-balance text-[26px] font-bold leading-tight tracking-tight text-[#111827] sm:text-[32px] lg:text-[36px]">
+                Modus Scam Terkini
+              </h2>
+              <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[#52789A] lg:text-[15px]">
+                Pelajari bagaimana pelaku menggunakan pesan, akun palsu, link
+                mencurigakan, dan berbagai cara lain untuk memperdaya korban.
+              </p>
+            </div>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {modus.map((item) => (
@@ -276,10 +293,25 @@ export default function Education() {
         </section>
 
         <section id="pola" className="mt-20 scroll-mt-32 lg:mt-24">
-          <SectionHeading
-            title="Pola Chat Scam yang Sering Terjadi"
-            description="Beberapa pola chat penipuan, scam, dan phishing yang sering terjadi."
-          />
+          <div className="mb-8 flex flex-col items-center gap-6 rounded-[30px] border border-white/70 bg-linear-to-br from-[#EAF6FD] to-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-7 lg:mb-10 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:items-center lg:gap-10">
+            <Robot
+              src={robotChat}
+              alt="Maskot CegahScam menunjukkan contoh pesan scam di ponsel"
+              motion="sway"
+              interactive
+              className="w-40 shrink-0 object-contain drop-shadow-xl sm:w-48 lg:mx-auto lg:w-full lg:max-w-[240px]"
+            />
+
+            <div className="text-center lg:text-left">
+              <h2 className="text-balance text-[26px] font-bold leading-tight tracking-tight text-[#111827] sm:text-[32px] lg:text-[36px]">
+                Pola Chat Scam yang Sering Terjadi
+              </h2>
+              <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-[#52789A] lg:text-[15px]">
+                Beberapa pola chat penipuan, scam, dan phishing yang sering
+                terjadi.
+              </p>
+            </div>
+          </div>
 
           <div>
             <div className="flex flex-wrap gap-x-6 border-b border-[#446685]/15">
