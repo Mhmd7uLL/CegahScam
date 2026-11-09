@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import EmergencyHook from "../../components/EmergencyHook";
 import Robot from "../../components/Robot";
-import checklist from "../../assets/Icon/Checkboxes.svg";
-import robotInfo from "../../assets/Emergency/robotInfo.webp";
+import robotChat from "../../assets/Emergency/robot1.webp";
+import robotMagnifier from "../../assets/Emergency/robot2.webp";
 
 type ActionStep = {
   title: string;
@@ -33,6 +33,8 @@ type ReportCopy = {
   contact: OfficialContact;
   contactNote: string;
   formPath: string;
+  mascot: string;
+  speech: string;
 };
 
 const REPORT_COPY: Record<ReportKind, ReportCopy> = {
@@ -66,6 +68,8 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
     contactNote:
       "Kontak rujukan ini disarankan AI. Pastikan kamu hanya menghubungi kanal resmi, dan jangan pernah mengirim OTP atau password.",
     formPath: "/emergency/data",
+    mascot: robotMagnifier,
+    speech: "Aku sudah periksa laporanmu!",
   },
   financial: {
     label: "Penipuan Finansial",
@@ -97,6 +101,8 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
     contactNote:
       "Kontak rujukan ini disarankan AI. Pastikan kamu hanya menghubungi kanal resmi bank atau OJK, dan jangan pernah mengirim OTP atau PIN.",
     formPath: "/emergency/financial",
+    mascot: robotChat,
+    speech: "Tenang, aku bantu rapikan!",
   },
 };
 
@@ -111,6 +117,11 @@ function escapeHtml(value: string) {
 
 function onlyDigits(value: string) {
   return value.replace(/\D/g, "");
+}
+
+function toWaNumber(value: string) {
+  const digits = onlyDigits(value);
+  return digits.startsWith("0") ? `62${digits.slice(1)}` : digits;
 }
 
 async function writeToClipboard(text: string) {
@@ -148,7 +159,6 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
     : copy.steps;
   const contact = data?.official_contact || copy.contact;
   const contactPhone = contact.phone?.trim() ?? "";
-  const whatsappNumber = onlyDigits(contact.whatsapp || contactPhone);
 
   const message = [
     `*Laporan Darurat ${copy.label} - CegahScam*`,
@@ -165,7 +175,14 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
     "Mohon bantuan untuk menindaklanjuti laporan ini. Terima kasih.",
   ].join("\n");
 
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const contactDigits = onlyDigits(contact.whatsapp || contactPhone);
+  const contactIsChat = contactDigits.length >= 8;
+  const contactLink = contactDigits
+    ? contactIsChat
+      ? `https://wa.me/${toWaNumber(contactDigits)}?text=${encodeURIComponent(message)}`
+      : `tel:${contactDigits}`
+    : undefined;
+  const shareLink = `https://wa.me/?text=${encodeURIComponent(message)}`;
 
   async function handleCopy() {
     setCopyError("");
@@ -273,75 +290,94 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
       </div>
 
       <div className="reveal mx-auto mt-8 flex w-full max-w-[900px] flex-col gap-5 px-4 lg:mt-10">
-        <section className="rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
-          <div className="flex items-start gap-4">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#EAF2FA]">
-              <img src={checklist} alt="" className="h-5 w-5" />
-            </span>
+        <section className="relative overflow-hidden rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-[#EAF2FA]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute bottom-10 left-52 h-2.5 w-2.5 rounded-full bg-[#F7C873]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-44 top-12 h-2 w-2 rounded-full bg-[#85B6FF] robot-float"
+          />
 
-            <div className="min-w-0 flex-1">
-              <span className="inline-flex items-center rounded-full bg-[#EAF2FA] px-3 py-1 text-[11px] font-semibold text-[#52789A]">
-                Laporan berhasil disusun AI
-              </span>
-              <h1 className="mt-2 text-[22px] font-bold leading-tight text-[#26384A] sm:text-[26px]">
-                Laporan daruratmu sudah siap
-              </h1>
-              <p className="mt-2 max-w-130 text-[14px] leading-relaxed text-[#5B6B7C]">
-                {copy.intro}
-              </p>
+          <div className="relative grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:items-center">
+            <div className="relative mx-auto flex w-full max-w-[260px] flex-col items-center">
+              <div
+                aria-hidden
+                className="absolute bottom-12 h-44 w-44 rounded-full bg-linear-to-br from-[#DCEAF8] to-[#F7FAFD] sm:h-52 sm:w-52"
+              />
+              <div
+                aria-hidden
+                className="absolute bottom-8 h-48 w-48 rounded-full border border-dashed border-[#BBD4E9] sm:h-56 sm:w-56"
+              />
+
+              <Robot
+                src={copy.mascot}
+                alt="Maskot CegahScam"
+                motion="bob"
+                interactive
+                className="relative h-44 w-auto object-contain drop-shadow-[0_18px_25px_rgba(82,120,154,0.25)] sm:h-56 lg:h-60"
+              />
+
+              <div className="relative -mt-3 rounded-2xl bg-white px-4 py-2 text-center text-[12px] font-semibold text-[#52789A] shadow-lg shadow-[#8FA9C4]/30">
+                <span
+                  aria-hidden
+                  className="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-white"
+                />
+                {copy.speech}
+              </div>
             </div>
 
-            <Robot
-              src={robotInfo}
-              alt="Maskot CegahScam"
-              motion="bob"
-              interactive
-              className="hidden h-16 w-auto shrink-0 object-contain sm:block lg:h-20"
-            />
+            <div className="min-w-0">
+              <h1 className="mt-3 text-[22px] font-bold leading-tight text-[#26384A] sm:text-[26px]">
+                Laporan daruratmu sudah siap
+              </h1>
+              <p className="mt-2 max-w-130 text-[13px] leading-relaxed text-[#5B6B7C] sm:text-[14px]">
+                {copy.intro}
+              </p>
+
+              <div className="mt-5 rounded-2xl border border-[#E1EAF2] bg-[#F7FAFD] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52789A]">
+                    Ringkasan Laporan
+                  </p>
+                  <a
+                    href={shareLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full bg-[#25D366] px-3 py-1.5 text-[12px] font-bold text-white shadow-sm transition hover:bg-[#1FB855]"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
+                <p className="mt-2 max-h-36 overflow-y-auto whitespace-pre-line pr-2 text-[13px] leading-relaxed text-[#5B6B7C] sm:text-sm">
+                  {summary}
+                </p>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleDownloadPdf}
+                  className="rounded-full bg-[#ADCEFF] px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#85B6FF]"
+                >
+                  Unduh PDF
+                </button>
+              </div>
+
+              {copyError && (
+                <p className="mt-3 text-sm text-[#B91C1C]">{copyError}</p>
+              )}
+            </div>
           </div>
-
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="rounded-full bg-[#5E83A5] px-5 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
-            >
-              {copied ? "Tersalin!" : "Salin Teks"}
-            </button>
-
-            <button
-              type="button"
-              onClick={handleDownloadPdf}
-              className="rounded-full bg-[#ADCEFF] px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#85B6FF]"
-            >
-              Unduh PDF
-            </button>
-
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-[#25D366] px-5 py-2.5 text-center text-sm font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#1FB855]"
-            >
-              Hubungi via WhatsApp
-            </a>
-          </div>
-
-          {copyError && (
-            <p className="mt-3 text-sm text-[#B91C1C]">{copyError}</p>
-          )}
         </section>
 
-        <div className="grid gap-5 lg:grid-cols-2">
-          <section className="rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
-            <h2 className="text-[18px] font-bold text-[#26384A] sm:text-[20px]">
-              Ringkasan Laporan
-            </h2>
-            <p className="mt-3 whitespace-pre-line text-[14px] leading-relaxed text-[#5B6B7C]">
-              {summary}
-            </p>
-          </section>
 
+        <div className="grid gap-5 lg:grid-cols-2">
           <section className="flex flex-col rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-[18px] font-bold text-[#26384A] sm:text-[20px]">
@@ -350,18 +386,54 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
               <button
                 type="button"
                 onClick={handleCopy}
-                className="rounded-full border border-[#C8D6E3] px-3 py-1.5 text-[12px] font-semibold text-[#52789A] transition hover:bg-[#EAF2FA]"
+                className="rounded-full border border-[#C8D6E3] bg-white px-3 py-1.5 text-[12px] font-semibold text-[#52789A] transition hover:bg-[#EAF2FA]"
               >
                 {copied ? "Tersalin!" : "Salin"}
               </button>
             </div>
-            <p className="mt-2 text-[12px] leading-relaxed text-[#98A2B3]">
-              Kata-kata ini sudah disiapkan. Tinggal salin lalu kirim ke instansi
-              atau orang yang kamu percaya.
-            </p>
             <pre className="mt-3 max-h-56 overflow-y-auto whitespace-pre-wrap rounded-2xl bg-[#F3F7FB] p-4 font-sans text-[12px] leading-relaxed text-[#3F4E5E]">
               {message}
             </pre>
+          </section>
+
+          <section className="flex flex-col rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
+            <h2 className="text-[18px] font-bold text-[#26384A] sm:text-[20px]">
+              Kontak Rujukan
+            </h2>
+
+            <div className="mt-4 flex flex-1 flex-col gap-4 rounded-2xl border border-[#D7E1EA] p-4">
+              <div className="flex items-start gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAF2FA] text-sm font-bold text-[#52789A]">
+                  {contact.name.charAt(0)}
+                </span>
+                <div className="min-w-0">
+                  <p className="font-bold text-[#26384A]">{contact.name}</p>
+                  {contactPhone && (
+                    <a
+                      href={`tel:${onlyDigits(contactPhone)}`}
+                      className="text-[13px] font-semibold text-[#52789A] hover:underline"
+                    >
+                      {contactPhone}
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {contactLink && (
+                <a
+                  href={contactLink}
+                  target={contactIsChat ? "_blank" : undefined}
+                  rel="noreferrer"
+                  className="mt-auto rounded-full bg-[#5E83A5] px-4 py-2 text-center text-[13px] font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
+                >
+                  Hubungi
+                </a>
+              )}
+            </div>
+
+            <p className="mt-3 text-[12px] leading-relaxed text-[#98A2B3]">
+              {copy.contactNote}
+            </p>
           </section>
         </div>
 
@@ -385,44 +457,6 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
               </li>
             ))}
           </ol>
-        </section>
-
-        <section className="rounded-4xl bg-white p-5 shadow-xl shadow-[#8FA9C4]/20 sm:p-7">
-          <h2 className="text-[18px] font-bold text-[#26384A] sm:text-[20px]">
-            Kontak Rujukan
-          </h2>
-
-          <div className="mt-4 flex flex-col gap-4 rounded-2xl border border-[#D7E1EA] p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-start gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAF2FA] text-sm font-bold text-[#52789A]">
-                {contact.name.charAt(0)}
-              </span>
-              <div>
-                <p className="font-bold text-[#26384A]">{contact.name}</p>
-                {contactPhone && (
-                  <a
-                    href={`tel:${onlyDigits(contactPhone)}`}
-                    className="text-[13px] font-semibold text-[#52789A] hover:underline"
-                  >
-                    {contactPhone}
-                  </a>
-                )}
-              </div>
-            </div>
-
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full bg-[#25D366] px-4 py-2 text-center text-[13px] font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[#1FB855]"
-            >
-              Hubungi via WhatsApp
-            </a>
-          </div>
-
-          <p className="mt-3 text-[12px] leading-relaxed text-[#98A2B3]">
-            {copy.contactNote}
-          </p>
         </section>
 
         <div className="flex flex-col items-start justify-between gap-3 rounded-4xl bg-white/60 p-5 text-[13px] text-[#5B6B7C] sm:flex-row sm:items-center">
