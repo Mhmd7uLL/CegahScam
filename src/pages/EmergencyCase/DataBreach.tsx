@@ -1,19 +1,43 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EmergencyHook from "../../components/EmergencyHook";
 
 export default function DataBreach() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [showInputLainnya, setShowInputLainnya] = useState(false);
+  const [jenisData, setJenisData] = useState<string[]>([]);
+  const [tanggalKejadian, setTanggalKejadian] = useState("");
+  const [kanalMedia, setKanalMedia] = useState("");
+  const [tindakanPelaku, setTindakanPelaku] = useState<string[]>([]);
+  const [detailKronologi, setDetailKronologi] = useState("");
+  const [statusAkses, setStatusAkses] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const showInputLainnya = tindakanPelaku.includes("lainnya");
+
+  const toggleJenisData = (value: string) =>
+    setJenisData((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value],
+    );
+
+  const toggleTindakanPelaku = (value: string) =>
+    setTindakanPelaku((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value],
+    );
 
   const handlePilihFile = (file?: File) => {
     if (!file) return;
 
-    const formatValid = ["image/jpeg", "image/png", "application/pdf"];
+    const formatValid = ["image/jpeg", "image/png", "image/webp"];
 
     if (!formatValid.includes(file.type)) {
-      alert("Format file harus JPG, PNG, atau PDF.");
+      alert("Format file harus JPG, PNG, atau WEBP.");
       return;
     }
 
@@ -24,6 +48,66 @@ export default function DataBreach() {
 
     setFileBukti(file);
   };
+
+  async function submitForm(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (jenisData.length === 0) {
+      setError("Jenis data/akun yang bocor harus dipilih.");
+      setLoading(false);
+      return;
+    }
+    if (!tanggalKejadian) {
+      setError("Tanggal kejadian harus diisi.");
+      setLoading(false);
+      return;
+    }
+    if (!kanalMedia) {
+      setError("Kanal media kejadian harus dipilih.");
+      setLoading(false);
+      return;
+    }
+    if (tindakanPelaku.length === 0) {
+      setError("Tindakan pelaku harus dipilih.");
+      setLoading(false);
+      return;
+    }
+    if (!fileBukti) {
+      setError("File bukti percakapan harus diunggah.");
+      setLoading(false);
+      return;
+    }
+
+    const fd = new FormData();
+    fd.append("jenisData", JSON.stringify(jenisData));
+    fd.append("tanggalKejadian", tanggalKejadian);
+    fd.append("kanalMedia", kanalMedia);
+    fd.append("tindakanPelaku", JSON.stringify(tindakanPelaku));
+    fd.append("detailKronologi", detailKronologi);
+    fd.append("statusAkses", statusAkses);
+    fd.append("fileBukti", fileBukti);
+
+    try {
+      const res = await fetch("http://localhost:3000/api/emergency/data", {
+        method: "POST",
+        body: fd,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
+      }
+      navigate("/report/data", { state: { result: data } });
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+      setError(error instanceof Error ? error.message : "Terjadi kesalahan saat mengirim laporan.");
+    } finally {
+      setLoading(false);
+    }
+
+  }
 
   return (
     <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
@@ -64,7 +148,7 @@ export default function DataBreach() {
         <div id="title" className="form-title">
           <h1>Laporkan kebocoran data kamu</h1>
         </div>
-        <form className="form-body">
+        <form className="form-body" onSubmit={submitForm}>
           <fieldset className="form-fieldset">
             <legend className="form-legend">
               <span className="form-badge">
@@ -84,6 +168,9 @@ export default function DataBreach() {
                   name="jenisData"
                   value="data-pribadi"
                   className="accent-[#52789A]"
+                  id="data-pribadi"
+                  checked={jenisData.includes("data-pribadi")}
+                  onChange={() => toggleJenisData("data-pribadi")}
                 />
                 Data pribadi (nama, email, nomor telepon, dll)
               </label>
@@ -94,6 +181,9 @@ export default function DataBreach() {
                   name="jenisData"
                   value="media-sosial"
                   className="accent-[#52789A]"
+                  id="media-sosial"
+                  checked={jenisData.includes("media-sosial")}
+                  onChange={() => toggleJenisData("media-sosial")}
                 />
                 Akun media sosial
               </label>
@@ -104,6 +194,8 @@ export default function DataBreach() {
                   name="jenisData"
                   value="perbankan"
                   className="accent-[#52789A]"
+                  checked={jenisData.includes("perbankan")}
+                  onChange={() => toggleJenisData("perbankan")}
                 />
                 Akun perbankan / finansial
               </label>
@@ -114,6 +206,8 @@ export default function DataBreach() {
                   name="jenisData"
                   value="kartu"
                   className="accent-[#52789A]"
+                  checked={jenisData.includes("kartu")}
+                  onChange={() => toggleJenisData("kartu")}
                 />
                 Data kartu kredit / debit
               </label>
@@ -124,6 +218,8 @@ export default function DataBreach() {
                   name="jenisData"
                   value="email"
                   className="accent-[#52789A]"
+                  checked={jenisData.includes("email")}
+                  onChange={() => toggleJenisData("email")}
                 />
                 Akun email
               </label>
@@ -142,6 +238,8 @@ export default function DataBreach() {
               type="date"
               name="tanggalKejadian"
               className="form-input max-w-[220px]"
+              value={tanggalKejadian}
+              onChange={(e) => setTanggalKejadian(e.target.value)}
             />
           </fieldset>
 
@@ -159,7 +257,9 @@ export default function DataBreach() {
             </legend>
 
             <div className="flex flex-col gap-1">
-              <label className="form-choice">
+              <label className="form-choice"
+                onClick={() => setKanalMedia("whatsapp")}
+              >
                 <input
                   type="radio"
                   name="kanalMedia"
@@ -169,7 +269,9 @@ export default function DataBreach() {
                 WhatsApp
               </label>
 
-              <label className="form-choice">
+              <label className="form-choice"
+                onClick={() => setKanalMedia("instagram")}
+              >
                 <input
                   type="radio"
                   name="kanalMedia"
@@ -195,53 +297,68 @@ export default function DataBreach() {
             </legend>
 
             <div className="flex flex-col gap-1">
-              <label className="form-choice">
+              <label className="form-choice"
+              >
                 <input
                   type="checkbox"
                   name="tindakanPelaku"
                   value="link"
                   className="accent-[#52789A]"
+                  checked={tindakanPelaku.includes("link")}
+                  onChange={() => toggleTindakanPelaku("link")}
                 />
                 Mengirim link mencurigakan
               </label>
 
-              <label className="form-choice">
+              <label className="form-choice"
+              >
                 <input
                   type="checkbox"
                   name="tindakanPelaku"
                   value="data-pribadi"
                   className="accent-[#52789A]"
+
+                  checked={tindakanPelaku.includes("data-pribadi")}
+                  onChange={() => toggleTindakanPelaku("data-pribadi")}
                 />
                 Meminta data pribadi
               </label>
 
-              <label className="form-choice">
+              <label className="form-choice"
+              >
                 <input
                   type="checkbox"
                   name="tindakanPelaku"
                   value="otp"
                   className="accent-[#52789A]"
+                  checked={tindakanPelaku.includes("otp")}
+                  onChange={() => toggleTindakanPelaku("otp")}
                 />
                 Meminta OTP/PIN/Password
               </label>
 
-              <label className="form-choice">
+              <label className="form-choice"
+              >
                 <input
                   type="checkbox"
                   name="tindakanPelaku"
                   value="menyamar"
                   className="accent-[#52789A]"
+                  checked={tindakanPelaku.includes("menyamar")}
+                  onChange={() => toggleTindakanPelaku("menyamar")}
                 />
                 Mengaku sebagai pihak tertentu
               </label>
 
-              <label className="form-choice">
+              <label className="form-choice"
+  
+              >
                 <input
                   type="checkbox"
                   name="tindakanPelaku"
                   value="lainnya"
-                  checked={showInputLainnya}
-                  onChange={(e) => setShowInputLainnya(e.target.checked)}
+                  checked={tindakanPelaku.includes("lainnya")}
+                  onChange={() => toggleTindakanPelaku("lainnya")}
                   className="accent-[#52789A]"
                 />
                 Lainnya
@@ -269,7 +386,7 @@ export default function DataBreach() {
                 </span>
 
                 <span className="text-xs font-normal text-slate-400">
-                  Unggah file bukti percakapan (format JPG, PNG, PDF maks 50 MB)
+                  Unggah file bukti percakapan (format JPG, PNG, WEBP maks 15 MB)
                 </span>
               </span>
             </legend>
@@ -277,7 +394,7 @@ export default function DataBreach() {
             <input
               id="bukti-file"
               type="file"
-              accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+              accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
               className="hidden"
               onChange={(e) => handlePilihFile(e.target.files?.[0])}
             />
@@ -340,6 +457,8 @@ export default function DataBreach() {
               type="text"
               placeholder="Contoh : waktu itu ketika saya ...."
               className="form-input"
+              value={detailKronologi}
+              onChange={(e) => setDetailKronologi(e.target.value)}
             />
           </fieldset>
 
@@ -351,51 +470,79 @@ export default function DataBreach() {
               Status Akses Perangkat
             </legend>
             <div className="form-choices">
-              <label className="form-choice">
+              <label className="form-choice"
+                htmlFor="bisaAkses"
+              >
                 <input
                   type="radio"
                   name="statusAkses"
                   value="bisaAkses"
                   className="accent-[#52789A]"
+                  checked={statusAkses === "bisaAkses"}
+                  onChange={() => setStatusAkses("bisaAkses")} 
                 />
                 Masih Bisa diakses
               </label>
-              <label className="form-choice">
+              <label className="form-choice"
+                htmlFor="tidakBisaAkses"
+              >
                 <input
                   type="radio"
                   name="statusAkses"
                   value="tidakBisaAkses"
                   className="accent-[#52789A]"
+                  checked={statusAkses === "tidakBisaAkses"}
+                  onChange={() => setStatusAkses("tidakBisaAkses")}
                 />
                 Tidak bisa diakses
               </label>
-              <label className="form-choice">
+              <label className="form-choice"
+                htmlFor="diketahuiLain"
+              > 
                 <input
                   type="radio"
                   name="statusAkses"
                   value="diketahuiLain"
                   className="accent-[#52789A]"
+                  checked={statusAkses === "diketahuiLain"}
+                  onChange={() => setStatusAkses("diketahuiLain")}
                 />
                 Diketahui pihak lain
               </label>
-              <label className="form-choice">
+              <label className="form-choice"
+                htmlFor="tidakTahu"
+              >
                 <input
                   type="radio"
                   name="statusAkses"
                   value="tidakTahu"
                   className="accent-[#52789A]"
+                  checked={statusAkses === "tidakTahu"}
+                  onChange={() => setStatusAkses("tidakTahu")}
                 />
                 Tidak tahu
               </label>
             </div>
           </fieldset>
 
+          {error && (
+            <div className="mt-4 rounded-md bg-[#FEE2E2] p-4 text-sm text-[#B91C1C]">
+              {error}
+            </div>
+          )}
 
-          <Link to="/report/data" className="form-submit">
-            Kirim Laporan
-          </Link>
+
+
+          <button 
+          type="submit"
+          disabled={loading}
+          className="rounded-full bg-[#5E83A5] px-7 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
+          >
+            {loading ? "Mengirim..." : "Kirim Laporan"}
+          </button>
         </form>
       </div>
     </div>
   );
 }
+        

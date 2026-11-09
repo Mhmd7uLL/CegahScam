@@ -186,8 +186,8 @@ export default function Chat() {
             </label>  
           </fieldset>
 
-          {error && (
-            <div className="text-sm text-red-500">
+    {error && (
+            <div className="mt-4 rounded-md bg-[#FEE2E2] p-4 text-sm text-[#B91C1C]">
               {error}
             </div>
           )}
