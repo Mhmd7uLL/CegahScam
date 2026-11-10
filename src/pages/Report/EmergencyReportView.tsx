@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import EmergencyHook from "../../components/EmergencyHook";
 import Robot from "../../components/Robot";
@@ -152,6 +152,10 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
 
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState("");
+
+  useEffect(() => {
+    document.title = `Laporan ${copy.label} - CegahScam`;
+  }, [copy.label]);
 
   const summary = data?.ai_kronologi || data?.emergencyResponse || copy.summary;
   const steps = data?.langkah_penanganan?.length
@@ -333,8 +337,11 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
             </div>
 
             <div className="min-w-0">
-              <h1 className="mt-3 text-[22px] font-bold leading-tight text-[#26384A] sm:text-[26px]">
-                Laporan daruratmu sudah siap
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#52789A]">
+                {copy.label}
+              </p>
+              <h1 className="mt-1 text-[22px] font-bold leading-tight text-[#26384A] sm:text-[26px]">
+                Laporan {copy.label} sudah siap
               </h1>
               <p className="mt-2 max-w-130 text-[13px] leading-relaxed text-[#5B6B7C] sm:text-[14px]">
                 {copy.intro}

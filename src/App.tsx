@@ -7,11 +7,10 @@ import Analysis from "./pages/Analysis";
 import Education from "./pages/Education";
 import DataBreach from "./pages/EmergencyCase/DataBreach";
 import Financial from "./pages/EmergencyCase/Financial";
-import DataReport from "./pages/Report/DataReport";
+import EmergencyReportView from "./pages/Report/EmergencyReportView";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import FinancialReport from "./pages/Report/FinancialReport";
 import Chat from "./pages/Analysis/Chat";
 import Phone from "./pages/Analysis/Phone";
 import Screenshot from "./pages/Analysis/Screenshot";
@@ -48,8 +47,8 @@ function App() {
         <Route path="/emergency" element={<Emergency />} />
         <Route path="/emergency/data" element={<DataBreach />} />
         <Route path="/emergency/financial" element={<Financial />} />
-        <Route path="/report/data" element={<DataReport />} />
-        <Route path="/report/financial" element={<FinancialReport />} />
+        <Route path="/report/data" element={<EmergencyReportView kind="data" />} />
+        <Route path="/report/financial" element={<EmergencyReportView kind="financial" />} />
         <Route path="/education" element={<Education />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

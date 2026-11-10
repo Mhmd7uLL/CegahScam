@@ -1,6 +1,6 @@
 import {Router} from "express";
 import multer from "multer";
-import { reportData } from "../controllers/emergency.controller";
+import { reportData, reportFinancial } from "../controllers/emergency.controller";
 
 
 
@@ -19,6 +19,9 @@ const upload = multer ({
 
 // Route for report data
 router.post("/data", upload.single("fileBukti"), reportData);
+
+// Route for report financial
+router.post("/financial", upload.single("file"), reportFinancial);
 
 
 upload.single("fileBukti");
