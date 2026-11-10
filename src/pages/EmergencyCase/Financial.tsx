@@ -5,12 +5,12 @@ import EmergencyHook from "../../components/EmergencyHook";
 export default function Financial() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [showInputLainnya, setShowInputLainnya] = useState(false);
   const navigate = useNavigate();
   const [jenisBank, setJenisBank] = useState("") ;
   const [kanalMedia, setKanalMedia] = useState("");
   const [tanggalKejadian, setTanggalKejadian] = useState("");
   const [tujuanTransaksi, setTujuanTransaksi] = useState<string[]>([]);
-  const [transaksiLainnya, setTransaksiLainnya] = useState("");
   const [namaInstitusi, setNamaInstitusi] = useState("");
   const [nomorRekening, setNomorRekening] = useState("");
   const [namaPemilikRekening, setNamaPemilikRekening] = useState("");
@@ -25,8 +25,6 @@ export default function Financial() {
         ? prev.filter((item) => item !== value)
         : [...prev, value],
     );
-
-  const showInputLainnya = tujuanTransaksi.includes("lainnya");
   
 
   const handlePilihFile = (file?: File) => {
@@ -76,12 +74,6 @@ export default function Financial() {
       return;
     }
 
-    if (tujuanTransaksi.includes("lainnya") && !transaksiLainnya.trim()) {
-      setError("Tulis dulu tujuan transaksi lainnya.");
-      setLoading(false);
-      return;
-    }
-
     if(!namaInstitusi) {
       setError("Nama institusi harus diisi.");
       setLoading(false);
@@ -112,17 +104,12 @@ export default function Financial() {
       return;
     }
 
-    const tujuanTransaksiTeks = tujuanTransaksi
-      .map((item) => (item === "lainnya" ? transaksiLainnya.trim() : item))
-      .filter(Boolean)
-      .join(", ");
-
     const fd = new FormData();
     fd.append("file", fileBukti!);
     fd.append("jenisBank", jenisBank);
     fd.append("kanalMedia", kanalMedia);
     fd.append("tanggalKejadian", tanggalKejadian);
-    fd.append("tujuanTransaksi", tujuanTransaksiTeks);
+    fd.append("tujuanTransaksi", tujuanTransaksi.join(","));
     fd.append("namaInstitusi", namaInstitusi);
     fd.append("nomorRekening", nomorRekening);
     fd.append("namaPemilikRekening", namaPemilikRekening);
@@ -137,15 +124,13 @@ export default function Financial() {
 
     const data = await response.json();
     if (!response.ok) {
-      setError(data.message || "Gagal mengirim laporan.");
-      setLoading(false);
-      return;
+      throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
     }
-    navigate("/report/financial", { state: { result: data } });
+    navigate("/report/financial", { state: { reportId: data.reportId } });
     } catch (error) {
       console.error("Error submitting report:", error);
       setError("Terjadi kesalahan saat mengirim laporan.");
-      
+      setLoading(false);
     } finally {
       setLoading(false);  
     }
@@ -351,7 +336,6 @@ export default function Financial() {
                   value="link"
                   className="accent-[#52789A]"
                   checked={tujuanTransaksi.includes("link")}
-                  onChange={() => toggleTujuanTransaksi("link")}
                 />
                 Pembelian barang/jasa
               </label>
@@ -398,7 +382,7 @@ export default function Financial() {
                   name="tujuanTransaksi"
                   value="lainnya"
                   checked={showInputLainnya}
-                  onChange={() => toggleTujuanTransaksi("lainnya")}
+                  onChange={(e) => setShowInputLainnya(e.target.checked)}
                   className="accent-[#52789A]"
                 />
                 Lainnya
@@ -407,10 +391,20 @@ export default function Financial() {
                 <input
                   type="text"
                   name="transaksiLainnya"
-                  placeholder="Tulis tujuan transaksi lainnya"
+                  placeholder="Tulis yang dilakukan pelaku"
                   className="form-input"
-                  value={transaksiLainnya}
-                  onChange={(e) => setTransaksiLainnya(e.target.value)}
+                  value={tujuanTransaksi.find((item) => item === "lainnya") || ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value) {
+                      if (!tujuanTransaksi.includes("lainnya")) {
+                        toggleTujuanTransaksi("lainnya");
+                      }
+                      setTujuanTransaksi((prev) =>
+                        prev.filter((item) => item !== "lainnya")
+                      );
+                    }
+                  }}
                 />
               )}
             </div>
@@ -431,7 +425,6 @@ export default function Financial() {
                 name="namaInstitusi"
                 placeholder="Contoh: PT.xxx, Bank xxx"
                 className="form-input font-normal"
-                value={namaInstitusi}
                 onChange={(e) => setNamaInstitusi(e.target.value)}
               />
             </label>
@@ -444,7 +437,6 @@ export default function Financial() {
                 name="nomorRekening"
                 placeholder="Contoh: 123 456 789 0123"
                 className="form-input font-normal"
-                value={nomorRekening}
                 onChange={(e) => setNomorRekening(e.target.value)}
               />
             </label>
@@ -462,7 +454,6 @@ export default function Financial() {
                 name="namaPemilikRekening"
                 placeholder="Contoh: Fachri Nanda"
                 className="form-input font-normal"
-                value={namaPemilikRekening}
                 onChange={(e) => setNamaPemilikRekening(e.target.value)}
               />
             </label>
@@ -477,10 +468,8 @@ export default function Financial() {
             </legend>
             <input
               type="number"
-              name="nominalKerugian"
               placeholder="Contoh : Rp 50.000.000"
               className="form-input"
-              value={nominalKerugian}
               onChange={(e) => setNominalKerugian(e.target.value)}
             />
           </fieldset>
@@ -497,10 +486,8 @@ export default function Financial() {
             </legend>
             <input
               type="text"
-              name="detailKronologi"
               placeholder="Contoh : waktu itu ketika saya ...."
               className="form-input"
-              value={detailKronologi}
               onChange={(e) => setDetailKronologi(e.target.value)}
             />
           </fieldset>
@@ -572,15 +559,17 @@ export default function Financial() {
             </label>
           </fieldset>
 
-
+      
           {error && (
-            <p className="text-sm font-semibold text-red-600">{error}</p>
+            <div className="mt-4 rounded-md bg-[#FEE2E2] p-4 text-sm text-[#B91C1C]">
+              {error}
+            </div>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="form-submit disabled:cursor-not-allowed disabled:bg-[#5E83A5]/50"
+          <button 
+          type="submit"
+          disabled={loading}
+          className="rounded-full bg-[#5E83A5] px-7 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
           >
             {loading ? "Mengirim..." : "Kirim Laporan"}
           </button>
