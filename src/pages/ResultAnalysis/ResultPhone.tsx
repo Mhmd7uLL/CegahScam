@@ -70,12 +70,6 @@ const KONTAK = {
   jam: "Senin – Jumat, 09.00 – 17.00",
 };
 
-const BANKS = [
-  { nama: "Bank BRI", kode: "BRI", warna: "text-[#00529C]" },
-  { nama: "Bank BCA", kode: "BCA", warna: "text-[#0060AF]" },
-  { nama: "Bank Mandiri", kode: "MDR", warna: "text-[#1B3F94]" },
-];
-
 const CHECKLIST = [
   {
     teks: "Pelajari cara melindungi data pribadi",
@@ -104,6 +98,7 @@ export default function ResultPhone() {
   const alasan = data?.reasons?.length ? data.reasons : risk.reasons;
   const levelName = risk.label.replace("Risiko ", "");
   const rekomendasi = data?.recommendations ?? [];
+  const recommendedBank = data?.official_contact?.name ?? data?.bank_name ?? data?.bank;
 
 
   return (
@@ -139,25 +134,29 @@ export default function ResultPhone() {
               <p className="text-[13px] font-semibold">Rekomendasi Bank</p>
 
               <ul className="flex flex-col gap-2.5">
-                {BANKS.map((bank) => (
-                  <li key={bank.kode}>
+                {recommendedBank ? (
+                  <li>
                     <a
                       href="#"
                       onClick={(e) => e.preventDefault()}
                       className="group flex items-center gap-2 text-[12px] font-medium"
                     >
                       <span
-                        className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-[7px] font-bold ${bank.warna}`}
+                        className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-[7px] font-bold text-[#52789A]"
                       >
-                        {bank.kode}
+                        {recommendedBank.slice(0, 3).toUpperCase()}
                       </span>
                       <span className="whitespace-nowrap group-hover:underline">
-                        {bank.nama}
+                        {recommendedBank}
                       </span>
                       <ChevronRightIcon className="ml-auto h-3 w-3 shrink-0 opacity-80" />
                     </a>
                   </li>
-                ))}
+                ) : (
+                  <li className="text-[12px] leading-relaxed text-white/80">
+                    Belum ada rekomendasi bank dari hasil analisis.
+                  </li>
+                )}
               </ul>
             </div>
           </div>

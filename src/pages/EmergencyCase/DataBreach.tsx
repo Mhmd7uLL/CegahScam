@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EmergencyHook from "../../components/EmergencyHook";
+import { apiUrl } from "../../lib/api";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 export default function DataBreach() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
@@ -14,8 +16,8 @@ export default function DataBreach() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const showInputLainnya = tindakanPelaku.includes("lainnya");
+  const [showInputLainnya, setShowInputLainnya] = useState(false);
+  const [tindakanLainnya, setTindakanLainnya] = useState("");
 
   const toggleJenisData = (value: string) =>
     setJenisData((prev) =>
@@ -90,7 +92,7 @@ export default function DataBreach() {
     fd.append("fileBukti", fileBukti);
 
     try {
-      const res = await fetch("http://localhost:3000/api/emergency/data", {
+      const res = await fetch(apiUrl("/api/emergency/data"), {
         method: "POST",
         body: fd,
       });
@@ -110,7 +112,9 @@ export default function DataBreach() {
   }
 
   return (
-    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+    <>
+      {loading && <LoadingOverlay message="Sedang memproses laporan darurat..." />}
+      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
         id="hero-section"
         className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
@@ -237,6 +241,7 @@ export default function DataBreach() {
             <input
               type="date"
               name="tanggalKejadian"
+              lang="id-ID"
               className="form-input max-w-[220px]"
               value={tanggalKejadian}
               onChange={(e) => setTanggalKejadian(e.target.value)}
@@ -357,8 +362,8 @@ export default function DataBreach() {
                   type="checkbox"
                   name="tindakanPelaku"
                   value="lainnya"
-                  checked={tindakanPelaku.includes("lainnya")}
-                  onChange={() => toggleTindakanPelaku("lainnya")}
+                  checked={showInputLainnya}
+                  onChange={(e) => setShowInputLainnya(e.target.checked)}
                   className="accent-[#52789A]"
                 />
                 Lainnya
@@ -369,6 +374,13 @@ export default function DataBreach() {
                   name="tindakanLainnya"
                   placeholder="Tulis yang dilakukan pelaku"
                   className="form-input"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value) {
+                      setTindakanLainnya( value);
+                    }
+                  } }
+                  onBlur={() => toggleTindakanPelaku(tindakanLainnya)}
                 />
               )}
             </div>
@@ -450,7 +462,7 @@ export default function DataBreach() {
               </span>
               Detail Kronologi
               <span className="ml-1 font-normal text-slate-400">
-                (Opsional)
+
               </span>
             </legend>
             <input
@@ -538,11 +550,19 @@ export default function DataBreach() {
           disabled={loading}
           className="rounded-full bg-[#5E83A5] px-7 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
           >
-            {loading ? "Mengirim..." : "Kirim Laporan"}
+            {loading ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              Menganalisis...
+            </>
+          ) : (
+            "Analisis Darurat"
+          )}
           </button>
         </form>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
         

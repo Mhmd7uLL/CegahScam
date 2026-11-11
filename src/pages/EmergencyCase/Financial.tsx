@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import EmergencyHook from "../../components/EmergencyHook";
+import { apiUrl } from "../../lib/api";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 export default function Financial() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showInputLainnya, setShowInputLainnya] = useState(false);
+  const [tindakanLainnya, setTindakanLainnya] = useState("");
   const navigate = useNavigate();
   const [jenisBank, setJenisBank] = useState("") ;
   const [kanalMedia, setKanalMedia] = useState("");
@@ -26,7 +29,6 @@ export default function Financial() {
         : [...prev, value],
     );
   
-
   const handlePilihFile = (file?: File) => {
     if (!file) return;
 
@@ -117,7 +119,7 @@ export default function Financial() {
     fd.append("detailKronologi", detailKronologi);
 
     try {
-      const response = await fetch("http://localhost:3000/api/emergency/financial", {
+      const response = await fetch(apiUrl("/api/emergency/financial"), {
         method: "POST",
         body: fd,
       });
@@ -126,7 +128,7 @@ export default function Financial() {
     if (!response.ok) {
       throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
     }
-    navigate("/report/financial", { state: { reportId: data.reportId } });
+    navigate("/report/financial", { state: { result : data } });
     } catch (error) {
       console.error("Error submitting report:", error);
       setError("Terjadi kesalahan saat mengirim laporan.");
@@ -138,7 +140,9 @@ export default function Financial() {
   }
 
   return (
-    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+    <>
+      {loading && <LoadingOverlay message="Sedang memproses laporan darurat..." />}
+      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
         id="hero-section"
         className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
@@ -310,6 +314,7 @@ export default function Financial() {
             <input
               type="date"
               name="tanggalKejadian"
+              lang="id-ID"
               className="form-input max-w-[220px]"
               onChange={(e) => setTanggalKejadian(e.target.value)}
             />
@@ -336,6 +341,7 @@ export default function Financial() {
                   value="link"
                   className="accent-[#52789A]"
                   checked={tujuanTransaksi.includes("link")}
+                  onChange={() => toggleTujuanTransaksi("link")}
                 />
                 Pembelian barang/jasa
               </label>
@@ -390,21 +396,16 @@ export default function Financial() {
               {showInputLainnya && (
                 <input
                   type="text"
-                  name="transaksiLainnya"
+                  name="tindakanLainnya"
                   placeholder="Tulis yang dilakukan pelaku"
                   className="form-input"
-                  value={tujuanTransaksi.find((item) => item === "lainnya") || ""}
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value) {
-                      if (!tujuanTransaksi.includes("lainnya")) {
-                        toggleTujuanTransaksi("lainnya");
-                      }
-                      setTujuanTransaksi((prev) =>
-                        prev.filter((item) => item !== "lainnya")
-                      );
+                      setTindakanLainnya( value);
                     }
-                  }}
+                  } }
+                  onBlur={() => toggleTujuanTransaksi(tindakanLainnya)}
                 />
               )}
             </div>
@@ -481,7 +482,6 @@ export default function Financial() {
               </span>
               Detail Kronologi
               <span className="ml-1 font-normal text-slate-400">
-                (Opsional)
               </span>
             </legend>
             <input
@@ -571,11 +571,18 @@ export default function Financial() {
           disabled={loading}
           className="rounded-full bg-[#5E83A5] px-7 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#4D7090]"
           >
-            {loading ? "Mengirim..." : "Kirim Laporan"}
+            {loading ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              Menganalisis...
+            </>
+          ) : (
+            "Analisis Darurat"
+          )}
           </button>
         </form>
       </div>
-    </div>
-    
+      </div>
+    </>
   );
 }

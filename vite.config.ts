@@ -9,4 +9,11 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
+   server: {
+    host: '0.0.0.0',
+    allowedHosts: ['cegah-scam.njhbil.my.id'],
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  }
 })

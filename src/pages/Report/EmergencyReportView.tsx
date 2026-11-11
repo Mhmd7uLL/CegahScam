@@ -16,11 +16,27 @@ type OfficialContact = {
   whatsapp?: string | null;
 };
 
+type BankContact = {
+  name: string;
+  phone?: string;
+  whatsapp?: string | null;
+};
+
 type EmergencyResult = {
   ai_kronologi?: string;
   langkah_penanganan?: ActionStep[];
   official_contact?: OfficialContact | null;
+  bank?: BankContact | string | null;
+  bank_analysis?: BankContact | null;
+  bank_contact?: BankContact | null;
+  nama_bank?: string;
+  bank_korban?: string;
+  bank_name?: string;
+  bank_phone?: string;
+  bank_whatsapp?: string | null;
   emergencyResponse?: string;
+  result?: EmergencyResult;
+  data?: EmergencyResult;
 };
 
 type ReportKind = "data" | "financial";
@@ -41,9 +57,9 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
   data: {
     label: "Kebocoran Data",
     intro:
-      "Ringkasan, langkah penanganan, dan kontak rujukan sudah disusun AI berdasarkan bukti yang kamu kirim. Gunakan tombol di bawah untuk menyalin, menyimpan, atau meneruskan laporan ini.",
+      "Ringkasan, langkah penanganan, dan kontak rujukan telah disusun berdasarkan bukti yang disampaikan pelapor. Dokumen ini dapat disalin, disimpan, atau diteruskan kepada pihak terkait.",
     summary:
-      "Kamu melaporkan dugaan kebocoran data pribadi. AI sudah menyusun kronologi berdasarkan bukti percakapan yang kamu unggah tanpa mengubah urutan kejadian aslinya. Segera amankan akun yang terdampak dan hubungi kanal resmi yang disarankan.",
+      "Pelapor menyampaikan dugaan kebocoran data pribadi. Kronologi dirangkum berdasarkan bukti percakapan yang diunggah tanpa mengubah urutan kejadian. Pelapor disarankan segera mengamankan akun yang terdampak dan menghubungi kanal resmi terkait.",
     steps: [
       {
         title: "Keluar dari Semua Perangkat",
@@ -66,7 +82,7 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
       phone: "159",
     },
     contactNote:
-      "Kontak rujukan ini disarankan AI. Pastikan kamu hanya menghubungi kanal resmi, dan jangan pernah mengirim OTP atau password.",
+      "Pastikan hanya menghubungi kanal resmi. Jangan pernah mengirimkan OTP atau kata sandi kepada pihak mana pun.",
     formPath: "/emergency/data",
     mascot: robotMagnifier,
     speech: "Aku sudah periksa laporanmu!",
@@ -74,9 +90,9 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
   financial: {
     label: "Penipuan Finansial",
     intro:
-      "Ringkasan, langkah penanganan, dan kontak rujukan sudah disusun AI berdasarkan bukti yang kamu kirim. Gunakan tombol di bawah untuk menyalin, menyimpan, atau meneruskan laporan ini.",
+      "Ringkasan, langkah penanganan, dan kontak rujukan telah disusun berdasarkan bukti yang disampaikan pelapor. Dokumen ini dapat disalin, disimpan, atau diteruskan kepada pihak terkait.",
     summary:
-      "Kamu melaporkan dugaan penipuan finansial. AI sudah menyusun kronologi berdasarkan bukti transaksi dan percakapan yang kamu unggah tanpa mengubah urutan kejadian aslinya. Segera amankan rekening dan hubungi bank atau kanal resmi yang disarankan.",
+      "Pelapor menyampaikan dugaan penipuan finansial. Kronologi dirangkum berdasarkan bukti transaksi dan percakapan yang diunggah tanpa mengubah urutan kejadian. Pelapor disarankan segera mengamankan rekening dan menghubungi bank atau kanal resmi terkait.",
     steps: [
       {
         title: "Hubungi Call Center Bank Pengirim",
@@ -95,11 +111,10 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
       },
     ],
     contact: {
-      name: "Otoritas Jasa Keuangan (OJK)",
-      phone: "157",
+      name: "Kontak bank belum tersedia dari hasil analisis",
     },
     contactNote:
-      "Kontak rujukan ini disarankan AI. Pastikan kamu hanya menghubungi kanal resmi bank atau OJK, dan jangan pernah mengirim OTP atau PIN.",
+      "Gunakan kanal resmi bank yang dianalisis. Jangan pernah mengirimkan OTP atau PIN kepada pihak mana pun.",
     formPath: "/emergency/financial",
     mascot: robotChat,
     speech: "Tenang, aku bantu rapikan!",
@@ -122,6 +137,24 @@ function onlyDigits(value: string) {
 function toWaNumber(value: string) {
   const digits = onlyDigits(value);
   return digits.startsWith("0") ? `62${digits.slice(1)}` : digits;
+}
+
+function formalizeReportText(value: string) {
+  return value
+    .replace(/\bpelapor\b/gi, "saya")
+    .replace(/\bkamu\b/gi, "saya")
+    .replace(/\bAnda\b/g, "saya");
+}
+
+function getReportSummary(
+  value: string | undefined,
+  fallback: string,
+) {
+  if (!value || /\[mock mode\]/i.test(value)) {
+    return formalizeReportText(fallback);
+  }
+
+  return formalizeReportText(value);
 }
 
 async function writeToClipboard(text: string) {
@@ -148,7 +181,8 @@ type EmergencyReportViewProps = {
 export default function EmergencyReportView({ kind }: EmergencyReportViewProps) {
   const copy = REPORT_COPY[kind];
   const location = useLocation();
-  const data = location.state?.result as EmergencyResult | undefined;
+  const response = location.state?.result as EmergencyResult | undefined;
+  const data = response?.result ?? response?.data ?? response;
 
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState("");
@@ -157,26 +191,47 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
     document.title = `Laporan ${copy.label} - CegahScam`;
   }, [copy.label]);
 
-  const summary = data?.ai_kronologi || data?.emergencyResponse || copy.summary;
+  const summary = getReportSummary(
+    data?.ai_kronologi || data?.emergencyResponse,
+    copy.summary,
+  );
   const steps = data?.langkah_penanganan?.length
     ? data.langkah_penanganan
     : copy.steps;
-  const contact = data?.official_contact || copy.contact;
+  const analyzedBankContact =
+    data?.bank_analysis ??
+    data?.bank_contact ??
+    (typeof data?.bank === "object" ? data.bank : null) ??
+    (data?.bank_name
+      ? {
+          name: data.bank_name,
+          phone: data.bank_phone,
+          whatsapp: data.bank_whatsapp,
+        }
+      : data?.nama_bank || data?.bank_korban
+        ? { name: data.nama_bank ?? data.bank_korban! }
+        : typeof data?.bank === "string"
+          ? { name: data.bank }
+          : null) ??
+    data?.official_contact;
+  const contact =
+    kind === "financial"
+      ? analyzedBankContact ?? copy.contact
+      : data?.official_contact ?? copy.contact;
   const contactPhone = contact.phone?.trim() ?? "";
 
   const message = [
-    `*Laporan Darurat ${copy.label} - CegahScam*`,
+    `*LAPORAN ${copy.label.toUpperCase()}*`,
     "",
-    "Ringkasan:",
+    "Yth. Pihak yang Berwenang,",
+    "",
+    "Dengan hormat,",
+    `melalui pesan ini saya menyampaikan laporan terkait dugaan ${copy.label.toLowerCase()}. Laporan ini saya susun berdasarkan informasi dan bukti yang saya sampaikan melalui CegahScam.`,
+    "",
+    "Berikut detail laporan:",
     summary,
     "",
-    "Langkah penanganan:",
-    ...steps.map((step, index) => `${index + 1}. ${step.title} - ${step.description}`),
-    "",
-    "Kontak rujukan:",
-    `${contact.name}${contactPhone ? ` - ${contactPhone}` : ""}`,
-    "",
-    "Mohon bantuan untuk menindaklanjuti laporan ini. Terima kasih.",
+    "Demikian laporan ini saya sampaikan. Saya memohon agar laporan ini dapat ditindaklanjuti sesuai prosedur yang berlaku. Atas perhatian dan tindak lanjutnya, saya mengucapkan terima kasih.",
   ].join("\n");
 
   const contactDigits = onlyDigits(contact.whatsapp || contactPhone);
@@ -200,12 +255,11 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
   }
 
   function handleDownloadPdf() {
-    const stepsHtml = steps
-      .map(
-        (step, index) =>
-          `<li><strong>${index + 1}. ${escapeHtml(step.title)}</strong><p>${escapeHtml(step.description)}</p></li>`,
-      )
-      .join("");
+    const generatedAt = new Intl.DateTimeFormat("id-ID", {
+      dateStyle: "long",
+      timeStyle: "short",
+    }).format(new Date());
+    const reportCode = `CS-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${kind.toUpperCase()}`;
 
     const html = `<!doctype html>
 <html lang="id">
@@ -214,37 +268,71 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
 <title>Laporan Darurat ${escapeHtml(copy.label)} - CegahScam</title>
 <style>
   * { box-sizing: border-box; }
-  body { font-family: Arial, Helvetica, sans-serif; color: #26384A; margin: 40px; line-height: 1.6; }
-  h1 { font-size: 22px; margin: 0 0 4px; }
-  .muted { color: #667085; font-size: 12px; margin: 0 0 24px; }
-  h2 { font-size: 15px; margin: 24px 0 8px; }
-  p { margin: 6px 0; font-size: 13px; }
-  ol { padding-left: 20px; margin: 0; }
-  li { margin-bottom: 12px; font-size: 13px; }
-  li p { margin: 2px 0 0; }
-  .contact { border: 1px solid #D7E1EA; border-radius: 12px; padding: 12px 16px; }
-  .footer { margin-top: 32px; font-size: 11px; color: #98A2B3; border-top: 1px solid #E4EAF0; padding-top: 12px; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #26384A; margin: 0; line-height: 1.6; background: #EAF2FA; }
+  .page { position: relative; max-width: 760px; margin: 0 auto; padding: 38px 46px 32px; background: #FFFFFF; min-height: 100vh; overflow: hidden; }
+  .page:after { content: "CEGAHSCAM"; position: absolute; top: 46%; left: 18%; color: #52789A; opacity: .035; font-size: 72px; font-weight: 800; letter-spacing: 5px; transform: rotate(-28deg); }
+  .topline { height: 7px; margin: -38px -46px 30px; background: linear-gradient(90deg, #26384A 0%, #5E83A5 55%, #ADCEFF 100%); }
+  .header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 18px; border-bottom: 1px solid #C8D6E3; }
+  .identity { display: flex; align-items: center; gap: 14px; }
+  .logo { width: 62px; height: 62px; object-fit: contain; }
+  .brand { margin: 0; color: #26384A; font-size: 21px; font-weight: 700; }
+  .eyebrow { margin: 3px 0 0; color: #52789A; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .document-label { color: #667085; font-size: 10px; text-align: right; line-height: 1.5; }
+  .document-label strong { display: block; color: #26384A; font-size: 11px; }
+  h1 { margin: 34px 0 6px; color: #26384A; font-size: 26px; line-height: 1.25; }
+  .muted { color: #667085; font-size: 12px; margin: 0 0 26px; }
+  .meta { display: flex; gap: 10px; margin-bottom: 28px; }
+  .badge { border-radius: 999px; padding: 5px 10px; background: #EAF2FA; color: #52789A; font-size: 10px; font-weight: 700; }
+  h2 { color: #52789A; font-size: 15px; margin: 0 0 10px; }
+  .opening { margin: 0 0 24px; color: #3F4E5E; font-size: 13px; }
+  .summary { position: relative; z-index: 1; border: 1px solid #D7E1EA; border-left: 5px solid #5E83A5; border-radius: 10px; padding: 20px 22px; background: #F7FAFD; }
+  .summary p { margin: 0; font-size: 14px; white-space: pre-line; }
+  .notice { margin-top: 22px; padding: 12px 14px; border-radius: 8px; background: #FFF8E7; color: #795E18; font-size: 11px; }
+  .footer { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 20px; margin-top: 70px; padding-top: 14px; border-top: 1px solid #C8D6E3; color: #98A2B3; font-size: 10px; }
+  .footer strong { color: #52789A; }
 </style>
 </head>
 <body>
-  <h1>Laporan Darurat ${escapeHtml(copy.label)}</h1>
-  <p class="muted">Disusun dengan bantuan AI CegahScam</p>
+  <main class="page">
+    <div class="topline"></div>
+    <header class="header">
+      <div class="identity">
+        <img class="logo" src="${escapeHtml(`${window.location.origin}/logo2.png`)}" alt="Logo CegahScam" />
+        <div>
+          <p class="brand">Cegah<span style="color:#1E40AF">Scam</span></p>
+          <p class="eyebrow">Platform Perlindungan Digital</p>
+        </div>
+      </div>
+      <div class="document-label">
+        <strong>LAPORAN DARURAT</strong>
+        ${escapeHtml(reportCode)}
+      </div>
+    </header>
 
-  <h2>Ringkasan</h2>
-  <p>${escapeHtml(summary).replaceAll("\n", "<br />")}</p>
+    <h1>${escapeHtml(copy.label)}</h1>
+    <p class="muted">Dokumen laporan disusun berdasarkan informasi yang disampaikan oleh pelapor melalui CegahScam</p>
+    <div class="meta">
+      <span class="badge">DOKUMEN DIGITAL</span>
+      <span class="badge">${escapeHtml(generatedAt)}</span>
+    </div>
 
-  <h2>Langkah Penanganan</h2>
-  <ol>${stepsHtml}</ol>
+    <p class="opening"><strong>Yth. Pihak yang Berwenang,</strong><br /><br />
+      Dengan hormat,<br />
+      melalui dokumen ini saya menyampaikan laporan terkait dugaan ${escapeHtml(copy.label.toLowerCase())}. Laporan ini saya susun berdasarkan informasi dan bukti yang saya sampaikan melalui CegahScam.
+    </p>
 
-  <h2>Kontak Rujukan</h2>
-  <div class="contact">
-    <p><strong>${escapeHtml(contact.name)}</strong></p>
-    ${contactPhone ? `<p>Telepon: ${escapeHtml(contactPhone)}</p>` : ""}
-  </div>
-  <p style="font-size: 11px; color: #667085;">${escapeHtml(copy.contactNote)}</p>
+    <section class="summary">
+      <h2>Berikut Detail Laporan</h2>
+      <p>${escapeHtml(summary)}</p>
+    </section>
 
-  <div class="footer">Dokumen ini dibuat otomatis oleh CegahScam. Simpan sebagai PDF atau cetak untuk dilampirkan saat melapor.</div>
-</body>
+    <div class="notice">Demikian laporan ini saya sampaikan. Saya memohon agar laporan ini dapat ditindaklanjuti sesuai prosedur yang berlaku. Atas perhatian dan tindak lanjutnya, saya mengucapkan terima kasih.</div>
+    <div class="footer">
+      <span><strong>CegahScam</strong> · Kenali. Pahami. Hadapi.</span>
+      <span>Dokumen dibuat otomatis · ${escapeHtml(reportCode)}</span>
+    </div>
+  </main>
+ </body>
 </html>`;
 
     const printWindow = window.open("", "_blank", "width=900,height=1000");

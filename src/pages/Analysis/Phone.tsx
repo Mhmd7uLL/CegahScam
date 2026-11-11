@@ -1,6 +1,8 @@
 import {useNavigate} from "react-router-dom";
 import AnalysisHook from "../../components/AnalysisHook";
 import { useState } from "react";
+import { apiUrl } from "../../lib/api";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 
 
@@ -17,7 +19,7 @@ export default function Phone() {
     setError("");
 
     try{
-      const res = await fetch("http://localhost:3000/api/analysis/phone", {
+      const res = await fetch(apiUrl("/api/analysis/phone"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -44,7 +46,9 @@ export default function Phone() {
 
   
   return (
-    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+    <>
+      {loading && <LoadingOverlay message="Sedang menganalisis nomor..." />}
+      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
         id="hero-section"
         className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
@@ -108,10 +112,18 @@ export default function Phone() {
           type="submit" 
           disabled={loading}
           className="form-submit disabled:cursor-not-allowed disabled:bg-[#5E83A5]/50">
-            {loading ? "Mengirim..." : "Kirim Laporan"}
+            {loading ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              Menganalisis...
+            </>
+          ) : (
+            "Analisis Telepon"
+          )}
           </button>
         </form>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

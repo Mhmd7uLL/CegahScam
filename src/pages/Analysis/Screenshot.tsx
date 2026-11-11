@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AnalysisHook from "../../components/AnalysisHook";
+import { apiUrl } from "../../lib/api";
+import LoadingOverlay from "../../components/LoadingOverlay";
 
 export default function Screenshot() {
   const [fileBukti, setFileBukti] = useState<File | null>(null);
@@ -48,7 +50,7 @@ export default function Screenshot() {
     );
 
     try{
-        const res = await fetch("http://localhost:3000/api/analysis/screenshot", {
+        const res = await fetch(apiUrl("/api/analysis/screenshot"), {
           method: "POST",
           body: fd,
         });
@@ -70,7 +72,9 @@ export default function Screenshot() {
 
 
   return (
-    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+    <>
+      {loading && <LoadingOverlay message="Sedang membaca screenshot..." />}
+      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
         id="hero-section"
         className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
@@ -212,10 +216,18 @@ export default function Screenshot() {
           type="submit"
           disabled={loading}
           className="form-submit disabled:cursor-not-allowed disabled:bg-[#A5C6FF]/50 disabled:text-white/50">
-            {loading ? "Mengirim..." : "Kirim Laporan"}
+           {loading ? (
+            <>
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+              Menganalisis...
+            </>
+          ) : (
+            "Analisis Screenshot"
+          )}
           </button>
         </form>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

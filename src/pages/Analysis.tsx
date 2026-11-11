@@ -8,9 +8,39 @@ import Screenshot from "../assets/Analysis/screenshot.png";
 export default function Analysis() {
   return (
     <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
-      <div id="hero-section" className="reveal">
-        <AnalysisHook />
-      </div>
+
+      <div
+              id="hero-section"
+              className="mx-auto flex w-full max-w-6xl flex-col justify-center px-4"
+            >
+              <AnalysisHook />
+              <div className="mx-auto my-4 flex w-full max-w-[800px] items-center justify-between gap-1.5 rounded-[18px] bg-white/40 px-3 py-3 shadow-lg sm:my-6 sm:gap-4 sm:rounded-[50px] sm:px-8 sm:py-4">
+                <div className="flex flex-col items-center gap-1.5 text-center">
+                  <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5E83A5] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
+                    1
+                  </p>
+                  <p className="text-[10px] font-bold text-[#5E83A5] sm:text-sm">
+                    Pilih Kasus
+                  </p>
+                </div>
+                <div className="h-px flex-1 bg-[#667085]/50"></div>
+                <div className="flex flex-col items-center gap-1.5 text-center">
+                  <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#667085] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
+                    2
+                  </p>
+                  <p className="text-[10px] text-[#667085] sm:text-sm">Isi Data</p>
+                </div>
+                <div className="h-px flex-1 bg-[#667085]/50"></div>
+                <div className="flex flex-col items-center gap-1.5 text-center">
+                  <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#667085] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
+                    3
+                  </p>
+                  <p className="text-[10px] text-[#667085] sm:text-sm">
+                    Hasil Analisis
+                  </p>
+                </div>
+              </div>
+            </div>
 
       <div
         id="body-section"

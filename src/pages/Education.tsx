@@ -86,6 +86,51 @@ const glossary = [
     definition:
       "Penipuan melalui pesan singkat yang berisi link palsu atau permintaan informasi pribadi untuk menipu korban.",
   },
+  {
+    term: "Vishing",
+    definition:
+      "Penipuan melalui panggilan suara ketika pelaku menyamar sebagai pihak resmi dan meminta data atau tindakan tertentu.",
+  },
+  {
+    term: "Spoofing",
+    definition:
+      "Pemalsuan identitas, nomor, alamat email, atau situs agar komunikasi terlihat berasal dari pihak yang tepercaya.",
+  },
+  {
+    term: "Deepfake",
+    definition:
+      "Konten audio, foto, atau video yang dimanipulasi dengan teknologi AI untuk meniru seseorang atau membuat informasi palsu.",
+  },
+  {
+    term: "Ransomware",
+    definition:
+      "Malware yang mengunci atau mengenkripsi file korban lalu meminta tebusan untuk mengembalikan akses.",
+  },
+  {
+    term: "SIM Swap",
+    definition:
+      "Pengambilalihan nomor telepon dengan memindahkannya ke kartu SIM lain untuk menerima kode verifikasi korban.",
+  },
+  {
+    term: "Doxing",
+    definition:
+      "Penyebaran data pribadi seseorang ke publik tanpa izin, seperti alamat, nomor telepon, atau identitas.",
+  },
+  {
+    term: "Two-Factor Authentication (2FA)",
+    definition:
+      "Lapisan keamanan tambahan yang meminta dua bentuk verifikasi saat login, misalnya password dan kode dari authenticator.",
+  },
+  {
+    term: "Password Manager",
+    definition:
+      "Aplikasi untuk menyimpan dan membuat password unik secara aman sehingga kamu tidak perlu memakai password yang sama.",
+  },
+  {
+    term: "Zero-Day",
+    definition:
+      "Celah keamanan yang belum diketahui atau belum memiliki perbaikan resmi ketika mulai dimanfaatkan.",
+  },
 ];
 
 const chatExamples = [
@@ -178,7 +223,7 @@ export default function Education() {
     ? glossary.filter((item) =>
         `${item.term} ${item.definition}`.toLowerCase().includes(keyword),
       )
-    : glossary;
+    : glossary.slice(0, 6);
 
   return (
     <div className="w-full pb-20 pt-24 lg:pt-36">
@@ -422,6 +467,7 @@ export default function Education() {
                   {filteredGlossary.length}
                 </span>{" "}
                 dari {glossary.length} istilah
+                {!keyword && " populer"}
               </p>
             </div>
 
