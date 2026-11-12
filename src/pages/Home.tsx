@@ -13,12 +13,12 @@ export default function Home() {
   const [openFAQ, setOpenFAQ] = useState("FAQ1");
 
   return (
-    <div className="flex w-full flex-col items-center gap-14 px-4 pb-20 pt-24 sm:gap-20 lg:pt-36">
+    <div className="flex w-full flex-col items-center gap-14 px-4 pb-20 pt-24 sm:gap-20 lg:pt-28">
       <div
         id="Hero-section"
-        className="reveal relative flex w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh-12rem)]"
+        className="reveal relative flex w-full max-w-[1160px] items-center justify-center lg:min-h-[calc(100dvh-10rem)]"
       >
-        <div className="grid w-full gap-6 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:gap-8 sm:rounded-[44px] sm:px-8 lg:min-h-120 lg:grid-cols-[1fr_auto] lg:content-center lg:items-center lg:gap-x-0 lg:gap-y-14 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
+        <div className="grid w-full gap-6 rounded-[32px] bg-white/50 px-5 py-8 shadow-md sm:gap-8 sm:rounded-[44px] sm:px-8 lg:min-h-[420px] lg:grid-cols-[1fr_auto] lg:content-center lg:items-center lg:gap-x-0 lg:gap-y-14 lg:px-5 lg:py-3 lg:ps-16 lg:pr-10 xl:ps-28">
           <div className="order-1 text-center lg:col-start-1 lg:row-start-1 lg:text-left">
             <div className="text-[26px] font-bold leading-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
               <p>Mau Mencegah?</p>
@@ -35,25 +35,25 @@ export default function Home() {
             alt="Ilustrasi CegahScam"
             motion="float"
             interactive
-            className="order-2 mx-auto w-45 object-contain sm:w-52 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:w-auto lg:justify-self-end"
+            className="order-2 mx-auto w-45 object-contain sm:w-52 lg:order-none lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:h-[clamp(300px,55vh,500px)] lg:w-auto lg:justify-self-end"
           />
 
           <div className="order-3 grid w-full grid-cols-2 gap-3 sm:flex sm:w-auto sm:flex-row sm:justify-center lg:col-start-1 lg:row-start-2 lg:justify-start">
             <Link
               to="/analysis"
-              className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
+              className="rounded-2xl bg-[#47a8e4] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
             >
               Analisis
             </Link>
             <Link
               to="/education"
-              className="rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
+              className="rounded-2xl bg-[#47a8e4] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:text-base"
             >
               Edukasi
             </Link>
             <Link
               to="/emergency"
-              className="col-span-2 rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:order-first sm:text-base"
+              className="col-span-2 rounded-2xl bg-[#47a8e4] px-6 py-2.5 text-center text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl sm:order-first sm:text-base"
             >
               Darurat
             </Link>
@@ -65,16 +65,9 @@ export default function Home() {
         id="body1-section"
         className="reveal w-full max-w-6xl lg:min-h-120"
       >
-        <div className="flex flex-col-reverse items-center gap-8 lg:flex-row lg:justify-center lg:gap-16">
-          <Robot
-            src={body1}
-            alt="Ilustrasi penipuan"
-            motion="sway"
-            interactive
-            className="w-45 object-contain sm:w-[340px]"
-          />
-          <div className="flex flex-col items-center justify-center gap-8 lg:items-start lg:gap-10">
-            <div className="text-center lg:text-left">
+        <div className="flex flex-col items-center gap-8 lg:flex-row lg:justify-center lg:gap-16">
+          <div className="contents lg:flex lg:flex-col lg:items-start lg:gap-10">
+            <div className="order-1 text-center lg:order-none lg:text-left">
               <h1 className="text-[24px] font-bold leading-tight text-[#446685] sm:text-[32px] lg:text-[40px]">
                 Apakah kamu<br></br>terkena penipuan?
               </h1>
@@ -84,11 +77,18 @@ export default function Home() {
             </div>
             <Link
               to="/emergency"
-              className="w-45 rounded-2xl bg-[#ADCEFF] px-6 py-2.5 text-center font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl lg:w-auto"
+              className="order-3 w-45 rounded-2xl bg-[#47a8e4] px-6 py-2.5 text-center font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#85B6FF] hover:shadow-xl lg:order-none lg:w-auto"
             >
               Laporkan
             </Link>
           </div>
+          <Robot
+            src={body1}
+            alt="Ilustrasi penipuan"
+            motion="sway"
+            interactive
+            className="order-2 w-45 object-contain sm:w-[340px] lg:order-first"
+          />
         </div>
       </div>
 
