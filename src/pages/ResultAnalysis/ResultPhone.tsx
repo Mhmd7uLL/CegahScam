@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import BackLink from "../../components/BackLink";
 import RiskGauge from "../../components/RiskGauge";
 import Robot from "../../components/Robot";
 import robot from "../../assets/Emergency/robot1.webp";
@@ -102,7 +103,10 @@ export default function ResultPhone() {
 
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-24 sm:px-6 lg:pt-36">
+    <div className="mx-auto w-full max-w-[1200px] px-4 pb-20 pt-[88px] sm:px-6 sm:pt-24 lg:pt-32">
+      <div className="mb-3">
+        <BackLink to="/analysis" label="Analisis" />
+      </div>
       <div className="reveal grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col gap-5">
           <div className="flex items-center justify-center py-3">

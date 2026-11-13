@@ -1,26 +1,92 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import BackLink from "../../components/BackLink";
 import EmergencyHook from "../../components/EmergencyHook";
 import { apiUrl } from "../../lib/api";
+import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
+type FinancialDraft = {
+  jenisBank: string;
+  kanalMedia: string;
+  tanggalKejadian: string;
+  tujuanTransaksi: string[];
+  namaInstitusi: string;
+  nomorRekening: string;
+  namaPemilikRekening: string;
+  nominalKerugian: string;
+  detailKronologi: string;
+  showInputLainnya: boolean;
+  tindakanLainnya: string;
+};
+
+const DRAFT_KEY = "emergency-financial";
+
 export default function Financial() {
+  const [draft] = useState(() => readDraft<FinancialDraft>(DRAFT_KEY));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [showInputLainnya, setShowInputLainnya] = useState(false);
-  const [tindakanLainnya, setTindakanLainnya] = useState("");
+  const [showInputLainnya, setShowInputLainnya] = useState(draft?.showInputLainnya ?? false);
+  const [tindakanLainnya, setTindakanLainnya] = useState(draft?.tindakanLainnya ?? "");
   const navigate = useNavigate();
-  const [jenisBank, setJenisBank] = useState("") ;
-  const [kanalMedia, setKanalMedia] = useState("");
-  const [tanggalKejadian, setTanggalKejadian] = useState("");
-  const [tujuanTransaksi, setTujuanTransaksi] = useState<string[]>([]);
-  const [namaInstitusi, setNamaInstitusi] = useState("");
-  const [nomorRekening, setNomorRekening] = useState("");
-  const [namaPemilikRekening, setNamaPemilikRekening] = useState("");
-  const [nominalKerugian, setNominalKerugian] = useState("");
-  const [detailKronologi, setDetailKronologi] = useState("");
+  const [jenisBank, setJenisBank] = useState(draft?.jenisBank ?? "") ;
+  const [kanalMedia, setKanalMedia] = useState(draft?.kanalMedia ?? "");
+  const [tanggalKejadian, setTanggalKejadian] = useState(draft?.tanggalKejadian ?? "");
+  const [tujuanTransaksi, setTujuanTransaksi] = useState<string[]>(draft?.tujuanTransaksi ?? []);
+  const [namaInstitusi, setNamaInstitusi] = useState(draft?.namaInstitusi ?? "");
+  const [nomorRekening, setNomorRekening] = useState(draft?.nomorRekening ?? "");
+  const [namaPemilikRekening, setNamaPemilikRekening] = useState(draft?.namaPemilikRekening ?? "");
+  const [nominalKerugian, setNominalKerugian] = useState(draft?.nominalKerugian ?? "");
+  const [detailKronologi, setDetailKronologi] = useState(draft?.detailKronologi ?? "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const isDirty = Boolean(
+    fileBukti ||
+      jenisBank ||
+      kanalMedia ||
+      tanggalKejadian ||
+      tujuanTransaksi.length ||
+      namaInstitusi ||
+      nomorRekening ||
+      namaPemilikRekening ||
+      nominalKerugian ||
+      detailKronologi ||
+      showInputLainnya ||
+      tindakanLainnya,
+  );
+
+  const leaveWarning = isDirty
+    ? "Yakin mau kembali? Isian kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu dipilih ulang saat kamu kembali."
+    : undefined;
+
+  useEffect(() => {
+    writeDraft<FinancialDraft>(DRAFT_KEY, {
+      jenisBank,
+      kanalMedia,
+      tanggalKejadian,
+      tujuanTransaksi,
+      namaInstitusi,
+      nomorRekening,
+      namaPemilikRekening,
+      nominalKerugian,
+      detailKronologi,
+      showInputLainnya,
+      tindakanLainnya,
+    });
+  }, [
+    jenisBank,
+    kanalMedia,
+    tanggalKejadian,
+    tujuanTransaksi,
+    namaInstitusi,
+    nomorRekening,
+    namaPemilikRekening,
+    nominalKerugian,
+    detailKronologi,
+    showInputLainnya,
+    tindakanLainnya,
+  ]);
 
   const toggleTujuanTransaksi = (value: string) => 
     setTujuanTransaksi((prev) => 
@@ -128,6 +194,7 @@ export default function Financial() {
     if (!response.ok) {
       throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
     }
+    clearDraft(DRAFT_KEY);
     navigate("/report/financial", { state: { result : data } });
     } catch (error) {
       console.error("Error submitting report:", error);
@@ -142,11 +209,18 @@ export default function Financial() {
   return (
     <>
       {loading && <LoadingOverlay message="Sedang memproses laporan darurat..." />}
-      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+      <div className="mx-auto w-full pb-20 pt-[88px] sm:pt-24 lg:pt-32">
       <div
         id="hero-section"
-        className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
+        className="relative mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
+        <div className="z-10 mb-4 sm:absolute sm:left-4 sm:top-0 sm:mb-0">
+          <BackLink
+            to="/emergency"
+            label="pilihan kasus"
+            confirmMessage={leaveWarning}
+          />
+        </div>
         <EmergencyHook />
         <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/30 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
           <div className="flex flex-col items-center gap-1.5 text-center">
@@ -198,6 +272,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="bca"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "bca"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 BCA
@@ -208,6 +283,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="bri"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "bri"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 BRI
@@ -218,6 +294,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="bni"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "bni"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 BNI
@@ -228,6 +305,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="mandiri"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "mandiri"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 Mandiri
@@ -238,6 +316,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="dana"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "dana"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 DANA
@@ -248,6 +327,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="ovo"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "ovo"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 OVO
@@ -258,6 +338,7 @@ export default function Financial() {
                   name="bankKorban"
                   value="gopay"
                   className="accent-[#52789A]"
+                  defaultChecked={jenisBank === "gopay"}
                   onChange={(e) => setJenisBank(e.target.value)}
                 />
                 GOPAY
@@ -285,6 +366,7 @@ export default function Financial() {
                   name="kanalMedia"
                   value="whatsapp"
                   className="accent-[#52789A]"
+                  defaultChecked={kanalMedia === "whatsapp"}
                   onChange={(e) => setKanalMedia(e.target.value)}
                 />
                 WhatsApp
@@ -296,6 +378,7 @@ export default function Financial() {
                   name="kanalMedia"
                   value="instagram"
                   className="accent-[#52789A]"
+                  defaultChecked={kanalMedia === "instagram"}
                   onChange={(e) => setKanalMedia(e.target.value)}
                 />
                 Instagram
@@ -316,6 +399,7 @@ export default function Financial() {
               name="tanggalKejadian"
               lang="id-ID"
               className="form-input max-w-[220px]"
+              defaultValue={draft?.tanggalKejadian ?? ""}
               onChange={(e) => setTanggalKejadian(e.target.value)}
             />
           </fieldset>
@@ -399,6 +483,7 @@ export default function Financial() {
                   name="tindakanLainnya"
                   placeholder="Tulis yang dilakukan pelaku"
                   className="form-input"
+                  defaultValue={draft?.tindakanLainnya ?? ""}
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value) {
@@ -426,6 +511,7 @@ export default function Financial() {
                 name="namaInstitusi"
                 placeholder="Contoh: PT.xxx, Bank xxx"
                 className="form-input font-normal"
+                defaultValue={draft?.namaInstitusi ?? ""}
                 onChange={(e) => setNamaInstitusi(e.target.value)}
               />
             </label>
@@ -438,6 +524,7 @@ export default function Financial() {
                 name="nomorRekening"
                 placeholder="Contoh: 123 456 789 0123"
                 className="form-input font-normal"
+                defaultValue={draft?.nomorRekening ?? ""}
                 onChange={(e) => setNomorRekening(e.target.value)}
               />
             </label>
@@ -455,6 +542,7 @@ export default function Financial() {
                 name="namaPemilikRekening"
                 placeholder="Contoh: Fachri Nanda"
                 className="form-input font-normal"
+                defaultValue={draft?.namaPemilikRekening ?? ""}
                 onChange={(e) => setNamaPemilikRekening(e.target.value)}
               />
             </label>
@@ -471,6 +559,7 @@ export default function Financial() {
               type="number"
               placeholder="Contoh : Rp 50.000.000"
               className="form-input"
+              defaultValue={draft?.nominalKerugian ?? ""}
               onChange={(e) => setNominalKerugian(e.target.value)}
             />
           </fieldset>
@@ -488,6 +577,7 @@ export default function Financial() {
               type="text"
               placeholder="Contoh : waktu itu ketika saya ...."
               className="form-input"
+              defaultValue={draft?.detailKronologi ?? ""}
               onChange={(e) => setDetailKronologi(e.target.value)}
             />
           </fieldset>

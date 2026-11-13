@@ -1,16 +1,34 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnalysisHook from "../../components/AnalysisHook";
+import BackLink from "../../components/BackLink";
 import { apiUrl } from "../../lib/api";
+import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
+type ScreenshotDraft = {
+  platform: string;
+};
+
+const DRAFT_KEY = "analysis-screenshot";
+
 export default function Screenshot() {
+  const [draft] = useState(() => readDraft<ScreenshotDraft>(DRAFT_KEY));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [platform, setPlatform] = useState("");
+  const [platform, setPlatform] = useState(draft?.platform ?? "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const isDirty = Boolean(fileBukti || platform);
+  const leaveWarning = isDirty
+    ? "Yakin mau kembali? Isian kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu diunggah ulang saat kamu kembali."
+    : undefined;
+
+  useEffect(() => {
+    writeDraft<ScreenshotDraft>(DRAFT_KEY, { platform });
+  }, [platform]);
 
   const handlePilihFile = (file?: File) => {
     if (!file) return;
@@ -59,6 +77,7 @@ export default function Screenshot() {
         if (!res.ok) {
           throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
         }
+        clearDraft(DRAFT_KEY);
         navigate("/analysis/resultscreenshot", { state: { result: data } });
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
@@ -74,11 +93,18 @@ export default function Screenshot() {
   return (
     <>
       {loading && <LoadingOverlay message="Sedang membaca screenshot..." />}
-      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+      <div className="mx-auto w-full pb-20 pt-[88px] sm:pt-24 lg:pt-32">
       <div
         id="hero-section"
-        className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
+        className="relative mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
+        <div className="z-10 mb-4 sm:absolute sm:left-4 sm:top-0 sm:mb-0">
+          <BackLink
+            to="/analysis"
+            label="pilihan analisis"
+            confirmMessage={leaveWarning}
+          />
+        </div>
         <AnalysisHook />
         <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/40 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
           <div className="flex flex-col items-center gap-1.5 text-center">
@@ -128,14 +154,24 @@ export default function Screenshot() {
               className="form-choice"
               onClick={() => setPlatform("whatsapp")}
               >
-                <input type="radio" name="kanalMedia" value="whatsapp" />
+                <input
+                  type="radio"
+                  name="kanalMedia"
+                  value="whatsapp"
+                  defaultChecked={platform === "whatsapp"}
+                />
                 WhatsApp
               </label>
               <label 
               className="form-choice"
               onClick={() => setPlatform("instagram")}
               >
-                <input type="radio" name="kanalMedia" value="instagram" />
+                <input
+                  type="radio"
+                  name="kanalMedia"
+                  value="instagram"
+                  defaultChecked={platform === "instagram"}
+                />
                 Instagram
               </label>
             </div>

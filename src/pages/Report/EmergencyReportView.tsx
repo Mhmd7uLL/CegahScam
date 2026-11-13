@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import BackLink from "../../components/BackLink";
 import EmergencyHook from "../../components/EmergencyHook";
 import Robot from "../../components/Robot";
 import robotChat from "../../assets/Emergency/robot1.webp";
@@ -349,11 +350,14 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
   }
 
   return (
-    <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+    <div className="mx-auto w-full pb-20 pt-[88px] sm:pt-24 lg:pt-32">
       <div
         id="hero-section"
-        className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
+        className="relative mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
+        <div className="z-10 mb-4 sm:absolute sm:left-4 sm:top-0 sm:mb-0">
+          <BackLink to="/emergency" label="Darurat" />
+        </div>
         <EmergencyHook />
         <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/30 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
           <div className="flex flex-col items-center gap-1.5 text-center">

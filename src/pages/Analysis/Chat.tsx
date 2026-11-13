@@ -1,16 +1,34 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnalysisHook from "../../components/AnalysisHook";
+import BackLink from "../../components/BackLink";
 import { apiUrl } from "../../lib/api";
+import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
+type ChatDraft = {
+  pesan: string;
+};
+
+const DRAFT_KEY = "analysis-chat";
+
 export default function Chat() {
+  const [draft] = useState(() => readDraft<ChatDraft>(DRAFT_KEY));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [pesan, setPesan] = useState("");
+  const [pesan, setPesan] = useState(draft?.pesan ?? "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const isDirty = Boolean(fileBukti || pesan);
+  const leaveWarning = isDirty
+    ? "Yakin mau kembali? Pesan kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu diunggah ulang saat kamu kembali."
+    : undefined;
+
+  useEffect(() => {
+    writeDraft<ChatDraft>(DRAFT_KEY, { pesan });
+  }, [pesan]);
 
   const handlePilihFile = (file?: File) => {
     if (!file) return;
@@ -55,6 +73,7 @@ export default function Chat() {
       if (!res.ok) {
         throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
       }
+      clearDraft(DRAFT_KEY);
       navigate("/analysis/resultchat", { state: { result: data } });
    } catch (error) {
       console.error("Terjadi kesalahan:", error);
@@ -68,11 +87,18 @@ export default function Chat() {
   return (
     <>
       {loading && <LoadingOverlay message="Sedang menganalisis pesan..." />}
-      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+      <div className="mx-auto w-full pb-20 pt-[88px] sm:pt-24 lg:pt-32">
       <div
         id="hero-section"
-        className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
+        className="relative mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
+        <div className="z-10 mb-4 sm:absolute sm:left-4 sm:top-0 sm:mb-0">
+          <BackLink
+            to="/analysis"
+            label="pilihan analisis"
+            confirmMessage={leaveWarning}
+          />
+        </div>
         <AnalysisHook />
         <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/40 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
           <div className="flex flex-col items-center gap-1.5 text-center">
@@ -116,6 +142,7 @@ export default function Chat() {
               name="chat-message"
               rows={4}
               placeholder="Masukan Pesan"
+              defaultValue={draft?.pesan ?? ""}
               className="form-input resize-y"
               onInput={(e) => {
                 e.currentTarget.style.height = "auto";

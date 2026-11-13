@@ -1,23 +1,77 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackLink from "../../components/BackLink";
 import EmergencyHook from "../../components/EmergencyHook";
 import { apiUrl } from "../../lib/api";
+import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
+type DataBreachDraft = {
+  jenisData: string[];
+  tanggalKejadian: string;
+  kanalMedia: string;
+  tindakanPelaku: string[];
+  detailKronologi: string;
+  statusAkses: string;
+  showInputLainnya: boolean;
+  tindakanLainnya: string;
+};
+
+const DRAFT_KEY = "emergency-data";
+
 export default function DataBreach() {
+  const [draft] = useState(() => readDraft<DataBreachDraft>(DRAFT_KEY));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [jenisData, setJenisData] = useState<string[]>([]);
-  const [tanggalKejadian, setTanggalKejadian] = useState("");
-  const [kanalMedia, setKanalMedia] = useState("");
-  const [tindakanPelaku, setTindakanPelaku] = useState<string[]>([]);
-  const [detailKronologi, setDetailKronologi] = useState("");
-  const [statusAkses, setStatusAkses] = useState("");
+  const [jenisData, setJenisData] = useState<string[]>(draft?.jenisData ?? []);
+  const [tanggalKejadian, setTanggalKejadian] = useState(draft?.tanggalKejadian ?? "");
+  const [kanalMedia, setKanalMedia] = useState(draft?.kanalMedia ?? "");
+  const [tindakanPelaku, setTindakanPelaku] = useState<string[]>(draft?.tindakanPelaku ?? []);
+  const [detailKronologi, setDetailKronologi] = useState(draft?.detailKronologi ?? "");
+  const [statusAkses, setStatusAkses] = useState(draft?.statusAkses ?? "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [showInputLainnya, setShowInputLainnya] = useState(false);
-  const [tindakanLainnya, setTindakanLainnya] = useState("");
+  const [showInputLainnya, setShowInputLainnya] = useState(draft?.showInputLainnya ?? false);
+  const [tindakanLainnya, setTindakanLainnya] = useState(draft?.tindakanLainnya ?? "");
+
+  const isDirty = Boolean(
+    fileBukti ||
+      jenisData.length ||
+      tanggalKejadian ||
+      kanalMedia ||
+      tindakanPelaku.length ||
+      detailKronologi ||
+      statusAkses ||
+      showInputLainnya ||
+      tindakanLainnya,
+  );
+
+  const leaveWarning = isDirty
+    ? "Yakin mau kembali? Isian kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu dipilih ulang saat kamu kembali."
+    : undefined;
+
+  useEffect(() => {
+    writeDraft<DataBreachDraft>(DRAFT_KEY, {
+      jenisData,
+      tanggalKejadian,
+      kanalMedia,
+      tindakanPelaku,
+      detailKronologi,
+      statusAkses,
+      showInputLainnya,
+      tindakanLainnya,
+    });
+  }, [
+    jenisData,
+    tanggalKejadian,
+    kanalMedia,
+    tindakanPelaku,
+    detailKronologi,
+    statusAkses,
+    showInputLainnya,
+    tindakanLainnya,
+  ]);
 
   const toggleJenisData = (value: string) =>
     setJenisData((prev) =>
@@ -101,6 +155,7 @@ export default function DataBreach() {
       if (!res.ok) {
         throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
       }
+      clearDraft(DRAFT_KEY);
       navigate("/report/data", { state: { result: data } });
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
@@ -114,11 +169,18 @@ export default function DataBreach() {
   return (
     <>
       {loading && <LoadingOverlay message="Sedang memproses laporan darurat..." />}
-      <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
+      <div className="mx-auto w-full pb-20 pt-[88px] sm:pt-24 lg:pt-32">
       <div
         id="hero-section"
-        className="mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
+        className="relative mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
+        <div className="z-10 mb-4 sm:absolute sm:left-4 sm:top-0 sm:mb-0">
+          <BackLink
+            to="/emergency"
+            label="pilihan kasus"
+            confirmMessage={leaveWarning}
+          />
+        </div>
         <EmergencyHook />
         <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/30 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
           <div className="flex flex-col items-center gap-1.5 text-center">
@@ -270,6 +332,7 @@ export default function DataBreach() {
                   name="kanalMedia"
                   value="whatsapp"
                   className="accent-[#52789A]"
+                  defaultChecked={kanalMedia === "whatsapp"}
                 />
                 WhatsApp
               </label>
@@ -282,6 +345,7 @@ export default function DataBreach() {
                   name="kanalMedia"
                   value="instagram"
                   className="accent-[#52789A]"
+                  defaultChecked={kanalMedia === "instagram"}
                 />
                 Instagram
               </label>
@@ -374,6 +438,7 @@ export default function DataBreach() {
                   name="tindakanLainnya"
                   placeholder="Tulis yang dilakukan pelaku"
                   className="form-input"
+                  defaultValue={draft?.tindakanLainnya ?? ""}
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value) {
