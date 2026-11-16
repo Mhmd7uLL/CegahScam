@@ -124,7 +124,7 @@ export const reportData = async (req: Request, res: Response) => {
     fd.append("tanggal_kejadian", String(tanggalKejadian));
     fd.append("platform_kejadian", String(kanalMedia));
     fd.append("tindakan_pelaku", String(tindakanPelaku));
-    fd.append("detailKronologi", String(detailKronologi));
+    fd.append("kronologi_user", String(detailKronologi));
     fd.append("status_akses", String(statusAkses));
     fd.append(
         "bukti_percakapan",
