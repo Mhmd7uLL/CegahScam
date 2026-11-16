@@ -5,6 +5,13 @@ import EmergencyHook from "../../components/EmergencyHook";
 import Robot from "../../components/Robot";
 import robotChat from "../../assets/Emergency/robot1.webp";
 import robotMagnifier from "../../assets/Emergency/robot2.webp";
+import {
+  buildContactsHtml,
+  buildParagraphHtml,
+  buildStepsHtml,
+  escapeHtml,
+  printReportDocument,
+} from "../../lib/reportDocument";
 
 type ActionStep = {
   title: string;
@@ -15,6 +22,9 @@ type OfficialContact = {
   name: string;
   phone?: string;
   whatsapp?: string | null;
+  email?: string | null;
+  instagram?: string | null;
+  twitter?: string | null;
 };
 
 type BankContact = {
@@ -27,6 +37,7 @@ type EmergencyResult = {
   ai_kronologi?: string;
   langkah_penanganan?: ActionStep[];
   official_contact?: OfficialContact | null;
+  official_contacts?: OfficialContact[] | null;
   bank?: BankContact | string | null;
   bank_analysis?: BankContact | null;
   bank_contact?: BankContact | null;
@@ -122,15 +133,6 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
   },
 };
 
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
 function onlyDigits(value: string) {
   return value.replace(/\D/g, "");
 }
@@ -138,6 +140,18 @@ function onlyDigits(value: string) {
 function toWaNumber(value: string) {
   const digits = onlyDigits(value);
   return digits.startsWith("0") ? `62${digits.slice(1)}` : digits;
+}
+
+function instagramUrl(value: string) {
+  const handle = value.trim().replace(/^@/, "").replace(/\s+/g, "");
+  return handle ? `https://instagram.com/${handle}` : undefined;
+}
+
+function twitterHandles(value: string) {
+  return value
+    .split("/")
+    .map((item) => item.trim().replace(/^@/, "").replace(/\s+/g, ""))
+    .filter(Boolean);
 }
 
 function formalizeReportText(value: string) {
@@ -220,6 +234,9 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
       ? analyzedBankContact ?? copy.contact
       : data?.official_contact ?? copy.contact;
   const contactPhone = contact.phone?.trim() ?? "";
+  const contactList = (
+    data?.official_contacts?.length ? data.official_contacts : [contact]
+  ).filter((item): item is OfficialContact => Boolean(item && item.name));
 
   const message = [
     `*LAPORAN ${copy.label.toUpperCase()}*`,
@@ -256,97 +273,66 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
   }
 
   function handleDownloadPdf() {
-    const generatedAt = new Intl.DateTimeFormat("id-ID", {
+    const now = new Date();
+    const generatedDate = new Intl.DateTimeFormat("id-ID", {
       dateStyle: "long",
-      timeStyle: "short",
-    }).format(new Date());
-    const reportCode = `CS-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}-${kind.toUpperCase()}`;
+    }).format(now);
+    const reportCode = `CS-${now.toISOString().slice(0, 10).replaceAll("-", "")}-${kind.toUpperCase()}`;
 
-    const html = `<!doctype html>
-<html lang="id">
-<head>
-<meta charset="utf-8" />
-<title>Laporan Darurat ${escapeHtml(copy.label)} - CegahScam</title>
-<style>
-  * { box-sizing: border-box; }
-  body { font-family: Arial, Helvetica, sans-serif; color: #26384A; margin: 0; line-height: 1.6; background: #EAF2FA; }
-  .page { position: relative; max-width: 760px; margin: 0 auto; padding: 38px 46px 32px; background: #FFFFFF; min-height: 100vh; overflow: hidden; }
-  .page:after { content: "CEGAHSCAM"; position: absolute; top: 46%; left: 18%; color: #52789A; opacity: .035; font-size: 72px; font-weight: 800; letter-spacing: 5px; transform: rotate(-28deg); }
-  .topline { height: 7px; margin: -38px -46px 30px; background: linear-gradient(90deg, #26384A 0%, #5E83A5 55%, #ADCEFF 100%); }
-  .header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 18px; border-bottom: 1px solid #C8D6E3; }
-  .identity { display: flex; align-items: center; gap: 14px; }
-  .logo { width: 62px; height: 62px; object-fit: contain; }
-  .brand { margin: 0; color: #26384A; font-size: 21px; font-weight: 700; }
-  .eyebrow { margin: 3px 0 0; color: #52789A; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
-  .document-label { color: #667085; font-size: 10px; text-align: right; line-height: 1.5; }
-  .document-label strong { display: block; color: #26384A; font-size: 11px; }
-  h1 { margin: 34px 0 6px; color: #26384A; font-size: 26px; line-height: 1.25; }
-  .muted { color: #667085; font-size: 12px; margin: 0 0 26px; }
-  .meta { display: flex; gap: 10px; margin-bottom: 28px; }
-  .badge { border-radius: 999px; padding: 5px 10px; background: #EAF2FA; color: #52789A; font-size: 10px; font-weight: 700; }
-  h2 { color: #52789A; font-size: 15px; margin: 0 0 10px; }
-  .opening { margin: 0 0 24px; color: #3F4E5E; font-size: 13px; }
-  .summary { position: relative; z-index: 1; border: 1px solid #D7E1EA; border-left: 5px solid #5E83A5; border-radius: 10px; padding: 20px 22px; background: #F7FAFD; }
-  .summary p { margin: 0; font-size: 14px; white-space: pre-line; }
-  .notice { margin-top: 22px; padding: 12px 14px; border-radius: 8px; background: #FFF8E7; color: #795E18; font-size: 11px; }
-  .footer { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 20px; margin-top: 70px; padding-top: 14px; border-top: 1px solid #C8D6E3; color: #98A2B3; font-size: 10px; }
-  .footer strong { color: #52789A; }
-</style>
-</head>
-<body>
-  <main class="page">
-    <div class="topline"></div>
-    <header class="header">
-      <div class="identity">
-        <img class="logo" src="${escapeHtml(`${window.location.origin}/logo2.png`)}" alt="Logo CegahScam" />
-        <div>
-          <p class="brand">Cegah<span style="color:#1E40AF">Scam</span></p>
-          <p class="eyebrow">Platform Perlindungan Digital</p>
-        </div>
-      </div>
-      <div class="document-label">
-        <strong>LAPORAN DARURAT</strong>
-        ${escapeHtml(reportCode)}
-      </div>
-    </header>
+    const contactsHtml = buildContactsHtml(contactList);
 
-    <h1>${escapeHtml(copy.label)}</h1>
-    <p class="muted">Dokumen laporan disusun berdasarkan informasi yang disampaikan oleh pelapor melalui CegahScam</p>
-    <div class="meta">
-      <span class="badge">DOKUMEN DIGITAL</span>
-      <span class="badge">${escapeHtml(generatedAt)}</span>
-    </div>
-
-    <p class="opening"><strong>Yth. Pihak yang Berwenang,</strong><br /><br />
-      Dengan hormat,<br />
-      melalui dokumen ini saya menyampaikan laporan terkait dugaan ${escapeHtml(copy.label.toLowerCase())}. Laporan ini saya susun berdasarkan informasi dan bukti yang saya sampaikan melalui CegahScam.
-    </p>
-
-    <section class="summary">
-      <h2>Berikut Detail Laporan</h2>
-      <p>${escapeHtml(summary)}</p>
-    </section>
-
-    <div class="notice">Demikian laporan ini saya sampaikan. Saya memohon agar laporan ini dapat ditindaklanjuti sesuai prosedur yang berlaku. Atas perhatian dan tindak lanjutnya, saya mengucapkan terima kasih.</div>
-    <div class="footer">
-      <span><strong>CegahScam</strong> · Kenali. Pahami. Hadapi.</span>
-      <span>Dokumen dibuat otomatis · ${escapeHtml(reportCode)}</span>
-    </div>
-  </main>
- </body>
-</html>`;
-
-    const printWindow = window.open("", "_blank", "width=900,height=1000");
-    if (!printWindow) {
-      window.print();
-      return;
-    }
-
-    printWindow.document.open();
-    printWindow.document.write(html);
-    printWindow.document.close();
-    printWindow.focus();
-    window.setTimeout(() => printWindow.print(), 300);
+    printReportDocument({
+      windowTitle: `Laporan Darurat ${copy.label} - CegahScam`,
+      documentCode: reportCode,
+      kicker: "Laporan Darurat",
+      heading: `Laporan Dugaan ${copy.label}`,
+      subtitle:
+        "Disusun berdasarkan informasi dan bukti digital yang disampaikan pelapor melalui platform CegahScam.",
+      hero: {
+        label: "Jenis Laporan",
+        value: copy.label,
+        caption: "Salinan digital siap dilampirkan pada laporan resmi",
+        chips: [
+          { label: "Dibuat", value: generatedDate },
+          { label: "Status", value: "Salinan Digital" },
+        ],
+      },
+      leadHtml: `Dokumen ini merangkum laporan yang Anda susun melalui CegahScam. Lampirkan berkas ini saat membuat Laporan Polisi (STPL) di Polsek/Polres atau saat melapor ke CekRekening.id.`,
+      sections: [
+        { title: "Ringkasan Kronologi", html: buildParagraphHtml(summary) },
+        {
+          title: "Langkah Penanganan yang Disarankan",
+          html: `<ol class="steps">${buildStepsHtml(steps)}</ol>`,
+        },
+        ...(contactsHtml
+          ? [
+              {
+                title: "Kontak Rujukan Resmi",
+                html: `<ul class="contacts">${contactsHtml}</ul>`,
+              },
+            ]
+          : []),
+      ],
+      noticeHtml: `<strong>Catatan:</strong> ${escapeHtml(
+        copy.contactNote,
+      )} Dokumen ini merupakan salinan digital yang dihasilkan otomatis oleh CegahScam dan tidak menggantikan laporan resmi yang disampaikan langsung kepada instansi berwenang.`,
+      closing:
+        "Demikian laporan ini disusun. Mohon dapat ditindaklanjuti sesuai prosedur yang berlaku. Terima kasih atas perhatian dan tindak lanjutnya.",
+      signatureLeft: {
+        label: "Disusun oleh",
+        value: "Pelapor",
+        note: "Nama & tanda tangan",
+      },
+      signatureRight: {
+        label: "Tanggal",
+        value: generatedDate,
+        note: reportCode,
+      },
+      footerLeft: `<strong>CegahScam</strong> &middot; Kenali. Pahami. Hadapi.`,
+      footerRight: `Dokumen dibuat otomatis oleh sistem &middot; ${escapeHtml(
+        reportCode,
+      )}`,
+    });
   }
 
   return (
@@ -356,7 +342,18 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
         className="relative mx-auto flex w-full max-w-[1160px] flex-col justify-center px-4"
       >
         <div className="z-10 mb-4 sm:absolute sm:left-4 sm:top-0 sm:mb-0">
-          <BackLink to="/emergency" label="Darurat" />
+          <BackLink
+            to="/emergency"
+            label="Darurat"
+            confirmTitle="Tinggalkan laporan ini?"
+            confirmMessage={
+              data
+                ? "Laporan ini tidak disimpan di server dan akan hilang. Demi keamanan data, Anda perlu mengisi ulang laporan dari awal. Unduh PDF terlebih dahulu bila ingin menyimpan hasilnya."
+                : undefined
+            }
+            confirmAction="Ya, tinggalkan"
+            cancelAction="Tetap di sini"
+          />
         </div>
         <EmergencyHook />
         <div className="mx-auto my-6 flex w-full max-w-[800px] items-center justify-between gap-2 rounded-[24px] bg-white/30 px-3 py-4 shadow-xl sm:gap-4 sm:rounded-[50px] sm:px-8">
@@ -501,22 +498,81 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
             </h2>
 
             <div className="mt-4 flex flex-1 flex-col gap-4 rounded-2xl border border-[#D7E1EA] p-4">
-              <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAF2FA] text-sm font-bold text-[#52789A]">
-                  {contact.name.charAt(0)}
-                </span>
-                <div className="min-w-0">
-                  <p className="font-bold text-[#26384A]">{contact.name}</p>
-                  {contactPhone && (
-                    <a
-                      href={`tel:${onlyDigits(contactPhone)}`}
-                      className="text-[13px] font-semibold text-[#52789A] hover:underline"
+              <ul className="flex flex-col gap-4">
+                {contactList.map((item, index) => {
+                  const phone = item.phone?.trim() ?? "";
+                  const wa = item.whatsapp?.trim() ?? "";
+                  const igUrl = item.instagram ? instagramUrl(item.instagram) : undefined;
+                  const handles = item.twitter ? twitterHandles(item.twitter) : [];
+
+                  return (
+                    <li
+                      key={`${item.name}-${index}`}
+                      className="flex flex-col gap-2 border-t border-[#E7EEF6] pt-3 first:border-t-0 first:pt-0"
                     >
-                      {contactPhone}
-                    </a>
-                  )}
-                </div>
-              </div>
+                      <div className="flex items-start gap-3">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAF2FA] text-sm font-bold text-[#52789A]">
+                          {item.name.charAt(0)}
+                        </span>
+                        <div className="flex min-w-0 flex-col gap-1">
+                          <p className="font-bold text-[#26384A]">{item.name}</p>
+                          {phone && (
+                            <a
+                              href={`tel:${onlyDigits(phone)}`}
+                              className="text-[13px] font-semibold text-[#52789A] hover:underline"
+                            >
+                              {phone}
+                            </a>
+                          )}
+                          {wa && (
+                            <a
+                              href={`https://wa.me/${toWaNumber(wa)}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-[13px] font-semibold text-[#1F7A53] hover:underline"
+                            >
+                              WhatsApp: {wa}
+                            </a>
+                          )}
+                          {item.email && (
+                            <a
+                              href={`mailto:${item.email}`}
+                              className="break-words text-[13px] text-[#52789A] hover:underline"
+                            >
+                              {item.email}
+                            </a>
+                          )}
+                          {igUrl && (
+                            <a
+                              href={igUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-[13px] text-[#52789A] hover:underline"
+                            >
+                              {item.instagram}
+                            </a>
+                          )}
+                          {handles.length > 0 && (
+                            <span className="flex flex-wrap gap-x-2 gap-y-1 text-[13px] text-[#52789A]">
+                              {handles.map((handle) => (
+                                <a
+                                  key={handle}
+                                  href={`https://x.com/${handle}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="hover:underline"
+                                >
+                                  @{handle}
+                                </a>
+                              ))}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
 
               {contactLink && (
                 <a

@@ -2,6 +2,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import BackLink from "../../components/BackLink";
 import RiskGauge from "../../components/RiskGauge";
 import Robot from "../../components/Robot";
+import OfficialContactsCard from "../../components/OfficialContactsCard";
+import type { OfficialContact } from "../../components/OfficialContactsCard";
+import { downloadAnalysisReport, resolveContacts } from "../../lib/analysisReport";
 import robot from "../../assets/Emergency/robot1.webp";
 
 type RiskLevel = "low" | "medium" | "high";
@@ -64,11 +67,6 @@ const levelByCategory: Record<string, RiskLevel> = {
   "Sangat Tinggi": "high",
 };
 
-const KONTAK = {
-  nomor: "0851 2345 6789",
-  jam: "Senin – Jumat, 09.00 – 17.00",
-};
-
 const CHECKLIST = [
   {
     teks: "Pelajari cara melindungi data pribadi",
@@ -92,11 +90,8 @@ type AnalysisResult = {
   scam_type?: string | null;
   reasons: string[];
   recommendations: string[];
-  official_contact?: {
-    name: string;
-    phone?: string;
-    whatsapp?: string | null;
-  } | null;
+  official_contact?: OfficialContact | null;
+  official_contacts?: OfficialContact[] | null;
   bank?: string | null;
   bank_name?: string | null;
 };
@@ -108,16 +103,69 @@ export default function ResultChat() {
 
   const skor = data?.risk_score ?? 0;
   const risk = RISK_LEVELS[levelByCategory[data?.risk_category ?? "Tidak Ada Indikasi"] || RISK_LEVELS.low] ?? 'low';
-  const ringkasan = data?.reasons?.length ? data.reasons : risk.reasons;
+  const ringkasan = data?.reasons?.length ? data.reasons.join(" ") : risk.summary;
   const alasan = data?.reasons?.length ? data.reasons : risk.reasons;
   const levelName = risk.label.replace("Risiko ", "");
   const rekomendasi = data?.recommendations ?? [];
+  const scamType = data?.scam_type ?? null;
   const recommendedBank = data?.official_contact?.name ?? data?.bank_name ?? data?.bank;
+  const subject = location.state?.subject ?? "";
+  const contactList = resolveContacts(data?.official_contact, data?.official_contacts);
+
+  function handleDownloadPdf() {
+    downloadAnalysisReport({
+      kind: "chat",
+      label: "Pesan Chat",
+      score: skor,
+      levelLabel: risk.label,
+      scamType,
+      summary: risk.summary,
+      reasons: alasan,
+      recommendations: rekomendasi,
+      subjectLabel: "Pesan yang Dianalisis",
+      subject,
+      contacts: contactList,
+    });
+  }
 
   return (
     <div className="mx-auto w-full max-w-300 px-4 pb-20 pt-[88px] sm:px-6 sm:pt-24 lg:pt-32">
-      <div className="mb-3">
-        <BackLink to="/analysis" label="Analisis" />
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <BackLink
+          to="/analysis"
+          label="Analisis"
+          confirmTitle="Tinggalkan hasil analisis?"
+          confirmMessage={
+            data
+              ? "Hasil analisis ini tidak disimpan di server dan akan hilang. Demi keamanan data, Anda perlu mengulang analisis dari awal. Simpan PDF terlebih dahulu bila ingin menyimpan detailnya."
+              : undefined
+          }
+          confirmAction="Ya, tinggalkan"
+          cancelAction="Tetap di sini"
+        />
+        {data && (
+          <button
+            type="button"
+            onClick={handleDownloadPdf}
+            className="inline-flex items-center gap-2 rounded-lg bg-[#1F3A5F] px-3.5 py-2 text-[12.5px] font-semibold text-white shadow-sm shadow-[#8FA9C4]/20 transition hover:bg-[#172C49] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A56DB]/40"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <path d="m7 10 5 5 5-5" />
+              <path d="M12 15V3" />
+            </svg>
+            Simpan PDF
+          </button>
+        )}
       </div>
       <div className="reveal grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
         <div className="flex min-w-0 flex-col gap-5">
@@ -126,25 +174,10 @@ export default function ResultChat() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-lg shadow-[#8FA9C4]/20">
-              <p className="text-[13px] font-semibold text-[#446685]">
-                Hubungi Kami
-              </p>
-
-              <a
-                href={`tel:${KONTAK.nomor.replace(/\s/g, "")}`}
-                className="flex items-center gap-2 text-[13px] font-semibold text-[#26384A] hover:text-[#1E40AF]"
-              >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#FDECEC] text-[#E5484D]">
-                  <PhoneIcon className="h-3.5 w-3.5" />
-                </span>
-                <span className="wrap-break-words">{KONTAK.nomor}</span>
-              </a>
-
-              <p className="text-[10px] leading-tight text-[#98A2B3]">
-                {KONTAK.jam}
-              </p>
-            </div>
+            <OfficialContactsCard
+              contacts={data?.official_contacts}
+              primary={data?.official_contact}
+            />
 
             <div className="flex flex-col gap-3 rounded-3xl bg-[#5A87B8] p-5 text-white shadow-lg shadow-[#5A87B8]/30">
               <p className="text-[13px] font-semibold">Rekomendasi Bank</p>
@@ -194,6 +227,11 @@ export default function ResultChat() {
                 <p className="max-w-130 text-[14px] leading-relaxed text-[#5B6B7C]">
                   {ringkasan}
                 </p>
+                {scamType && (
+                  <p className="inline-flex w-fit items-center gap-1.5 rounded-full bg-[#EAF3FF] px-3 py-1 text-[12px] font-semibold text-[#1E5AA8]">
+                    Jenis: {scamType}
+                  </p>
+                )}
               </div>
             </div>
           </section>
@@ -330,23 +368,6 @@ function WarningIcon({ className = "" }: { className?: string }) {
       <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
       <path d="M12 9v4" />
       <path d="M12 17h.01" />
-    </svg>
-  );
-}
-
-function PhoneIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z" />
     </svg>
   );
 }
