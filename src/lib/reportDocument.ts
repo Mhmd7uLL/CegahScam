@@ -69,15 +69,15 @@ export function buildParagraphHtml(text: string) {
   return `<p class="summary">${escapeHtml(text)}</p>`;
 }
 
+const pad = (index: number) => String(index + 1).padStart(2, "0");
+
 export function buildListHtml(items: string[]) {
   return items
     .map(
       (item, index) => `
         <li class="step">
-          <span class="step-number">${index + 1}</span>
-          <div class="step-body">
-            <p class="step-desc">${escapeHtml(item)}</p>
-          </div>
+          <span class="step-number">${pad(index)}</span>
+          <p class="step-desc">${escapeHtml(item)}</p>
         </li>`,
     )
     .join("");
@@ -88,7 +88,7 @@ export function buildStepsHtml(steps: ReportStep[]) {
     .map(
       (step, index) => `
         <li class="step">
-          <span class="step-number">${index + 1}</span>
+          <span class="step-number">${pad(index)}</span>
           <div class="step-body">
             <p class="step-title">${escapeHtml(step.title)}</p>
             <p class="step-desc">${escapeHtml(step.description)}</p>
@@ -129,103 +129,102 @@ export function resolveContacts(
 }
 
 /**
- * Satu nada warna: biru brand CegahScam (#1E40AF) + turunannya.
- * Tipografi sans-serif supaya terasa modern, bukan dokumen template.
+ * Gaya editorial minimal: tanpa kartu berwarna, hanya garis rambut dan satu
+ * aksen biru yang dipakai tipis-tipis di judul bagian dan nomor langkah.
  */
 const REPORT_CSS = `
-  @page { size: A4; margin: 13mm 13mm 15mm; }
+  @page { size: A4; margin: 15mm 16mm 16mm; }
   :root {
-    --brand: #1E40AF;
-    --brand-ink: #16307E;
-    --tint: #EAF1FE;
-    --tint-soft: #F6F9FF;
-    --line: #E3EBF7;
-    --ink: #17263A;
-    --muted: #5B6B7C;
-    --faint: #93A2B4;
+    --blue: #2B5E8C;
+    --ink: #1B2A3B;
+    --body: #3D4C5C;
+    --muted: #5D6E7E;
+    --faint: #8C9BAA;
+    --line: #DDE6EF;
+    --line-soft: #EAF0F6;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
     font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--ink);
-    font-size: 10.4pt;
-    line-height: 1.62;
+    font-size: 10.2pt;
+    line-height: 1.6;
     background: #fff;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  .doc { max-width: 800px; margin: 0 auto; }
+  .doc { max-width: 780px; margin: 0 auto; }
+  .top-rule { height: 3px; background: var(--blue); }
 
-  .top-rule { height: 5px; border-radius: 99px; background: var(--brand); }
-
-  .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-top: 16px; }
-  .brand { display: flex; align-items: center; gap: 10px; }
-  .logo { width: 38px; height: 38px; object-fit: contain; }
-  .brand-name { font-size: 15pt; font-weight: 800; letter-spacing: -0.3px; color: #0E1B2E; margin: 0; line-height: 1.1; }
-  .brand-name span { color: var(--brand); }
-  .brand-tag { font-size: 6.4pt; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin: 4px 0 0; font-weight: 600; }
+  .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-top: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .logo { width: 32px; height: 32px; object-fit: contain; }
+  .brand-name { font-size: 13.5pt; font-weight: 800; letter-spacing: -0.3px; color: var(--ink); margin: 0; line-height: 1.1; }
+  .brand-name span { color: var(--blue); }
+  .brand-tag { font-size: 6.2pt; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin: 3px 0 0; font-weight: 600; }
   .meta { text-align: right; }
-  .meta-label { font-size: 6.2pt; letter-spacing: 1.4px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
-  .meta-code { font-family: "SFMono-Regular", Consolas, "Courier New", monospace; font-size: 8.4pt; font-weight: 700; color: var(--brand); margin: 3px 0 0; }
-  .meta-pill { display: inline-block; margin-top: 6px; padding: 2px 8px; border-radius: 99px; background: var(--tint); color: var(--brand-ink); font-size: 6pt; letter-spacing: 1px; text-transform: uppercase; font-weight: 800; }
+  .meta-label { font-size: 6.2pt; letter-spacing: 1.4px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 600; }
+  .meta-code { font-family: "SFMono-Regular", Consolas, "Courier New", monospace; font-size: 8pt; font-weight: 600; color: var(--muted); margin: 3px 0 0; }
+  .meta-note { font-size: 6.2pt; letter-spacing: 1.1px; text-transform: uppercase; color: var(--faint); margin: 5px 0 0; }
 
-  .title { margin-top: 22px; }
-  .kicker { display: inline-block; padding: 4px 10px; border-radius: 99px; background: var(--tint); color: var(--brand); font-size: 6.6pt; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; }
-  h1 { font-size: 22.5pt; line-height: 1.22; letter-spacing: -0.7px; color: #0E1B2E; margin: 10px 0 6px; font-weight: 800; }
+  .title { margin-top: 24px; }
+  .kicker { font-size: 6.8pt; letter-spacing: 2px; text-transform: uppercase; color: var(--blue); margin: 0; font-weight: 700; }
+  h1 { font-size: 21pt; line-height: 1.24; letter-spacing: -0.5px; color: var(--ink); margin: 8px 0 6px; font-weight: 700; }
   .sub { font-size: 9.6pt; color: var(--muted); margin: 0; }
 
-  .hero { margin-top: 18px; border-radius: 16px; background: var(--brand); color: #fff; padding: 17px 20px; display: flex; align-items: center; justify-content: space-between; gap: 18px; page-break-inside: avoid; }
-  .hero-label { font-size: 6.6pt; letter-spacing: 1.4px; text-transform: uppercase; color: rgba(255, 255, 255, 0.72); margin: 0; font-weight: 800; }
-  .hero-value { font-size: 23pt; font-weight: 800; letter-spacing: -0.8px; margin: 3px 0 0; line-height: 1.05; }
-  .hero-value small { font-size: 9.6pt; font-weight: 600; letter-spacing: 0; opacity: 0.72; margin-left: 2px; }
-  .hero-caption { font-size: 8.4pt; color: rgba(255, 255, 255, 0.82); margin: 6px 0 0; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; max-width: 54%; }
-  .chip { background: rgba(255, 255, 255, 0.15); border-radius: 11px; padding: 7px 11px; min-width: 104px; }
-  .chip-label { font-size: 6pt; letter-spacing: 1.1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.72); margin: 0; font-weight: 800; }
-  .chip-value { font-size: 8.2pt; font-weight: 700; margin: 3px 0 0; }
+  .score { display: flex; align-items: flex-end; gap: 26px; margin-top: 20px; padding: 15px 0 14px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); page-break-inside: avoid; }
+  .score-main { min-width: 150px; }
+  .score-label { font-size: 6.6pt; letter-spacing: 1.3px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
+  .score-value { font-size: 32pt; line-height: 1; font-weight: 700; letter-spacing: -1.4px; color: var(--ink); margin: 5px 0 0; font-variant-numeric: tabular-nums; }
+  .score-value small { font-size: 9.6pt; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-left: 5px; }
+  .score-value--text { font-size: 18pt; letter-spacing: -0.3px; }
+  .score-caption { font-size: 8.2pt; color: var(--muted); margin: 6px 0 0; }
+  .score-meta { display: flex; flex-wrap: wrap; gap: 0 30px; padding-bottom: 2px; }
+  .pair { max-width: 220px; }
+  .pair + .pair { padding-left: 30px; border-left: 1px solid var(--line-soft); }
+  .pair-label { font-size: 6.4pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
+  .pair-value { font-size: 8.8pt; font-weight: 600; color: var(--ink); margin: 4px 0 0; }
 
-  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 20px; margin-top: 18px; border-top: 1px solid var(--line); }
-  .fact { padding: 9px 0 8px; border-bottom: 1px solid var(--line); }
-  .fact-label { font-size: 6.4pt; letter-spacing: 1.1px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
-  .fact-value { font-size: 8.8pt; font-weight: 700; color: var(--ink); margin: 3px 0 0; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 26px; margin-top: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .fact-label { font-size: 6.4pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
+  .fact-value { font-size: 8.8pt; font-weight: 600; color: var(--ink); margin: 4px 0 0; }
 
   section { margin-top: 22px; page-break-inside: avoid; }
-  h2 { display: flex; align-items: center; gap: 8px; font-size: 8.2pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--brand); margin: 0 0 10px; font-weight: 800; }
-  h2::before { content: ""; width: 6px; height: 6px; border-radius: 2px; background: var(--brand); flex: 0 0 auto; }
+  h2 { font-size: 7.4pt; letter-spacing: 1.6px; text-transform: uppercase; color: var(--blue); margin: 0 0 9px; padding-bottom: 6px; border-bottom: 1px solid var(--line-soft); font-weight: 700; }
 
-  .lead { font-size: 10.2pt; margin: 16px 0 0; color: #24303F; }
-  .summary { margin: 0; padding: 12px 14px; background: var(--tint-soft); border: 1px solid var(--line); border-radius: 12px; font-size: 10.2pt; color: #24303F; white-space: pre-line; }
+  .lead { font-size: 9.8pt; color: var(--muted); margin: 16px 0 0; }
+  .summary { margin: 0; font-size: 10pt; color: var(--body); white-space: pre-line; }
 
   ol.steps, ul.contacts { list-style: none; margin: 0; padding: 0; }
-  ol.steps { display: grid; gap: 9px; }
-  .step { display: flex; gap: 10px; align-items: flex-start; }
-  .step-number { flex: 0 0 20px; width: 20px; height: 20px; border-radius: 7px; background: var(--tint); color: var(--brand); font-size: 7.8pt; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+  ol.steps { display: grid; gap: 11px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; }
+  .step-number { flex: 0 0 17px; font-family: "SFMono-Regular", Consolas, "Courier New", monospace; font-size: 8.4pt; font-weight: 600; color: var(--blue); padding-top: 1px; font-variant-numeric: tabular-nums; }
   .step-body { min-width: 0; }
   .step-title { font-size: 9pt; font-weight: 700; color: var(--ink); margin: 0; }
-  .step-desc { font-size: 10pt; color: #3D4C5C; margin: 0; }
+  .step-desc { font-size: 9.8pt; color: var(--body); margin: 0; }
+  .step-title + .step-desc { margin-top: 2px; }
 
-  ul.contacts { display: grid; gap: 8px; }
-  .contact { background: var(--tint-soft); border: 1px solid var(--line); border-radius: 12px; padding: 9px 12px; }
-  .contact-name { font-size: 8.9pt; font-weight: 700; color: var(--ink); margin: 0; }
-  .contact-detail { font-size: 8.9pt; color: #4A5A6B; margin: 3px 0 0; }
+  ul.contacts { display: grid; }
+  .contact { padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
+  .contact:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-name { font-size: 8.8pt; font-weight: 700; color: var(--ink); margin: 0; }
+  .contact-detail { font-size: 8.8pt; color: var(--muted); margin: 2px 0 0; }
 
-  .notice { margin-top: 20px; padding: 11px 14px; border-radius: 12px; background: var(--tint); border-left: 3px solid var(--brand); color: #1B3A6B; font-size: 8.9pt; page-break-inside: avoid; }
-  .notice strong { color: var(--brand-ink); }
+  .notice { margin-top: 20px; padding-left: 12px; border-left: 2px solid var(--line); color: var(--muted); font-size: 8.6pt; page-break-inside: avoid; }
+  .notice strong { color: var(--ink); font-weight: 600; }
 
-  .closing { margin-top: 20px; font-size: 10.2pt; color: #24303F; }
+  .closing { margin-top: 20px; font-size: 9.8pt; color: var(--body); }
 
-  .sign { display: flex; justify-content: space-between; gap: 40px; margin-top: 26px; page-break-inside: avoid; }
+  .sign { display: flex; justify-content: space-between; gap: 40px; margin-top: 30px; page-break-inside: avoid; }
   .sign-col { width: 46%; }
-  .sign-label { font-size: 6.8pt; letter-spacing: 1.1px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
-  .sign-name { display: inline-block; min-width: 168px; margin: 40px 0 0; padding-top: 5px; border-top: 1.5px solid #C9D6E8; font-size: 10pt; font-weight: 700; color: var(--ink); }
-  .sign-note { font-size: 6.8pt; color: var(--faint); margin: 4px 0 0; }
+  .sign-label { font-size: 6.6pt; letter-spacing: 1.2px; text-transform: uppercase; color: var(--faint); margin: 0; font-weight: 700; }
+  .sign-name { display: inline-block; min-width: 160px; margin: 38px 0 0; padding-top: 5px; border-top: 1px solid #C3D1DF; font-size: 9.6pt; font-weight: 600; color: var(--ink); }
+  .sign-note { font-size: 6.6pt; color: var(--faint); margin: 4px 0 0; }
   .sign-col--right { text-align: right; }
-  .sign-col--right .sign-name { min-width: 152px; }
+  .sign-col--right .sign-name { min-width: 144px; }
 
-  .foot { margin-top: 26px; }
-  .foot-bar { height: 4px; border-radius: 99px; background: var(--brand); margin-bottom: 8px; }
-  .foot-row { display: flex; justify-content: space-between; gap: 16px; font-size: 6.6pt; color: var(--faint); }
+  .foot { display: flex; justify-content: space-between; gap: 16px; margin-top: 26px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 6.6pt; color: var(--faint); }
   a { color: inherit; text-decoration: none; }
 
   @media print {
@@ -258,26 +257,28 @@ function renderSignature(
 function renderHero(hero?: ReportHero): string {
   if (!hero) return "";
 
-  const chips = hero.chips?.length
-    ? `<div class="chips">${hero.chips
+  const meta = hero.chips?.length
+    ? `<div class="score-meta">${hero.chips
         .map(
-          (chip) => `<div class="chip">
-            <p class="chip-label">${escapeHtml(chip.label)}</p>
-            <p class="chip-value">${escapeHtml(chip.value)}</p>
+          (chip) => `<div class="pair">
+            <p class="pair-label">${escapeHtml(chip.label)}</p>
+            <p class="pair-value">${escapeHtml(chip.value)}</p>
           </div>`,
         )
         .join("")}</div>`
     : "";
 
-  return `<div class="hero">
-      <div>
-        <p class="hero-label">${escapeHtml(hero.label)}</p>
-        <p class="hero-value">${escapeHtml(hero.value)}${
+  const valueClass = hero.valueSuffix ? "score-value" : "score-value score-value--text";
+
+  return `<div class="score">
+      <div class="score-main">
+        <p class="score-label">${escapeHtml(hero.label)}</p>
+        <p class="${valueClass}">${escapeHtml(hero.value)}${
           hero.valueSuffix ? `<small>${escapeHtml(hero.valueSuffix)}</small>` : ""
         }</p>
-        ${hero.caption ? `<p class="hero-caption">${escapeHtml(hero.caption)}</p>` : ""}
+        ${hero.caption ? `<p class="score-caption">${escapeHtml(hero.caption)}</p>` : ""}
       </div>
-      ${chips}
+      ${meta}
     </div>`;
 }
 
@@ -328,12 +329,12 @@ export function renderReportDocument(options: ReportDocumentOptions): string {
       <div class="meta">
         <p class="meta-label">Nomor Dokumen</p>
         <p class="meta-code">${escapeHtml(options.documentCode)}</p>
-        <span class="meta-pill">Dokumen Pribadi</span>
+        <p class="meta-note">Dokumen Pribadi &middot; Terbatas</p>
       </div>
     </header>
 
     <div class="title">
-      <span class="kicker">${escapeHtml(options.kicker)}</span>
+      <p class="kicker">${escapeHtml(options.kicker)}</p>
       <h1>${escapeHtml(options.heading)}</h1>
       <p class="sub">${escapeHtml(options.subtitle)}</p>
     </div>
@@ -352,11 +353,8 @@ export function renderReportDocument(options: ReportDocumentOptions): string {
     ${renderSignature(options.signatureLeft, options.signatureRight)}
 
     <footer class="foot">
-      <div class="foot-bar"></div>
-      <div class="foot-row">
-        <span>${options.footerLeft ?? "<strong>CegahScam</strong> &middot; Kenali. Pahami. Hadapi."}</span>
-        <span>${options.footerRight ?? `Dokumen dibuat otomatis oleh sistem &middot; ${escapeHtml(options.documentCode)}`}</span>
-      </div>
+      <span>${options.footerLeft ?? "<strong>CegahScam</strong> &middot; Kenali. Pahami. Hadapi."}</span>
+      <span>${options.footerRight ?? `Dokumen dibuat otomatis oleh sistem &middot; ${escapeHtml(options.documentCode)}`}</span>
     </footer>
   </main>
 </body>

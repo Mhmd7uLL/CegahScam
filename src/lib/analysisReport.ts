@@ -122,16 +122,6 @@ export function downloadAnalysisReport(input: AnalysisReportInput): void {
     leadHtml: `Arsip hasil analisis CegahScam. Simpan dokumen ini agar Anda tidak perlu mengulang analisis dan tetap punya catatan detailnya.`,
     sections,
     noticeHtml: `<strong>Catatan:</strong> Hasil analisis bersifat indikatif dan bukan keputusan hukum. Jangan pernah membagikan kode OTP, PIN, atau kata sandi kepada pihak mana pun, termasuk yang mengaku petugas resmi.`,
-    signatureLeft: {
-      label: "Disusun oleh",
-      value: "CegahScam",
-      note: "Analisis otomatis",
-    },
-    signatureRight: {
-      label: "Tanggal Analisis",
-      value: generatedDate,
-      note: documentCode,
-    },
     footerLeft: `<strong>CegahScam</strong> &middot; Kenali. Pahami. Hadapi.`,
     footerRight: `Dokumen dibuat otomatis oleh sistem &middot; ${escapeHtml(documentCode)}`,
   });
