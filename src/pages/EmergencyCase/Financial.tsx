@@ -1,9 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import BackLink from "../../components/BackLink";
+import DraftRestoredNotice from "../../components/DraftRestoredNotice";
 import EmergencyHook from "../../components/EmergencyHook";
 import { apiUrl } from "../../lib/api";
-import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
+import {
+  clearDraft,
+  discardDraftAndReload,
+  draftHasContent,
+  getDraftSavedAt,
+  readDraft,
+  writeDraft,
+} from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
 type FinancialDraft = {
@@ -24,6 +32,8 @@ const DRAFT_KEY = "emergency-financial";
 
 export default function Financial() {
   const [draft] = useState(() => readDraft<FinancialDraft>(DRAFT_KEY));
+  const [draftSavedAt] = useState(() => getDraftSavedAt(DRAFT_KEY));
+  const [restoredDraft] = useState(() => draftHasContent(draft));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [showInputLainnya, setShowInputLainnya] = useState(draft?.showInputLainnya ?? false);
@@ -57,7 +67,7 @@ export default function Financial() {
   );
 
   const leaveWarning = isDirty
-    ? "Yakin mau kembali? Isian kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu dipilih ulang saat kamu kembali."
+    ? "Isian ini tidak akan tersimpan dan akan dihapus dari perangkat, termasuk file bukti yang sudah dipilih."
     : undefined;
 
   useEffect(() => {
@@ -219,6 +229,7 @@ export default function Financial() {
             to="/emergency"
             label="pilihan kasus"
             confirmMessage={leaveWarning}
+            onConfirmLeave={() => clearDraft(DRAFT_KEY)}
           />
         </div>
         <EmergencyHook />
@@ -254,6 +265,12 @@ export default function Financial() {
         <div id="title" className="form-title">
           <h1>Laporkan kerugian finansial kamu</h1>
         </div>
+        {restoredDraft && (
+          <DraftRestoredNotice
+            savedAt={draftSavedAt}
+            onDiscard={() => discardDraftAndReload(DRAFT_KEY)}
+          />
+        )}
         <form className="form-body" onSubmit={handleSubmit}>
           <fieldset id="bank-ewallet" className="form-fieldset">
             <legend className="form-legend">

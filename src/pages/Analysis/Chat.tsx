@@ -2,8 +2,16 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AnalysisHook from "../../components/AnalysisHook";
 import BackLink from "../../components/BackLink";
+import DraftRestoredNotice from "../../components/DraftRestoredNotice";
 import { apiUrl } from "../../lib/api";
-import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
+import {
+  clearDraft,
+  discardDraftAndReload,
+  draftHasContent,
+  getDraftSavedAt,
+  readDraft,
+  writeDraft,
+} from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
 type ChatDraft = {
@@ -14,6 +22,8 @@ const DRAFT_KEY = "analysis-chat";
 
 export default function Chat() {
   const [draft] = useState(() => readDraft<ChatDraft>(DRAFT_KEY));
+  const [draftSavedAt] = useState(() => getDraftSavedAt(DRAFT_KEY));
+  const [restoredDraft] = useState(() => draftHasContent(draft));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [pesan, setPesan] = useState(draft?.pesan ?? "");
@@ -23,7 +33,7 @@ export default function Chat() {
 
   const isDirty = Boolean(fileBukti || pesan);
   const leaveWarning = isDirty
-    ? "Yakin mau kembali? Pesan kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu diunggah ulang saat kamu kembali."
+    ? "Isian ini tidak akan tersimpan dan akan dihapus dari perangkat, termasuk file bukti yang sudah dipilih."
     : undefined;
 
   useEffect(() => {
@@ -74,7 +84,7 @@ export default function Chat() {
         throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
       }
       clearDraft(DRAFT_KEY);
-      navigate("/analysis/resultchat", { state: { result: data } });
+      navigate("/analysis/resultchat", { state: { result: data, subject: pesan } });
    } catch (error) {
       console.error("Terjadi kesalahan:", error);
       setError(error instanceof Error ? error.message : "Terjadi kesalahan saat mengirim laporan.");
@@ -97,6 +107,7 @@ export default function Chat() {
             to="/analysis"
             label="pilihan analisis"
             confirmMessage={leaveWarning}
+            onConfirmLeave={() => clearDraft(DRAFT_KEY)}
           />
         </div>
         <AnalysisHook />
@@ -132,6 +143,12 @@ export default function Chat() {
         <div id="title" className="form-title">
           <h1>Silahkan isi pertanyaan berikut</h1>
         </div>
+        {restoredDraft && (
+          <DraftRestoredNotice
+            savedAt={draftSavedAt}
+            onDiscard={() => discardDraftAndReload(DRAFT_KEY)}
+          />
+        )}
         <form className="form-body" onSubmit={submitForm} >
           <fieldset id="kronologi" className="form-fieldset">
             <legend className="form-legend">

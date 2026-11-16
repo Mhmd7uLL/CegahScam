@@ -1,9 +1,17 @@
 import {useNavigate} from "react-router-dom";
 import AnalysisHook from "../../components/AnalysisHook";
 import BackLink from "../../components/BackLink";
+import DraftRestoredNotice from "../../components/DraftRestoredNotice";
 import { useEffect, useState } from "react";
 import { apiUrl } from "../../lib/api";
-import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
+import {
+  clearDraft,
+  discardDraftAndReload,
+  draftHasContent,
+  getDraftSavedAt,
+  readDraft,
+  writeDraft,
+} from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
 type PhoneDraft = {
@@ -15,6 +23,8 @@ const DRAFT_KEY = "analysis-phone";
 export default function Phone() {
 
   const [draft] = useState(() => readDraft<PhoneDraft>(DRAFT_KEY));
+  const [draftSavedAt] = useState(() => getDraftSavedAt(DRAFT_KEY));
+  const [restoredDraft] = useState(() => draftHasContent(draft));
   const [nomorTelp, setNomorTelp] = useState(draft?.nomorTelp ?? "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -22,7 +32,7 @@ export default function Phone() {
 
   const isDirty = Boolean(nomorTelp);
   const leaveWarning = isDirty
-    ? "Yakin mau kembali? Nomor yang kamu masukkan belum dikirim dan hanya tersimpan sementara di perangkat ini."
+    ? "Isian ini tidak akan tersimpan dan akan dihapus dari perangkat. Pastikan Anda sudah selesai sebelum meninggalkan halaman."
     : undefined;
 
   useEffect(() => {
@@ -48,7 +58,7 @@ export default function Phone() {
         throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
       }
       clearDraft(DRAFT_KEY);
-      navigate("/analysis/resultphone", { state: { result: data } });
+      navigate("/analysis/resultphone", { state: { result: data, subject: nomorTelp } });
         console.log("Laporan berhasil dikirim:", data);
         }
           
@@ -75,6 +85,7 @@ export default function Phone() {
             to="/analysis"
             label="pilihan analisis"
             confirmMessage={leaveWarning}
+            onConfirmLeave={() => clearDraft(DRAFT_KEY)}
           />
         </div>
         <AnalysisHook />
@@ -110,6 +121,12 @@ export default function Phone() {
         <div id="title" className="form-title">
           <h1>Masukkan nomor telepon yang ingin diperiksa</h1>
         </div>
+        {restoredDraft && (
+          <DraftRestoredNotice
+            savedAt={draftSavedAt}
+            onDiscard={() => discardDraftAndReload(DRAFT_KEY)}
+          />
+        )}
         <form className="form-body" onSubmit={submitForm}>
           <fieldset id="nomor-telepon" className="form-fieldset">
             <legend className="form-legend">

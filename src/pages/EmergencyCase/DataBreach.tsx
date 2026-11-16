@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BackLink from "../../components/BackLink";
+import DraftRestoredNotice from "../../components/DraftRestoredNotice";
 import EmergencyHook from "../../components/EmergencyHook";
 import { apiUrl } from "../../lib/api";
-import { clearDraft, readDraft, writeDraft } from "../../lib/draft";
+import {
+  clearDraft,
+  discardDraftAndReload,
+  draftHasContent,
+  getDraftSavedAt,
+  readDraft,
+  writeDraft,
+} from "../../lib/draft";
 import LoadingOverlay from "../../components/LoadingOverlay";
 
 type DataBreachDraft = {
@@ -21,6 +29,8 @@ const DRAFT_KEY = "emergency-data";
 
 export default function DataBreach() {
   const [draft] = useState(() => readDraft<DataBreachDraft>(DRAFT_KEY));
+  const [draftSavedAt] = useState(() => getDraftSavedAt(DRAFT_KEY));
+  const [restoredDraft] = useState(() => draftHasContent(draft));
   const [fileBukti, setFileBukti] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [jenisData, setJenisData] = useState<string[]>(draft?.jenisData ?? []);
@@ -48,7 +58,7 @@ export default function DataBreach() {
   );
 
   const leaveWarning = isDirty
-    ? "Yakin mau kembali? Isian kamu belum dikirim dan hanya tersimpan sementara di perangkat ini. File bukti perlu dipilih ulang saat kamu kembali."
+    ? "Isian ini tidak akan tersimpan dan akan dihapus dari perangkat, termasuk file bukti yang sudah dipilih."
     : undefined;
 
   useEffect(() => {
@@ -179,6 +189,7 @@ export default function DataBreach() {
             to="/emergency"
             label="pilihan kasus"
             confirmMessage={leaveWarning}
+            onConfirmLeave={() => clearDraft(DRAFT_KEY)}
           />
         </div>
         <EmergencyHook />
@@ -214,6 +225,12 @@ export default function DataBreach() {
         <div id="title" className="form-title">
           <h1>Laporkan kebocoran data kamu</h1>
         </div>
+        {restoredDraft && (
+          <DraftRestoredNotice
+            savedAt={draftSavedAt}
+            onDiscard={() => discardDraftAndReload(DRAFT_KEY)}
+          />
+        )}
         <form className="form-body" onSubmit={submitForm}>
           <fieldset className="form-fieldset">
             <legend className="form-legend">
