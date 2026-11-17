@@ -15,13 +15,10 @@ export type AnalysisReportKind = "telepon" | "chat" | "screenshot";
 
 export type AnalysisReportInput = {
   kind: AnalysisReportKind;
-  /** Contoh: "Nomor Telepon", "Pesan Chat", "Screenshot". */
   label: string;
   score: number;
-  /** Contoh: "Risiko Sangat Tinggi". */
   levelLabel: string;
   scamType?: string | null;
-  /** Ringkasan singkat (opsional). */
   summary?: string;
   reasons: string[];
   recommendations: string[];
@@ -41,10 +38,6 @@ function truncate(value: string, max = 1600) {
   return clean.length > max ? `${clean.slice(0, max).trimEnd()}…` : clean;
 }
 
-/**
- * Unduh hasil analisis sebagai PDF (dibuat di browser, tanpa menyimpan ke
- * database) supaya pengguna punya arsip dan tidak perlu mengulang analisis.
- */
 export function downloadAnalysisReport(input: AnalysisReportInput): void {
   const now = new Date();
   const generatedDate = new Intl.DateTimeFormat("id-ID", {

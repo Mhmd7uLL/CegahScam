@@ -6,12 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 type BackLinkProps = {
   to: string;
   label: string;
-  /** Bila diisi, tombol kembali akan menampilkan dialog konfirmasi. */
   confirmMessage?: string;
   confirmTitle?: string;
   confirmAction?: string;
   cancelAction?: string;
-  /** Dipanggil setelah pengguna memastikan ingin kembali. */
   onConfirmLeave?: () => void;
 };
 
@@ -56,7 +54,6 @@ export default function BackLink({
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     if (!confirmMessage) return;
 
-    // Biarkan perilaku bawaan untuk klik dengan modifier (buka tab baru).
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
     event.preventDefault();

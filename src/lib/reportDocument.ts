@@ -24,7 +24,6 @@ export type ReportDetailRow = {
 
 export type ReportSection = {
   title: string;
-  /** HTML yang sudah di-escape oleh helper di modul ini. */
   html: string;
 };
 
@@ -37,7 +36,6 @@ export type ReportSignature = {
 export type ReportHero = {
   label: string;
   value: string;
-  /** Teks kecil setelah value, mis. "/ 100". */
   valueSuffix?: string;
   caption?: string;
   chips?: ReportInfoCell[];
@@ -103,7 +101,6 @@ export function buildStepsHtml(steps: ReportStep[]) {
     .join("");
 }
 
-/** Daftar rincian dua kolom (label nilai) untuk identitas kejadian. */
 export function buildDetailsHtml(rows: ReportDetailRow[]) {
   return `<dl class="details">${rows
     .filter((row) => row.value.trim().length > 0)
@@ -136,7 +133,6 @@ export function buildContactsHtml(contacts: ReportContact[]) {
     .join("");
 }
 
-/** Ambil daftar kontak dari response API (multi-bank atau satu bank). */
 export function resolveContacts(
   primary?: ReportContact | null,
   list?: ReportContact[] | null,
@@ -147,10 +143,6 @@ export function resolveContacts(
   );
 }
 
-/**
- * Tipografi saja: hanya dua garis di seluruh dokumen (bawah kop dan atas
- * footer). Pemisah antar bagian memakai ruang kosong, bukan kotak atau garis.
- */
 const REPORT_CSS = `
   @page { size: A4; margin: 17mm 18mm 16mm; }
   :root {
@@ -386,10 +378,6 @@ export function renderReportDocument(options: ReportDocumentOptions): string {
 </html>`;
 }
 
-/**
- * Buka dokumen di tab baru lalu tampilkan dialog cetak (Save as PDF).
- * Tidak ada data yang dikirim ke server.
- */
 export function printReportDocument(options: ReportDocumentOptions): void {
   const html = renderReportDocument(options);
   const printWindow = window.open("", "_blank", "width=900,height=1000");
@@ -404,7 +392,6 @@ export function printReportDocument(options: ReportDocumentOptions): void {
   printWindow.document.close();
   printWindow.focus();
 
-  // Pastikan font dan logo selesai dimuat sebelum dialog cetak dibuka.
   let printed = false;
   const triggerPrint = () => {
     if (printed) return;

@@ -9,10 +9,6 @@ function savedAtKey(key: string) {
   return `${PREFIX}${key}${SAVED_AT_SUFFIX}`;
 }
 
-/**
- * Membaca draf yang tersimpan. Draf disimpan di localStorage supaya tetap ada
- * walau tab ditutup atau browser di-refresh (mirip autosave Google Docs).
- */
 export function readDraft<T>(key: string): T | null {
   const storageKey = draftKey(key);
 
@@ -22,10 +18,9 @@ export function readDraft<T>(key: string): T | null {
       return JSON.parse(raw) as T;
     }
   } catch {
-    /* localStorage tidak tersedia atau isi rusak */
+    return null;
   }
 
-  // Migrasi draf lama yang masih memakai sessionStorage.
   try {
     const legacy = window.sessionStorage.getItem(storageKey);
     if (legacy) {
@@ -34,7 +29,7 @@ export function readDraft<T>(key: string): T | null {
       return JSON.parse(legacy) as T;
     }
   } catch {
-    /* abaikan */
+    return null;
   }
 
   return null;
@@ -45,7 +40,7 @@ export function writeDraft<T>(key: string, value: T): void {
     window.localStorage.setItem(draftKey(key), JSON.stringify(value));
     window.localStorage.setItem(savedAtKey(key), String(Date.now()));
   } catch {
-    /* kuota penuh atau localStorage diblokir */
+    return;
   }
 }
 
@@ -55,11 +50,10 @@ export function clearDraft(key: string): void {
     window.localStorage.removeItem(savedAtKey(key));
     window.sessionStorage.removeItem(draftKey(key));
   } catch {
-    /* abaikan */
+    return;
   }
 }
 
-/** Waktu (epoch ms) saat draf terakhir disimpan. */
 export function getDraftSavedAt(key: string): number | null {
   try {
     const raw =
@@ -73,7 +67,6 @@ export function getDraftSavedAt(key: string): number | null {
   }
 }
 
-/** Apakah draf benar-benar berisi data (bukan objek kosong). */
 export function draftHasContent(value: unknown): boolean {
   if (!value || typeof value !== "object") return false;
 
@@ -86,13 +79,11 @@ export function draftHasContent(value: unknown): boolean {
   });
 }
 
-/** Hapus draf lalu muat ulang halaman supaya formulir kembali kosong. */
 export function discardDraftAndReload(key: string): void {
   clearDraft(key);
   window.location.reload();
 }
 
-/** Format waktu simpan draf menjadi teks singkat Bahasa Indonesia. */
 export function formatDraftTime(savedAt: number | null): string {
   if (!savedAt) return "baru saja";
 

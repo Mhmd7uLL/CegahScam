@@ -53,7 +53,6 @@ type EmergencyResult = {
 
 type ReportKind = "data" | "financial";
 
-/** Isian formulir yang ikut dikirim bersama hasil analisis. */
 type EmergencyReportForm = {
   jenisData?: string[];
   tanggalKejadian?: string;
@@ -143,10 +142,6 @@ function joinLabels(
     .join(", ");
 }
 
-/**
- * Hanya memuat data yang relevan untuk penerima laporan (instansi/bank),
- * bukan seluruh isian formulir.
- */
 function buildDetailRows(
   form: EmergencyReportForm | undefined,
   kind: ReportKind,
@@ -380,12 +375,6 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
     data?.official_contacts?.length ? data.official_contacts : [contact]
   ).filter((item): item is OfficialContact => Boolean(item && item.name));
 
-  /**
-   * Isi surat dipakai bersama oleh template chat dan PDF supaya keduanya
-   * identik. Bagian ini hanya memuat hal yang memang ditujukan kepada
-   * penerima laporan (rincian, kronologi, permohonan), bukan panduan untuk
-   * pelapor.
-   */
   const letter = {
     recipient:
       kind === "financial" && analyzedBankContact?.name
