@@ -6,12 +6,12 @@ import Robot from "../../components/Robot";
 import robotChat from "../../assets/Emergency/robot1.webp";
 import robotMagnifier from "../../assets/Emergency/robot2.webp";
 import {
-  buildContactsHtml,
+  buildDetailsHtml,
   buildParagraphHtml,
-  buildStepsHtml,
   escapeHtml,
   printReportDocument,
 } from "../../lib/reportDocument";
+import type { ReportDetailRow } from "../../lib/reportDocument";
 
 type ActionStep = {
   title: string;
@@ -53,6 +53,146 @@ type EmergencyResult = {
 
 type ReportKind = "data" | "financial";
 
+/** Isian formulir yang ikut dikirim bersama hasil analisis. */
+type EmergencyReportForm = {
+  jenisData?: string[];
+  tanggalKejadian?: string;
+  kanalMedia?: string;
+  tindakanPelaku?: string[];
+  statusAkses?: string;
+  jenisBank?: string;
+  tujuanTransaksi?: string[];
+  namaInstitusi?: string;
+  nomorRekening?: string;
+  namaPemilikRekening?: string;
+  nominalKerugian?: string;
+  bukti?: string;
+};
+
+const KANAL_LABEL: Record<string, string> = {
+  whatsapp: "WhatsApp",
+  instagram: "Instagram",
+};
+
+const JENIS_DATA_LABEL: Record<string, string> = {
+  "data-pribadi": "Data pribadi (nama, email, nomor telepon)",
+  "media-sosial": "Akun media sosial",
+  perbankan: "Akun perbankan / finansial",
+  kartu: "Data kartu kredit / debit",
+  email: "Akun email",
+};
+
+const TINDAKAN_PELAKU_LABEL: Record<string, string> = {
+  link: "Mengirim tautan mencurigakan",
+  "data-pribadi": "Meminta data pribadi",
+  otp: "Meminta OTP / PIN / kata sandi",
+  menyamar: "Mengaku sebagai pihak tertentu",
+};
+
+const STATUS_AKSES_LABEL: Record<string, string> = {
+  bisaAkses: "Masih bisa diakses",
+  tidakBisaAkses: "Tidak bisa diakses",
+  diketahuiLain: "Diketahui pihak lain",
+  tidakTahu: "Tidak tahu",
+};
+
+const BANK_LABEL: Record<string, string> = {
+  bca: "BCA",
+  bri: "BRI",
+  bni: "BNI",
+  mandiri: "Mandiri",
+  dana: "DANA",
+  ovo: "OVO",
+  gopay: "GoPay",
+};
+
+const TUJUAN_TRANSAKSI_LABEL: Record<string, string> = {
+  link: "Pembelian barang/jasa",
+  "data-pribadi": "Biaya administrasi",
+  otp: "Hadiah/promo",
+  menyamar: "Pinjaman",
+};
+
+function formatReportDate(value?: string) {
+  if (!value) return "";
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return value;
+  return new Intl.DateTimeFormat("id-ID", { dateStyle: "long" }).format(
+    new Date(year, month - 1, day),
+  );
+}
+
+function formatRupiah(value?: string) {
+  const clean = value?.trim() ?? "";
+  const amount = Number(clean);
+  if (!clean || Number.isNaN(amount)) return clean;
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+function joinLabels(
+  values: string[] | undefined,
+  labels: Record<string, string>,
+) {
+  return (values ?? [])
+    .map((value) => labels[value] ?? value)
+    .filter((value) => Boolean(value?.trim()))
+    .join(", ");
+}
+
+/**
+ * Hanya memuat data yang relevan untuk penerima laporan (instansi/bank),
+ * bukan seluruh isian formulir.
+ */
+function buildDetailRows(
+  form: EmergencyReportForm | undefined,
+  kind: ReportKind,
+): ReportDetailRow[] {
+  if (!form) return [];
+
+  const rows: ReportDetailRow[] = [];
+  const add = (label: string, value?: string) => {
+    const clean = value?.trim();
+    if (clean) rows.push({ label, value: clean });
+  };
+
+  add("Tanggal Kejadian", formatReportDate(form.tanggalKejadian));
+  add(
+    "Kanal Media",
+    form.kanalMedia ? KANAL_LABEL[form.kanalMedia] ?? form.kanalMedia : "",
+  );
+
+  if (kind === "data") {
+    add("Jenis Data Bocor", joinLabels(form.jenisData, JENIS_DATA_LABEL));
+    add("Tindakan Pelaku", joinLabels(form.tindakanPelaku, TINDAKAN_PELAKU_LABEL));
+    add(
+      "Status Akses Akun",
+      form.statusAkses
+        ? STATUS_AKSES_LABEL[form.statusAkses] ?? form.statusAkses
+        : "",
+    );
+  } else {
+    add("Nominal Kerugian", formatRupiah(form.nominalKerugian));
+    add(
+      "Bank / Dompet Korban",
+      form.jenisBank ? BANK_LABEL[form.jenisBank] ?? form.jenisBank : "",
+    );
+    add(
+      "Tujuan Transaksi",
+      joinLabels(form.tujuanTransaksi, TUJUAN_TRANSAKSI_LABEL),
+    );
+    add("Institusi yang Mengaku", form.namaInstitusi);
+    add("No. Rekening Tujuan", form.nomorRekening);
+    add("Nama Pemilik Rekening", form.namaPemilikRekening);
+  }
+
+  add("Lampiran Bukti", form.bukti);
+  return rows;
+}
+
 type ReportCopy = {
   label: string;
   intro: string;
@@ -69,7 +209,7 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
   data: {
     label: "Kebocoran Data",
     intro:
-      "Ringkasan, langkah penanganan, dan kontak rujukan telah disusun berdasarkan bukti yang disampaikan pelapor. Dokumen ini dapat disalin, disimpan, atau diteruskan kepada pihak terkait.",
+      "Ringkasan, langkah penanganan, dan kontak rujukan telah disusun berdasarkan bukti yang disampaikan pelapor. Panduan penanganan dan kontak rujukan tersedia di halaman ini, sedangkan berkas PDF berisi surat laporan yang siap dikirimkan kepada pihak berwenang.",
     summary:
       "Pelapor menyampaikan dugaan kebocoran data pribadi. Kronologi dirangkum berdasarkan bukti percakapan yang diunggah tanpa mengubah urutan kejadian. Pelapor disarankan segera mengamankan akun yang terdampak dan menghubungi kanal resmi terkait.",
     steps: [
@@ -102,7 +242,7 @@ const REPORT_COPY: Record<ReportKind, ReportCopy> = {
   financial: {
     label: "Penipuan Finansial",
     intro:
-      "Ringkasan, langkah penanganan, dan kontak rujukan telah disusun berdasarkan bukti yang disampaikan pelapor. Dokumen ini dapat disalin, disimpan, atau diteruskan kepada pihak terkait.",
+      "Ringkasan, langkah penanganan, dan kontak rujukan telah disusun berdasarkan bukti yang disampaikan pelapor. Panduan penanganan dan kontak rujukan tersedia di halaman ini, sedangkan berkas PDF berisi surat laporan yang siap dikirimkan kepada pihak berwenang.",
     summary:
       "Pelapor menyampaikan dugaan penipuan finansial. Kronologi dirangkum berdasarkan bukti transaksi dan percakapan yang diunggah tanpa mengubah urutan kejadian. Pelapor disarankan segera mengamankan rekening dan menghubungi bank atau kanal resmi terkait.",
     steps: [
@@ -197,7 +337,9 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
   const copy = REPORT_COPY[kind];
   const location = useLocation();
   const response = location.state?.result as EmergencyResult | undefined;
+  const form = location.state?.form as EmergencyReportForm | undefined;
   const data = response?.result ?? response?.data ?? response;
+  const detailRows = buildDetailRows(form, kind);
 
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState("");
@@ -238,18 +380,51 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
     data?.official_contacts?.length ? data.official_contacts : [contact]
   ).filter((item): item is OfficialContact => Boolean(item && item.name));
 
+  /**
+   * Isi surat dipakai bersama oleh template chat dan PDF supaya keduanya
+   * identik. Bagian ini hanya memuat hal yang memang ditujukan kepada
+   * penerima laporan (rincian, kronologi, permohonan), bukan panduan untuk
+   * pelapor.
+   */
+  const letter = {
+    recipient:
+      kind === "financial" && analyzedBankContact?.name
+        ? `Kepada Yth. ${analyzedBankContact.name},`
+        : "Kepada Yth. Pihak yang Berwenang,",
+    opening: `melalui pesan ini saya menyampaikan laporan terkait dugaan ${copy.label.toLowerCase()}. Laporan ini saya susun berdasarkan informasi dan bukti yang saya sampaikan melalui CegahScam.`,
+    chronologyLabel: "Berikut kronologi yang saya alami:",
+    request:
+      "Saya memohon agar laporan ini dapat ditindaklanjuti sesuai prosedur yang berlaku, termasuk pemeriksaan terhadap pihak yang diduga melakukan tindakan tersebut. Bukti pendukung siap saya serahkan apabila diperlukan.",
+    closing:
+      "Demikian laporan ini saya sampaikan. Atas perhatian dan tindak lanjutnya, saya mengucapkan terima kasih.",
+    signOff: "Hormat saya,",
+    signer: "Pelapor",
+  };
+
   const message = [
     `*LAPORAN ${copy.label.toUpperCase()}*`,
     "",
-    "Yth. Pihak yang Berwenang,",
+    letter.recipient,
     "",
     "Dengan hormat,",
-    `melalui pesan ini saya menyampaikan laporan terkait dugaan ${copy.label.toLowerCase()}. Laporan ini saya susun berdasarkan informasi dan bukti yang saya sampaikan melalui CegahScam.`,
+    letter.opening,
     "",
-    "Berikut detail laporan:",
+    ...(detailRows.length
+      ? [
+          "Rincian kejadian:",
+          ...detailRows.map((row) => `- ${row.label}: ${row.value}`),
+          "",
+        ]
+      : []),
+    letter.chronologyLabel,
     summary,
     "",
-    "Demikian laporan ini saya sampaikan. Saya memohon agar laporan ini dapat ditindaklanjuti sesuai prosedur yang berlaku. Atas perhatian dan tindak lanjutnya, saya mengucapkan terima kasih.",
+    letter.request,
+    "",
+    letter.closing,
+    "",
+    letter.signOff,
+    letter.signer,
   ].join("\n");
 
   const contactDigits = onlyDigits(contact.whatsapp || contactPhone);
@@ -279,10 +454,8 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
     }).format(now);
     const reportCode = `CS-${now.toISOString().slice(0, 10).replaceAll("-", "")}-${kind.toUpperCase()}`;
 
-    const contactsHtml = buildContactsHtml(contactList);
-
     printReportDocument({
-      windowTitle: `Laporan Darurat ${copy.label} - CegahScam`,
+      windowTitle: `Laporan ${copy.label} - CegahScam`,
       documentCode: reportCode,
       kicker: "Laporan Darurat",
       heading: `Laporan Dugaan ${copy.label}`,
@@ -291,36 +464,38 @@ export default function EmergencyReportView({ kind }: EmergencyReportViewProps) 
       hero: {
         label: "Jenis Laporan",
         value: copy.label,
-        caption: "Salinan digital siap dilampirkan pada laporan resmi",
+        caption: "Siap disampaikan kepada pihak berwenang",
         chips: [
           { label: "Dibuat", value: generatedDate },
-          { label: "Status", value: "Salinan Digital" },
+          { label: "Status", value: "Diajukan" },
         ],
       },
-      leadHtml: `Dokumen ini merangkum laporan yang Anda susun melalui CegahScam. Lampirkan berkas ini saat membuat Laporan Polisi (STPL) di Polsek/Polres atau saat melapor ke CekRekening.id.`,
+      leadHtml: `${escapeHtml(letter.recipient)}<br />Dengan hormat,<br /><br />${escapeHtml(
+        letter.opening,
+      )}`,
       sections: [
-        { title: "Ringkasan Kronologi", html: buildParagraphHtml(summary) },
-        {
-          title: "Langkah Penanganan yang Disarankan",
-          html: `<ol class="steps">${buildStepsHtml(steps)}</ol>`,
-        },
-        ...(contactsHtml
+        ...(detailRows.length
           ? [
               {
-                title: "Kontak Rujukan Resmi",
-                html: `<ul class="contacts">${contactsHtml}</ul>`,
+                title: "Identitas Kejadian",
+                html: buildDetailsHtml(detailRows),
               },
             ]
           : []),
+        {
+          title: "Kronologi Kejadian",
+          html: buildParagraphHtml(summary),
+        },
+        {
+          title: "Permohonan Tindak Lanjut",
+          html: buildParagraphHtml(letter.request),
+        },
       ],
-      noticeHtml: `<strong>Catatan:</strong> ${escapeHtml(
-        copy.contactNote,
-      )} Dokumen ini merupakan salinan digital yang dihasilkan otomatis oleh CegahScam dan tidak menggantikan laporan resmi yang disampaikan langsung kepada instansi berwenang.`,
-      closing:
-        "Demikian laporan ini disusun. Mohon dapat ditindaklanjuti sesuai prosedur yang berlaku. Terima kasih atas perhatian dan tindak lanjutnya.",
+      noticeHtml: `<strong>Catatan:</strong> Dokumen ini dihasilkan otomatis oleh CegahScam berdasarkan keterangan pelapor dan belum diverifikasi oleh pihak berwenang.`,
+      closing: letter.closing,
       signatureLeft: {
         label: "Disusun oleh",
-        value: "Pelapor",
+        value: letter.signer,
         note: "Nama & tanda tangan",
       },
       signatureRight: {

@@ -166,7 +166,19 @@ export default function DataBreach() {
         throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
       }
       clearDraft(DRAFT_KEY);
-      navigate("/report/data", { state: { result: data } });
+      navigate("/report/data", {
+        state: {
+          result: data,
+          form: {
+            jenisData,
+            tanggalKejadian,
+            kanalMedia,
+            tindakanPelaku,
+            statusAkses,
+            bukti: fileBukti.name,
+          },
+        },
+      });
     } catch (error) {
       console.error("Terjadi kesalahan:", error);
       setError(error instanceof Error ? error.message : "Terjadi kesalahan saat mengirim laporan.");

@@ -205,7 +205,22 @@ export default function Financial() {
       throw new Error(data.message || "Terjadi kesalahan saat mengirim laporan.");
     }
     clearDraft(DRAFT_KEY);
-    navigate("/report/financial", { state: { result : data } });
+    navigate("/report/financial", {
+      state: {
+        result: data,
+        form: {
+          jenisBank,
+          kanalMedia,
+          tanggalKejadian,
+          tujuanTransaksi,
+          namaInstitusi,
+          nomorRekening,
+          namaPemilikRekening,
+          nominalKerugian,
+          bukti: fileBukti.name,
+        },
+      },
+    });
     } catch (error) {
       console.error("Error submitting report:", error);
       setError("Terjadi kesalahan saat mengirim laporan.");
