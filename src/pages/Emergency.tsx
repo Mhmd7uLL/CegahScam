@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { showLoginAlert } from "../utils/authAlert";
 
 import robot1 from "../assets/Emergency/robot1.webp";
 import robot2 from "../assets/Emergency/robot2.webp";
@@ -6,6 +8,23 @@ import Robot from "../components/Robot";
 import EmergencyHook from "../components/EmergencyHook";
 
 export default function Emergency() {
+  const { IsLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const handleEmergency = async (path: string) => {
+    if (!IsLoggedIn) {
+      const confirmed = await showLoginAlert();
+
+      if (confirmed) {
+        navigate("/login");
+      }
+
+      return;
+    }
+
+    navigate(path);
+  };
+
   return (
     <div className="mx-auto w-full pb-20 pt-24 lg:pt-36">
       <div
@@ -67,12 +86,12 @@ export default function Emergency() {
               <p className="text-center font-bold text-white">
                 Apakah data pribadi atau akun kamu bocor ke orang lain?
               </p>
-              <Link
-                to="/emergency/data"
+              <button
+                onClick={() => handleEmergency("/emergency/data")}
                 className="rounded-full bg-white px-5 py-2 text-[#1A56DB] transition hover:bg-[#5E83A5] hover:text-white"
               >
                 Selanjutnya
-              </Link>
+              </button>
             </div>
           </div>
           <div className="relative flex w-full max-w-[280px] flex-col items-center pt-30 sm:pt-35">
@@ -87,12 +106,12 @@ export default function Emergency() {
               <p className="text-center font-bold text-white">
                 Apakah kamu kehilangan uang karena penipuan?
               </p>
-              <Link
-                to="/emergency/financial"
+              <button
+                onClick={() => handleEmergency("/emergency/financial")}
                 className="rounded-full bg-white px-5 py-2 text-[#1A56DB] transition hover:bg-[#5E83A5] hover:text-white"
               >
                 Selanjutnya
-              </Link>
+              </button>
             </div>
           </div>
         </div>
