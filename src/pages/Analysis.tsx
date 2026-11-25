@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { showLoginAlert } from "../utils/authAlert";
 
 import AnalysisHook from "../components/AnalysisHook";
 import Phone from "../assets/Analysis/phone.png";
@@ -6,41 +8,57 @@ import Chat from "../assets/Analysis/chat.png";
 import Screenshot from "../assets/Analysis/screenshot.png";
 
 export default function Analysis() {
+  const { IsLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAnalytic = async (path: string) => {
+    if (!IsLoggedIn) {
+      const confirmed = await showLoginAlert();
+
+      if (confirmed) {
+        navigate("/login");
+      }
+
+      return;
+    }
+
+    navigate(path);
+  };
+
   return (
     <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 pt-24 sm:px-6 lg:px-8 lg:pb-20 lg:pt-36">
-
       <div
-              id="hero-section"
-              className="mx-auto flex w-full max-w-6xl flex-col justify-center px-4"
-            >
-              <AnalysisHook />
-              <div className="mx-auto my-4 flex w-full max-w-[800px] items-center justify-between gap-1.5 rounded-[18px] bg-white/40 px-3 py-3 shadow-lg sm:my-6 sm:gap-4 sm:rounded-[50px] sm:px-8 sm:py-4">
-                <div className="flex flex-col items-center gap-1.5 text-center">
-                  <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5E83A5] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
-                    1
-                  </p>
-                  <p className="text-[10px] font-bold text-[#5E83A5] sm:text-sm">
-                    Pilih Kasus
-                  </p>
-                </div>
-                <div className="h-px flex-1 bg-[#667085]/50"></div>
-                <div className="flex flex-col items-center gap-1.5 text-center">
-                  <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#667085] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
-                    2
-                  </p>
-                  <p className="text-[10px] text-[#667085] sm:text-sm">Isi Data</p>
-                </div>
-                <div className="h-px flex-1 bg-[#667085]/50"></div>
-                <div className="flex flex-col items-center gap-1.5 text-center">
-                  <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#667085] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
-                    3
-                  </p>
-                  <p className="text-[10px] text-[#667085] sm:text-sm">
-                    Hasil Analisis
-                  </p>
-                </div>
-              </div>
-            </div>
+        id="hero-section"
+        className="mx-auto flex w-full max-w-6xl flex-col justify-center px-4"
+      >
+        <AnalysisHook />
+        <div className="mx-auto my-4 flex w-full max-w-[800px] items-center justify-between gap-1.5 rounded-[18px] bg-white/40 px-3 py-3 shadow-lg sm:my-6 sm:gap-4 sm:rounded-[50px] sm:px-8 sm:py-4">
+          <div className="flex flex-col items-center gap-1.5 text-center">
+            <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#5E83A5] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
+              1
+            </p>
+            <p className="text-[10px] font-bold text-[#5E83A5] sm:text-sm">
+              Pilih Kasus
+            </p>
+          </div>
+          <div className="h-px flex-1 bg-[#667085]/50"></div>
+          <div className="flex flex-col items-center gap-1.5 text-center">
+            <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#667085] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
+              2
+            </p>
+            <p className="text-[10px] text-[#667085] sm:text-sm">Isi Data</p>
+          </div>
+          <div className="h-px flex-1 bg-[#667085]/50"></div>
+          <div className="flex flex-col items-center gap-1.5 text-center">
+            <p className="flex h-5 w-5 items-center justify-center rounded-full bg-[#667085] text-[10px] text-white sm:h-6 sm:w-6 sm:text-[12px]">
+              3
+            </p>
+            <p className="text-[10px] text-[#667085] sm:text-sm">
+              Hasil Analisis
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div
         id="body-section"
@@ -71,12 +89,12 @@ export default function Analysis() {
                 Periksa riwayat dan indikasi penipuan dari nomor telepon tidak
                 dikenal
               </p>
-              <Link
-                to="/analysis/phone"
+              <button
+                onClick={() => handleAnalytic("/analysis/phone")}
                 className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
-              </Link>
+              </button>
             </div>
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
@@ -93,12 +111,12 @@ export default function Analysis() {
                 Periksa riwayat dan indikasi penipuan dari pesan chat yang
                 mencurigakan
               </p>
-              <Link
-                to="/analysis/chat"
-               className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
+              <button
+                onClick={() => handleAnalytic("/analysis/chat")}
+                className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
-              </Link>
+              </button>
             </div>
           </div>
           <div className="relative flex w-full max-w-[320px] flex-1 flex-col items-center transition duration-300 hover:-translate-y-1">
@@ -115,12 +133,12 @@ export default function Analysis() {
                 Periksa riwayat dan indikasi penipuan dari tangkapan layar yang
                 kamu kirim
               </p>
-              <Link
-                to="/analysis/screenshot"
+              <button
+                onClick={() => handleAnalytic("/analysis/screenshot")}
                 className="whitespace-nowrap rounded-full bg-[#eff5fa] px-5 py-2 text-sm text-[#2e4a5c] transition hover:bg-[#5E83A5] hover:text-white sm:text-base"
               >
                 Selanjutnya
-              </Link>
+              </button>
             </div>
           </div>
         </div>
